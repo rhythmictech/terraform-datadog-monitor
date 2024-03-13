@@ -17,7 +17,7 @@ variable "base_tags" {
 # EC2 instance status checsk
 ########################################
 variable "status_failed_check_enabled" {
-  default     = false
+  default     = true
   description = "Enable ec2 instance status check monitor"
   type        = bool
 }
@@ -34,23 +34,11 @@ variable "status_failed_check_no_data_window" {
   type        = number
 }
 
-variable "status_failed_check_threshold_critical" {
-  default     = 75
-  description = "Critical threshold (percentage, 0-100)"
-  type        = number
-}
-
-variable "status_failed_check_threshold_warning" {
-  default     = 25
-  description = "Warning threshold (percentage, 0-100)"
-  type        = number
-}
-
 ########################################
 # Instance status check
 ########################################
 variable "status_failed_instance_enabled" {
-  default     = false
+  default     = true
   description = "Enable instance status check monitor"
   type        = bool
 }
@@ -67,23 +55,11 @@ variable "status_failed_instance_no_data_window" {
   type        = number
 }
 
-variable "status_failed_instance_threshold_critical" {
-  default     = 75
-  description = "Critical threshold (percentage, 0-100)"
-  type        = number
-}
-
-variable "status_failed_instance_threshold_warning" {
-  default     = 25
-  description = "Warning threshold (percentage, 0-100)"
-  type        = number
-}
-
 #####################################
 # system host status check
 ########################################
 variable "status_failed_system_enabled" {
-  default     = false
+  default     = true
   description = "Enable instance system failure monitor"
   type        = bool
 }
@@ -100,23 +76,11 @@ variable "status_failed_system_no_data_window" {
   type        = number
 }
 
-variable "status_failed_system_threshold_critical" {
-  default     = 75
-  description = "Critical threshold (percentage, 0-100)"
-  type        = number
-}
-
-variable "status_failed_system_threshold_warning" {
-  default     = 25
-  description = "Warning threshold (percentage, 0-100)"
-  type        = number
-}
-
 #####################################
 # Attached volume status check
 ########################################
 variable "status_failed_volume_enabled" {
-  default     = false
+  default     = true
   description = "Enable attached volume status monitor"
   type        = bool
 }
@@ -130,17 +94,5 @@ variable "status_failed_volume_evaluation_window" {
 variable "status_failed_volume_no_data_window" {
   default     = 10
   description = "No data threshold (in minutes, 0 to disable)"
-  type        = number
-}
-
-variable "status_failed_volume_threshold_critical" {
-  default     = 75
-  description = "Critical threshold (percentage, 0-100)"
-  type        = number
-}
-
-variable "status_failed_volume_threshold_warning" {
-  default     = 25
-  description = "Warning threshold (percentage, 0-100)"
   type        = number
 }

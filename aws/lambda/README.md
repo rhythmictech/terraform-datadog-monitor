@@ -2,9 +2,9 @@
 
 Configures the following for Lambda functions based on tag matches:
 
-* cold starts
-* iterator age
-* iterator age forecast (stream data loss)
+* cold starts (requires enhanced metrics)
+* iterator age (requires enhanced metrics)
+* iterator age forecast (stream data loss, requires enhanced metrics)
 * error rate
 * out of memory
 * throttle rate

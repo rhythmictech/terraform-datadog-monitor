@@ -5,7 +5,7 @@ Configures the following for RDS databases based on tag matches:
 * connection rate (anomaly)
 * cpu utilization 
 * cpu utilization (anomaly)
-* free space
+* free space (enabled by default)
 * replica lag
 
 <!-- BEGIN_TF_DOCS -->

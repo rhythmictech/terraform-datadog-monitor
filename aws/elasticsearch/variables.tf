@@ -155,7 +155,7 @@ variable "cpu_utilization_anomaly_threshold_warning" {
 # ElasticSearch cluster free storage
 ########################################
 variable "free_storage_enabled" {
-  default     = false
+  default     = true
   description = "Enable free storage monitor"
   type        = bool
 }

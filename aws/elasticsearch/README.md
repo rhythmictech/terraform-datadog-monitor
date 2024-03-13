@@ -2,10 +2,10 @@
 
 Configures the following for ElasticSearch domains based on tag matches:
 
-* Cluster health (red/yellow)
+* Cluster health (red/yellow, enabled by default)
 * CPU utilization
 * CPU utilization anomalous activity
-* Cluster free storage
+* Cluster free storage (enabled by default)
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements

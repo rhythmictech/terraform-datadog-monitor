@@ -40,7 +40,7 @@ resource "datadog_monitor" "health" {
 
   query = <<END
     min(${var.health_evaluation_window}):
-      min:aws.elasticbeanstalk.environment_health${local.query_filter} by {region,environmentname}
+      min:aws.elasticbeanstalk.environment_health${local.query_filter} by {environmentname,region,aws_account}
     >= ${var.health_threshold_critical}
 END
 
@@ -69,8 +69,8 @@ resource "datadog_monitor" "http_5xx_responses" {
 
   query = <<END
     min(${var.http_5xx_responses_evaluation_window}):(
-      default(sum:aws.elasticbeanstalk.application_requests_5xx${local.query_filter} by {region,environmentname}.as_rate(), 0) /
-      default(sum:aws.elasticbeanstalk.application_requests_total${local.query_filter} by {region,environmentname}.as_rate(), 1)
+      default(sum:aws.elasticbeanstalk.application_requests_5xx${local.query_filter} by {environmentname,region,aws_account}.as_rate(), 0) /
+      default(sum:aws.elasticbeanstalk.application_requests_total${local.query_filter} by {environmentname,region,aws_account}.as_rate(), 1)
     ) * 100 > ${var.http_5xx_responses_threshold_critical}
 END
 
@@ -98,7 +98,7 @@ resource "datadog_monitor" "latency" {
   timeout_h           = var.timeout_h
 
   query = <<END
-    min:${var.latency_evaluation_window}):min:aws.elasticbeanstalk.${local.latency_metric}${local.query_filter} by {region,environmentname}
+    min:${var.latency_evaluation_window}):min:aws.elasticbeanstalk.${local.latency_metric}${local.query_filter} by {environmentname,region,aws_account}
      >= ${var.latency_threshold_critical}
 END
 
@@ -127,7 +127,7 @@ resource "datadog_monitor" "root_disk_usage" {
 
   query = <<END
     max:${var.latency_evaluation_window}):
-      min:aws.elasticbeanstalk.root_filesystem_util${local.query_filter} by {region,environmentname,host}
+      min:aws.elasticbeanstalk.root_filesystem_util${local.query_filter} by {host,environmentname,region,aws_account}
     >= ${var.root_disk_usage_threshold_critical}
 END
 

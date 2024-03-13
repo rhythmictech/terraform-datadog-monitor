@@ -29,8 +29,8 @@ resource "datadog_monitor" "error_rate" {
 
   query = <<END
     min(${var.error_rate_evaluation_window}):
-      default(avg:aws.lambda.errors${local.query_filter} by {region,functionname}.as_rate(), 0) / (
-      default(avg:aws.lambda.invocations${local.query_filter} by {region,functionname}.as_rate(), 1)
+      default(avg:aws.lambda.errors${local.query_filter} by {functionname,region,aws_account}.as_rate(), 0) / (
+      default(avg:aws.lambda.invocations${local.query_filter} by {functionname,region,aws_account}.as_rate(), 1)
     ) * 100 > ${var.error_rate_threshold_critical}
 END
 
@@ -59,8 +59,8 @@ resource "datadog_monitor" "timeouts" {
 
   query = <<END
     min(${var.timeouts_evaluation_window}):
-      default(avg:aws.lambda.duration.maximum${local.query_filter} by {region,functionname}.as_rate(), 0) / (
-      (default(avg:aws.lambda.timeout${local.query_filter} by {region,functionname}.as_rate(), 1) * 1000)
+      default(avg:aws.lambda.duration.maximum${local.query_filter} by {functionname,region,aws_account}.as_rate(), 0) / (
+      (default(avg:aws.lambda.timeout${local.query_filter} by {functionname,region,aws_account}.as_rate(), 1) * 1000)
     )  > ${var.timeouts_threshold_critical}
 END
 
@@ -89,8 +89,8 @@ resource "datadog_monitor" "cold_starts" {
 
   query = <<END
     min(${var.cold_starts_evaluation_window}):
-      default(avg:aws.lambda.enhanced.invocations${local.cold_start_query_filter} by {region,functionname}.as_rate(), 0) / (
-      default(avg:aws.lambda.enhanced.invocations${local.query_filter} by {region,functionname}.as_rate(), 1)
+      default(avg:aws.lambda.enhanced.invocations${local.cold_start_query_filter} by {functionname,region,aws_account}.as_rate(), 0) / (
+      default(avg:aws.lambda.enhanced.invocations${local.query_filter} by {functionname,region,aws_account}.as_rate(), 1)
     ) > ${var.cold_starts_threshold_critical}
 END
 
@@ -119,8 +119,8 @@ resource "datadog_monitor" "out_of_memory" {
 
   query = <<END
     min(${var.out_of_memory_evaluation_window}):
-      default(avg:aws.lambda.enhanced.invocations${local.query_filter} by {region,functionname}.as_rate(), 0) / (
-      default(avg:aws.lambda.enhanced.invocations${local.query_filter} by {region,functionname}.as_rate(), 1)
+      default(avg:aws.lambda.enhanced.invocations${local.query_filter} by {functionname,region,aws_account}.as_rate(), 0) / (
+      default(avg:aws.lambda.enhanced.invocations${local.query_filter} by {functionname,region,aws_account}.as_rate(), 1)
     ) > ${var.out_of_memory_threshold_critical}
 END
 
@@ -149,7 +149,7 @@ resource "datadog_monitor" "iterator_age" {
 
   query = <<END
     max(${var.iterator_age_evaluation_window}):
-      default(avg:aws.lambda.iterator_age.maximum${local.query_filter} by {region,functionname}
+      default(avg:aws.lambda.iterator_age.maximum${local.query_filter} by {functionname,region,aws_account}
     > ${var.iterator_age_threshold_critical}
 END
 
@@ -160,6 +160,8 @@ END
 }
 
 resource "datadog_monitor" "iterator_age_forecast" {
+  count = var.iterator_age_forecast_enabled ? 1 : 0
+
   name         = join("", [local.title_prefix, "Lambda stream data loss forecasted - {{host.name}}", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
@@ -176,7 +178,7 @@ resource "datadog_monitor" "iterator_age_forecast" {
 
   query = <<END
     max(${var.iterator_age_forecast_evaluation_window}):
-      forecast(max:aws.lambda.iterator_age.maximum${local.query_filter} by {region,functionname}.as_count()
+      forecast(max:aws.lambda.iterator_age.maximum${local.query_filter} by {functionname,region,aws_account}.as_count())
     >= 86400000
 END
 
@@ -203,10 +205,10 @@ resource "datadog_monitor" "throttle_rate" {
   timeout_h           = var.timeout_h
 
   query = <<END
-    min(${var.throttle_rate_evaluation_window}):
-      default(avg:aws.lambda.throttles${local.query_filter} by {region,functionname}.as_rate(), 0) / (
-        default(avg:aws.lambda.throttles${local.query_filter} by {region,functionname}.as_rate(), 0) + (
-        default(avg:aws.lambda.invocations${local.query_filter} by {region,functionname}.as_rate(), 1
+    min(${var.throttle_rate_evaluation_window}):(
+      default(avg:aws.lambda.throttles${local.query_filter} by {functionname,region,aws_account}.as_rate(), 0) / (
+        default(avg:aws.lambda.throttles${local.query_filter} by {functionname,region,aws_account}.as_rate(), 0) +
+        default(avg:aws.lambda.invocations${local.query_filter} by {functionname,region,aws_account}.as_rate(), 1)
       )
     ) * 100 > ${var.throttle_rate_threshold_critical}
 END
