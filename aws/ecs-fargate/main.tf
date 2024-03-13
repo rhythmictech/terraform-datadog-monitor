@@ -56,7 +56,7 @@ resource "datadog_monitor" "cpu_utilization" {
 
   query = <<END
     avg(${var.cpu_utilization_evaluation_window}):
-      avg:ecs.fargate.cpu.percent${local.query_filter} by {task_family, ecs_container_name}
+      avg:ecs.fargate.cpu.percent${local.query_filter} by {ecs_container_name,task_family,region,aws_account}
     > ${var.cpu_utilization_threshold_critical}
 END
 
@@ -85,7 +85,7 @@ resource "datadog_monitor" "cpu_utilization_anomaly" {
 
   query = <<END
     avg(${var.cpu_utilization_anomaly_evaluation_window}):anomalies(
-      avg:ecs.fargate.cpu.percent${local.query_filter} by {region,servicename}, 'agile', ${var.cpu_utilization_anomaly_deviations},
+      avg:ecs.fargate.cpu.percent${local.query_filter} by {servicename,region,aws_account}, 'agile', ${var.cpu_utilization_anomaly_deviations},
       direction='above', count_default_zero='true', interval=${var.cpu_utilization_anomaly_rollup},
       seasonality='${var.cpu_utilization_anomaly_seasonality}'
     ) >= ${var.cpu_utilization_anomaly_threshold_critical}
@@ -121,8 +121,8 @@ resource "datadog_monitor" "memory_utilization" {
 
   query = <<END
     avg(${var.memory_utilization_evaluation_window}):(
-      avg:ecs.fargate.mem.usage${local.query_filter} by {task_family, ecs_container_name} /
-      avg:ecs.fargate.mem.limit${local.query_filter} by {task_family, ecs_container_name}
+      avg:ecs.fargate.mem.usage${local.query_filter} by {ecs_container_name,task_family,region,aws_account} /
+      avg:ecs.fargate.mem.limit${local.query_filter} by {ecs_container_name,task_family,region,aws_account}
     )  >= ${var.memory_utilization_threshold_critical}
 END
 

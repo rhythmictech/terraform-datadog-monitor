@@ -2,6 +2,8 @@
 
 Configures monitors for EC2 instance health, including host issues, instance status check, ec2 status checks, and attached volume status check.
 
+All checks are enabled by default.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 

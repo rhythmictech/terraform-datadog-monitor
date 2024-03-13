@@ -28,8 +28,8 @@ resource "datadog_monitor" "running_tasks" {
 
   query = <<END
     min(${var.running_tasks_evaluation_window}):(
-      avg:aws.ecs.service.running${local.query_filter} by {region,servicename} /
-      avg:aws.ecs.service.desired${local.query_filter} by {region,servicename}
+      avg:aws.ecs.service.running${local.query_filter} by {servicename,region,aws_account} /
+      avg:aws.ecs.service.desired${local.query_filter} by {servicename,region,aws_account}
     ) <= ${var.running_tasks_threshold_critical}
 END
 
@@ -58,7 +58,7 @@ resource "datadog_monitor" "cpu_utilization" {
 
   query = <<END
     avg(${var.cpu_utilization_evaluation_window}):
-      avg:aws.ecs.cpuutilization${local.query_filter} by {region,servicename}
+      avg:aws.ecs.cpuutilization${local.query_filter} by {servicename,region,aws_account}
     >= ${var.cpu_utilization_threshold_critical}
 END
 
@@ -87,7 +87,7 @@ resource "datadog_monitor" "cpu_utilization_anomaly" {
 
   query = <<END
     avg(${var.cpu_utilization_anomaly_evaluation_window}):anomalies(
-      avg:aws.ecs.cpuutilization${local.query_filter} by {region,servicename}, 'agile', ${var.cpu_utilization_anomaly_deviations},
+      avg:aws.ecs.cpuutilization${local.query_filter} by {servicename,region,aws_account}, 'agile', ${var.cpu_utilization_anomaly_deviations},
       direction='above', count_default_zero='true', interval=${var.cpu_utilization_anomaly_rollup},
       seasonality='${var.cpu_utilization_anomaly_seasonality}'
     ) >= ${var.cpu_utilization_anomaly_threshold_critical}
@@ -123,7 +123,7 @@ resource "datadog_monitor" "memory_utilization" {
 
   query = <<END
     min(${var.memory_utilization_evaluation_window}):
-      avg:aws.ecs.memory_utilization${local.query_filter} by {region,servicename}
+      avg:aws.ecs.memory_utilization${local.query_filter} by {servicename,region,aws_account}
     >= ${var.memory_utilization_threshold_critical}
 END
 

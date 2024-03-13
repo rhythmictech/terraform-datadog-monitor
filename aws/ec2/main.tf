@@ -19,16 +19,15 @@ resource "datadog_monitor" "status_failed_check" {
 
   evaluation_delay    = var.evaluation_delay
   new_group_delay     = var.new_group_delay
-  notify_no_data      = var.notify_no_data
-  no_data_timeframe   = var.status_failed_check_no_data_window
+  notify_no_data      = false
   renotify_interval   = var.renotify_interval
   require_full_window = true
   timeout_h           = var.timeout_h
 
   query = <<END
     max(${var.status_failed_check_evaluation_window}):
-      max:aws.ec2.status_check_failed_check${local.query_filter} by {instance_id,region}
-    = 1
+      max:aws.ec2.status_check_failed${local.query_filter} by {instance_id,region,aws_account}
+    >= 1
 END
 
   monitor_thresholds {
@@ -47,16 +46,15 @@ resource "datadog_monitor" "status_failed_instance" {
 
   evaluation_delay    = var.evaluation_delay
   new_group_delay     = var.new_group_delay
-  notify_no_data      = var.notify_no_data
-  no_data_timeframe   = var.status_failed_instance_no_data_window
+  notify_no_data      = false
   renotify_interval   = var.renotify_interval
   require_full_window = true
   timeout_h           = var.timeout_h
 
   query = <<END
     max(${var.status_failed_instance_evaluation_window}):
-      max:aws.ec2.status_check_failed_instance${local.query_filter} by {instance_id,region}
-    = 1
+      max:aws.ec2.status_check_failed_instance${local.query_filter} by {instance_id,region,aws_account}
+    >= 1
 END
 
   monitor_thresholds {
@@ -75,16 +73,15 @@ resource "datadog_monitor" "status_failed_system" {
 
   evaluation_delay    = var.evaluation_delay
   new_group_delay     = var.new_group_delay
-  notify_no_data      = var.notify_no_data
-  no_data_timeframe   = var.status_failed_system_no_data_window
+  notify_no_data      = false
   renotify_interval   = var.renotify_interval
   require_full_window = true
   timeout_h           = var.timeout_h
 
   query = <<END
     max(${var.status_failed_system_evaluation_window}):
-      max:aws.ec2.status_check_failed_system${local.query_filter} by {instance_id,region}
-    = 1
+      max:aws.ec2.status_check_failed_system${local.query_filter} by {instance_id,region,aws_account}
+    >= 1
 END
 
   monitor_thresholds {
@@ -103,16 +100,15 @@ resource "datadog_monitor" "status_failed_volume" {
 
   evaluation_delay    = var.evaluation_delay
   new_group_delay     = var.new_group_delay
-  notify_no_data      = var.notify_no_data
-  no_data_timeframe   = var.status_failed_volume_no_data_window
+  notify_no_data      = false
   renotify_interval   = var.renotify_interval
   require_full_window = true
   timeout_h           = var.timeout_h
 
   query = <<END
     max(${var.status_failed_volume_evaluation_window}):
-      max:aws.ec2.status_check_failed_attached_ebs${local.query_filter} by {instance_id,region}
-    = 1
+      max:aws.ec2.status_check_failed_attached_ebs${local.query_filter} by {instance_id,region,aws_account}
+    >= 1
 END
 
   monitor_thresholds {

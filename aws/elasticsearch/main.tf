@@ -27,7 +27,7 @@ resource "datadog_monitor" "cluster_health_red" {
 
   query = <<END
     max(${var.cluster_health_red_evaluation_window}):
-      max:aws.es.cluster_statusred${local.query_filter} by {region,name}
+      max:aws.es.cluster_statusred${local.query_filter} by {name,region,aws_account}
     >= 1
 END
 
@@ -55,7 +55,7 @@ resource "datadog_monitor" "cluster_health_yellow" {
 
   query = <<END
     max(${var.cluster_health_yellow_evaluation_window}):
-      max:aws.es.cluster_statusyellow${local.query_filter} by {region,name}
+      max:aws.es.cluster_statusyellow${local.query_filter} by {name,region,aws_account}
     >= 1
 END
 
@@ -83,7 +83,7 @@ resource "datadog_monitor" "cpu_utilization" {
 
   query = <<END
     avg(${var.cpu_utilization_evaluation_window}):
-      avg:aws.es.cpuutilization${local.query_filter} by {region,name}
+      avg:aws.es.cpuutilization${local.query_filter} by {name,region,aws_account}
     >= ${var.cpu_utilization_threshold_critical}
 END
 
@@ -112,7 +112,7 @@ resource "datadog_monitor" "cpu_utilization_anomaly" {
 
   query = <<END
     avg(${var.cpu_utilization_anomaly_evaluation_window}):anomalies(
-      avg:aws.es.cpuutilization${local.query_filter} by {region,name}, 'agile', ${var.cpu_utilization_anomaly_deviations},
+      avg:aws.es.cpuutilization${local.query_filter} by {name,region,aws_account}, 'agile', ${var.cpu_utilization_anomaly_deviations},
       direction='below', count_default_zero='true', interval=${var.cpu_utilization_anomaly_rollup},
       seasonality='${var.cpu_utilization_anomaly_seasonality}'
     ) >= ${var.cpu_utilization_anomaly_threshold_critical}
@@ -148,9 +148,8 @@ resource "datadog_monitor" "free_storage" {
 
   query = <<END
     max(${var.free_storage_evaluation_window}):(
-        avg:aws.es.free_storage_storage${local.query_filter} by {region,name}
+        avg:aws.es.free_storage_storage${local.query_filter} by {name,region,aws_account}
     ) < ${var.free_storage_threshold_critical}
-    >= 1
 END
 
   monitor_thresholds {

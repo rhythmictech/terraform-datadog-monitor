@@ -27,8 +27,8 @@ resource "datadog_monitor" "http_5xx_responses" {
 
   query = <<END
     min(${var.http_5xx_responses_evaluation_window}):
-      default(avg:aws.apigateway.5xxerror{${local.query_filter}} by {region,apiname,stage}.as_rate(), 0) / (
-      default(avg:aws.apigateway.count{${local.query_filter}} by {region,apiname,stage}.as_rate(), 1)
+      default(avg:aws.apigateway.5xxerror{${local.query_filter}} by {stage,apiname,region,aws_account}.as_rate(), 0) / (
+      default(avg:aws.apigateway.count{${local.query_filter}} by {stage,apiname,region,aws_account}.as_rate(), 1)
     ) * 100 > ${var.http_5xx_responses_threshold_critical}
 END
 
@@ -57,7 +57,7 @@ resource "datadog_monitor" "latency" {
 
   query = <<END
     avg(${var.latency_evaluation_window}):
-      default(avg:aws.apigateway.latency{${local.query_filter}} by {region,apiname,stage}, 0)
+      default(avg:aws.apigateway.latency{${local.query_filter}} by {stage,apiname,region,aws_account}, 0)
     ) > ${var.latency_threshold_critical}
 END
 

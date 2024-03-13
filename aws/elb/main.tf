@@ -27,8 +27,8 @@ resource "datadog_monitor" "http_5xx_responses" {
 
   query = <<END
     min(${var.http_5xx_responses_evaluation_window}):
-      default(avg:aws.elb.httpcode_elb_5xx${local.query_filter} by {region,loadbalancername}.as_rate(), 0) / (
-      default(avg:aws.elb.request_count${local.query_filter} by {region,loadbalancername}.as_rate(), 1)
+      default(avg:aws.elb.httpcode_elb_5xx${local.query_filter} by {loadbalancername,region,aws_account}.as_rate(), 0) / (
+      default(avg:aws.elb.request_count${local.query_filter} by {loadbalancername,region,aws_account}.as_rate(), 1)
     ) * 100 > ${var.http_5xx_responses_threshold_critical}
 END
 
@@ -57,8 +57,8 @@ resource "datadog_monitor" "http_5xx_backend_responses" {
 
   query = <<END
     min(${var.http_5xx_backend_responses_evaluation_window}):
-      default(avg:aws.elb.httpcode_backend_5xx${local.query_filter} by {region,loadbalancername}.as_rate(), 0) / (
-      default(avg:aws.elb.request_count${local.query_filter} by {region,loadbalancername}.as_rate(), 1)
+      default(avg:aws.elb.httpcode_backend_5xx${local.query_filter} by {loadbalancername,region,aws_account}.as_rate(), 0) / (
+      default(avg:aws.elb.request_count${local.query_filter} by {loadbalancername,region,aws_account}.as_rate(), 1)
     ) * 100 > ${var.http_5xx_backend_responses_threshold_critical}
 END
 
@@ -88,7 +88,7 @@ resource "datadog_monitor" "latency" {
 
   query = <<END
     avg(${var.latency_evaluation_window}):
-      default(avg:aws.elb.latency${local.query_filter} by {region,loadbalancername}, 0
+      default(avg:aws.elb.latency${local.query_filter} by {loadbalancername,region,aws_account}, 0
     ) > ${var.latency_threshold_critical}
 END
 
@@ -117,9 +117,9 @@ resource "datadog_monitor" "no_healthy_instances" {
 
   query = <<END
     min(${var.no_healthy_instances_evaluation_window}): (
-      sum:aws.elb.healthy_host_count.minimum${local.query_filter} by {region,loadbalancername} / (
-      sum:aws.elb.healthy_host_count.minimum${local.query_filter} by {region,loadbalancername} +
-      sum:aws.elb.un_healthy_host_count.maximum${local.query_filter} by {region,loadbalancername} )
+      sum:aws.elb.healthy_host_count.minimum${local.query_filter} by {loadbalancername,region,aws_account} / (
+      sum:aws.elb.healthy_host_count.minimum${local.query_filter} by {loadbalancername,region,aws_account} +
+      sum:aws.elb.un_healthy_host_count.maximum${local.query_filter} by {loadbalancername,region,aws_account} )
     ) <= ${var.no_healthy_instances_threshold_critical}
 END
 
