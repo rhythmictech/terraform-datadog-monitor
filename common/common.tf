@@ -1,3 +1,5 @@
+# tflint-ignore-file: terraform_unused_declarations
+
 ########################################
 # Tag Related Vars
 ########################################
