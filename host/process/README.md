@@ -51,9 +51,9 @@ No modules.
 | <a name="input_notify_warn_override"></a> [notify\_warn\_override](#input\_notify\_warn\_override) | List of notifications for alerts in warning threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_process_check_enabled"></a> [process\_check\_enabled](#input\_process\_check\_enabled) | Flag to enable Process Check monitor | `string` | `"true"` | no |
 | <a name="input_process_check_name"></a> [process\_check\_name](#input\_process\_check\_name) | Name of Process for Process Check Monitor | `string` | `""` | no |
-| <a name="input_process_check_threshold_critical"></a> [process\_check\_threshold\_critical](#input\_process\_check\_threshold\_critical) | Proccess Check critical threshold | `number` | `5` | no |
-| <a name="input_process_check_threshold_ok"></a> [process\_check\_threshold\_ok](#input\_process\_check\_threshold\_ok) | Proccess Check ok threshold | `number` | `1` | no |
-| <a name="input_process_check_threshold_warning"></a> [process\_check\_threshold\_warning](#input\_process\_check\_threshold\_warning) | Proccess Check warning threshold | `number` | `2` | no |
+| <a name="input_process_check_threshold_critical"></a> [process\_check\_threshold\_critical](#input\_process\_check\_threshold\_critical) | Process Check critical threshold | `number` | `5` | no |
+| <a name="input_process_check_threshold_ok"></a> [process\_check\_threshold\_ok](#input\_process\_check\_threshold\_ok) | Process Check ok threshold | `number` | `1` | no |
+| <a name="input_process_check_threshold_warning"></a> [process\_check\_threshold\_warning](#input\_process\_check\_threshold\_warning) | Process Check warning threshold | `number` | `2` | no |
 | <a name="input_process_check_timeframe"></a> [process\_check\_timeframe](#input\_process\_check\_timeframe) | Monitor timeframe for Process Check [available values: `last_#m` (1, 5, 10, 15, or 30), `last_#h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_renotify_interval"></a> [renotify\_interval](#input\_renotify\_interval) | Interval in minutes to re-send notifications about an alert | `number` | `0` | no |
 | <a name="input_runbook_link"></a> [runbook\_link](#input\_runbook\_link) | Runbook link to include in message | `string` | `null` | no |

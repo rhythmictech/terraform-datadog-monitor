@@ -15,7 +15,7 @@ Number of Processes Check to alert on stale or runaway processes.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_datadog"></a> [datadog](#provider\_datadog) | >= 3.37 |
+| <a name="provider_datadog"></a> [datadog](#provider\_datadog) | 3.39.0 |
 
 ## Modules
 
@@ -51,9 +51,9 @@ No modules.
 | <a name="input_notify_warn_override"></a> [notify\_warn\_override](#input\_notify\_warn\_override) | List of notifications for alerts in warning threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_num_process_check_enabled"></a> [num\_process\_check\_enabled](#input\_num\_process\_check\_enabled) | Flag to enable Num Process Check monitor | `string` | `"true"` | no |
 | <a name="input_num_process_check_name"></a> [num\_process\_check\_name](#input\_num\_process\_check\_name) | Name of Process for Num Process Check Monitor | `string` | `""` | no |
-| <a name="input_num_process_check_operator"></a> [num\_process\_check\_operator](#input\_num\_process\_check\_operator) | Operator for Num Proccess Check Query [available values: `<, >, <=, >=, =`] | `string` | `"<="` | no |
-| <a name="input_num_process_check_threshold_critical"></a> [num\_process\_check\_threshold\_critical](#input\_num\_process\_check\_threshold\_critical) | Num Proccess Check critical threshold | `number` | `1` | no |
-| <a name="input_num_process_check_threshold_warning"></a> [num\_process\_check\_threshold\_warning](#input\_num\_process\_check\_threshold\_warning) | Num Proccess Check warning threshold | `number` | `2` | no |
+| <a name="input_num_process_check_operator"></a> [num\_process\_check\_operator](#input\_num\_process\_check\_operator) | Operator for Num Process Check Query [available values: `<, >, <=, >=, =`] | `string` | `"<="` | no |
+| <a name="input_num_process_check_threshold_critical"></a> [num\_process\_check\_threshold\_critical](#input\_num\_process\_check\_threshold\_critical) | Num Process Check critical threshold | `number` | `1` | no |
+| <a name="input_num_process_check_threshold_warning"></a> [num\_process\_check\_threshold\_warning](#input\_num\_process\_check\_threshold\_warning) | Num Process Check warning threshold | `number` | `2` | no |
 | <a name="input_num_process_check_timeframe"></a> [num\_process\_check\_timeframe](#input\_num\_process\_check\_timeframe) | Monitor timeframe for Num Process Check [available values: `last_#m` (1, 5, 10, 15, or 30), `last_#h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_renotify_interval"></a> [renotify\_interval](#input\_renotify\_interval) | Interval in minutes to re-send notifications about an alert | `number` | `0` | no |
 | <a name="input_runbook_link"></a> [runbook\_link](#input\_runbook\_link) | Runbook link to include in message | `string` | `null` | no |
