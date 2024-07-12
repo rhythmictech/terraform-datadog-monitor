@@ -35,19 +35,19 @@ variable "process_check_timeframe" {
 }
 
 variable "process_check_threshold_warning" {
-  description = "Proccess Check warning threshold"
+  description = "Process Check warning threshold"
   type        = number
   default     = 2
 }
 
 variable "process_check_threshold_critical" {
-  description = "Proccess Check critical threshold"
+  description = "Process Check critical threshold"
   type        = number
   default     = 5
 }
 
 variable "process_check_threshold_ok" {
-  description = "Proccess Check ok threshold"
+  description = "Process Check ok threshold"
   type        = number
   default     = 1
 }

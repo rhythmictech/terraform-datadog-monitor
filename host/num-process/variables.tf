@@ -35,19 +35,19 @@ variable "num_process_check_timeframe" {
 }
 
 variable "num_process_check_threshold_warning" {
-  description = "Num Proccess Check warning threshold"
+  description = "Num Process Check warning threshold"
   type        = number
   default     = 2
 }
 
 variable "num_process_check_threshold_critical" {
-  description = "Num Proccess Check critical threshold"
+  description = "Num Process Check critical threshold"
   type        = number
   default     = 1
 }
 
 variable "num_process_check_operator" {
-  description = "Operator for Num Proccess Check Query [available values: `<, >, <=, >=, =`]"
+  description = "Operator for Num Process Check Query [available values: `<, >, <=, >=, =`]"
   type        = string
   default     = "<="
 }
