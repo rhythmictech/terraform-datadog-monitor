@@ -24,7 +24,7 @@ resource "datadog_monitor" "host_unreachable" {
   timeout_h           = var.timeout_h
 
   query = <<EOQ
-    "datadog.agent.up"${local.query_filter}.by("host").last(6).count_by_status()
+    "datadog.agent.up"${local.service_filter}.by("host").last(6).count_by_status()
   EOQ
 
   monitor_thresholds {
