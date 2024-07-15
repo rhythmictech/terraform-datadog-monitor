@@ -18,7 +18,7 @@ resource "datadog_monitor" "host_unreachable" {
 
   evaluation_delay    = var.evaluation_delay
   new_group_delay     = var.new_group_delay
-  notify_no_data      = false
+  notify_no_data      = var.notify_no_data
   renotify_interval   = var.renotify_interval
   require_full_window = true
   timeout_h           = var.timeout_h
