@@ -26,7 +26,7 @@ resource "datadog_monitor" "process_check" {
   require_full_window = true
 
   query = <<EOQ
-    "process.up"${local.service_filter}.last(${sum([var.process_check_threshold_critical, 1])}).by(host).count_by_status()
+    "process.up"${local.service_filter}.by("host").last(${sum([var.process_check_threshold_critical, 1])}).count_by_status()
   EOQ
 
   monitor_thresholds {
