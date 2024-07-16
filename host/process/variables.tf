@@ -22,12 +22,6 @@ variable "process_check_enabled" {
   default     = "true"
 }
 
-variable "process_check_timeframe" {
-  description = "Monitor timeframe for Process Check [available values: `last_#m` (1, 5, 10, 15, or 30), `last_#h` (1, 2, or 4), or `last_1d`]"
-  type        = string
-  default     = "last_5m"
-}
-
 variable "process_check_threshold_warning" {
   description = "Process Check warning threshold"
   type        = number
