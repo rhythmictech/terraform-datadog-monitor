@@ -50,7 +50,6 @@ No modules.
 | <a name="input_notify_recovery_override"></a> [notify\_recovery\_override](#input\_notify\_recovery\_override) | List of notifications for alert recovery (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_notify_warn_override"></a> [notify\_warn\_override](#input\_notify\_warn\_override) | List of notifications for alerts in warning threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_process_check_enabled"></a> [process\_check\_enabled](#input\_process\_check\_enabled) | Flag to enable Process Check monitor | `string` | `"true"` | no |
-| <a name="input_process_check_name"></a> [process\_check\_name](#input\_process\_check\_name) | Name of Process for Process Check Monitor | `string` | `""` | no |
 | <a name="input_process_check_threshold_critical"></a> [process\_check\_threshold\_critical](#input\_process\_check\_threshold\_critical) | Process Check critical threshold | `number` | `5` | no |
 | <a name="input_process_check_threshold_ok"></a> [process\_check\_threshold\_ok](#input\_process\_check\_threshold\_ok) | Process Check ok threshold | `number` | `1` | no |
 | <a name="input_process_check_threshold_warning"></a> [process\_check\_threshold\_warning](#input\_process\_check\_threshold\_warning) | Process Check warning threshold | `number` | `2` | no |

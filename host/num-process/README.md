@@ -49,8 +49,8 @@ No modules.
 | <a name="input_notify_nodata_override"></a> [notify\_nodata\_override](#input\_notify\_nodata\_override) | List of notifications for no data (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_notify_recovery_override"></a> [notify\_recovery\_override](#input\_notify\_recovery\_override) | List of notifications for alert recovery (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_notify_warn_override"></a> [notify\_warn\_override](#input\_notify\_warn\_override) | List of notifications for alerts in warning threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
+| <a name="input_num_process_check_aggregator"></a> [num\_process\_check\_aggregator](#input\_num\_process\_check\_aggregator) | Aggregation method for Num Process Check [available values: `min, max, avg, sum`] | `string` | `"min"` | no |
 | <a name="input_num_process_check_enabled"></a> [num\_process\_check\_enabled](#input\_num\_process\_check\_enabled) | Flag to enable Num Process Check monitor | `string` | `"true"` | no |
-| <a name="input_num_process_check_name"></a> [num\_process\_check\_name](#input\_num\_process\_check\_name) | Name of Process for Num Process Check Monitor | `string` | `""` | no |
 | <a name="input_num_process_check_operator"></a> [num\_process\_check\_operator](#input\_num\_process\_check\_operator) | Operator for Num Process Check Query [available values: `<, >, <=, >=, =`] | `string` | `"<="` | no |
 | <a name="input_num_process_check_threshold_critical"></a> [num\_process\_check\_threshold\_critical](#input\_num\_process\_check\_threshold\_critical) | Num Process Check critical threshold | `number` | `1` | no |
 | <a name="input_num_process_check_threshold_warning"></a> [num\_process\_check\_threshold\_warning](#input\_num\_process\_check\_threshold\_warning) | Num Process Check warning threshold | `number` | `2` | no |

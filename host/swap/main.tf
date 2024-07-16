@@ -18,8 +18,8 @@ resource "datadog_monitor" "swap" {
 
   query = <<EOQ
     ${var.swap_time_aggregator}(${var.swap_timeframe}):
-      avg:system.swap.pct_free{*} by {host}
-    > ${var.swap_threshold_critical}
+      avg:system.swap.pct_free${local.query_filter} by {host}
+    < ${var.swap_threshold_critical}
   EOQ
 
   evaluation_delay    = var.evaluation_delay

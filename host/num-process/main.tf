@@ -26,7 +26,7 @@ resource "datadog_monitor" "num_process_check" {
   require_full_window = true
 
   query = <<EOQ
-    min(${var.num_process_check_timeframe}):sum:system.processes.number{process_name:${var.num_process_check_name}}
+    ${var.num_process_check_aggregator}(${var.num_process_check_timeframe}):system.processes.number${local.query_filter}
       ${var.num_process_check_operator} ${var.num_process_check_threshold_critical}
   EOQ
 

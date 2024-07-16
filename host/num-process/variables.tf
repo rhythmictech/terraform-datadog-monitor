@@ -22,10 +22,10 @@ variable "num_process_check_enabled" {
   default     = "true"
 }
 
-variable "num_process_check_name" {
-  description = "Name of Process for Num Process Check Monitor"
+variable "num_process_check_aggregator" {
+  description = "Aggregation method for Num Process Check [available values: `min, max, avg, sum`]"
   type        = string
-  default     = ""
+  default     = "min"
 }
 
 variable "num_process_check_timeframe" {
