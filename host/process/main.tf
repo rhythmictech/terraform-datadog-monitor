@@ -8,13 +8,13 @@ locals {
   title_suffix = var.title_suffix == null ? "" : " (${var.title_suffix})"
 }
 
-resource "datadog_monitor" "process_check" {
-  count = var.process_check_enabled ? 1 : 0
+resource "datadog_monitor" "process_alert" {
+  count = var.process_alert_enabled ? 1 : 0
 
-  name    = join("", [local.title_prefix, "Process Check - {{host.name}}", local.title_suffix])
+  name    = join("", [local.title_prefix, "Process Alert - {{host.name}}", local.title_suffix])
   message = local.query_alert_base_message
   tags    = concat(local.common_tags, var.base_tags, var.additional_tags)
-  type    = "service check"
+  type    = "process alert"
 
   evaluation_delay    = var.evaluation_delay
   new_group_delay     = var.new_group_delay
@@ -26,12 +26,12 @@ resource "datadog_monitor" "process_check" {
   require_full_window = true
 
   query = <<EOQ
-    "process.up"${local.service_filter}.by("host").last(${sum([var.process_check_threshold_critical, 1])}).count_by_status()
+    processes("")${local.service_filter}.by("host").last(${var.process_alert_timeframe}})
+      ${var.process_alert_operator} ${var.process_alert_threshold_critical}
   EOQ
 
   monitor_thresholds {
-    warning  = var.process_check_threshold_warning
-    critical = var.process_check_threshold_critical
-    ok       = var.process_check_threshold_ok
+    warning  = var.process_alert_threshold_warning
+    critical = var.process_alert_threshold_critical
   }
 }

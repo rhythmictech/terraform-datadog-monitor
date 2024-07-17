@@ -25,7 +25,7 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [datadog_monitor.process_check](https://registry.terraform.io/providers/datadog/datadog/latest/docs/resources/monitor) | resource |
+| [datadog_monitor.process_alert](https://registry.terraform.io/providers/datadog/datadog/latest/docs/resources/monitor) | resource |
 
 ## Inputs
 
@@ -49,10 +49,11 @@ No modules.
 | <a name="input_notify_nodata_override"></a> [notify\_nodata\_override](#input\_notify\_nodata\_override) | List of notifications for no data (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_notify_recovery_override"></a> [notify\_recovery\_override](#input\_notify\_recovery\_override) | List of notifications for alert recovery (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_notify_warn_override"></a> [notify\_warn\_override](#input\_notify\_warn\_override) | List of notifications for alerts in warning threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
-| <a name="input_process_check_enabled"></a> [process\_check\_enabled](#input\_process\_check\_enabled) | Flag to enable Process Check monitor | `string` | `"true"` | no |
-| <a name="input_process_check_threshold_critical"></a> [process\_check\_threshold\_critical](#input\_process\_check\_threshold\_critical) | Process Check critical threshold | `number` | `5` | no |
-| <a name="input_process_check_threshold_ok"></a> [process\_check\_threshold\_ok](#input\_process\_check\_threshold\_ok) | Process Check ok threshold | `number` | `1` | no |
-| <a name="input_process_check_threshold_warning"></a> [process\_check\_threshold\_warning](#input\_process\_check\_threshold\_warning) | Process Check warning threshold | `number` | `2` | no |
+| <a name="input_process_alert_enabled"></a> [process\_alert\_enabled](#input\_process\_alert\_enabled) | Flag to enable Process Check monitor | `string` | `"true"` | no |
+| <a name="input_process_alert_operator"></a> [process\_alert\_operator](#input\_process\_alert\_operator) | Operator for Process Alert Query [available values: `<, >, <=, >=, =`] | `string` | `"<"` | no |
+| <a name="input_process_alert_threshold_critical"></a> [process\_alert\_threshold\_critical](#input\_process\_alert\_threshold\_critical) | Process Alert critical threshold | `number` | `5` | no |
+| <a name="input_process_alert_threshold_warning"></a> [process\_alert\_threshold\_warning](#input\_process\_alert\_threshold\_warning) | Process Alert warning threshold | `number` | `2` | no |
+| <a name="input_process_alert_timeframe"></a> [process\_alert\_timeframe](#input\_process\_alert\_timeframe) | Monitor timeframe for Process Alert [available values: `#m` (1, 5, 10, 15, or 30), `#h` (1, 2, or 4), or `1d`] | `string` | `"5m"` | no |
 | <a name="input_renotify_interval"></a> [renotify\_interval](#input\_renotify\_interval) | Interval in minutes to re-send notifications about an alert | `number` | `0` | no |
 | <a name="input_runbook_link"></a> [runbook\_link](#input\_runbook\_link) | Runbook link to include in message | `string` | `null` | no |
 | <a name="input_service"></a> [service](#input\_service) | Service associated with the monitored resource (leave blank to omit tag) | `string` | `null` | no |
