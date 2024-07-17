@@ -37,13 +37,13 @@ variable "process_alert_timeframe" {
 variable "process_alert_threshold_warning" {
   description = "Process Alert warning threshold"
   type        = number
-  default     = 2
+  default     = null
 }
 
 variable "process_alert_threshold_critical" {
   description = "Process Alert critical threshold"
   type        = number
-  default     = 5
+  default     = 1
 }
 
 variable "process_alert_operator" {
