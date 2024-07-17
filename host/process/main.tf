@@ -17,7 +17,6 @@ resource "datadog_monitor" "process_alert" {
   type    = "process alert"
 
   evaluation_delay    = var.evaluation_delay
-  new_group_delay     = var.new_group_delay
   notify_no_data      = false
   renotify_interval   = 0
   notify_audit        = false
@@ -26,8 +25,7 @@ resource "datadog_monitor" "process_alert" {
   require_full_window = true
 
   query = <<EOQ
-    processes("${var.process_alert_process_name}")${local.service_filter}.by("host").rollup("count").last(${var.process_alert_timeframe})
-      ${var.process_alert_operator} ${var.process_alert_threshold_critical}
+    processes("${var.process_alert_process_name}")${local.service_filter}.rollup("count").last("${var.process_alert_timeframe}") ${var.process_alert_operator} ${var.process_alert_threshold_critical}
   EOQ
 
   monitor_thresholds {
