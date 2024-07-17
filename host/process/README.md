@@ -51,6 +51,7 @@ No modules.
 | <a name="input_notify_warn_override"></a> [notify\_warn\_override](#input\_notify\_warn\_override) | List of notifications for alerts in warning threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_process_alert_enabled"></a> [process\_alert\_enabled](#input\_process\_alert\_enabled) | Flag to enable Process Check monitor | `string` | `"true"` | no |
 | <a name="input_process_alert_operator"></a> [process\_alert\_operator](#input\_process\_alert\_operator) | Operator for Process Alert Query [available values: `<, >, <=, >=, =`] | `string` | `"<"` | no |
+| <a name="input_process_alert_process_name"></a> [process\_alert\_process\_name](#input\_process\_alert\_process\_name) | Name of Process for Process Alert | `string` | `""` | no |
 | <a name="input_process_alert_threshold_critical"></a> [process\_alert\_threshold\_critical](#input\_process\_alert\_threshold\_critical) | Process Alert critical threshold | `number` | `5` | no |
 | <a name="input_process_alert_threshold_warning"></a> [process\_alert\_threshold\_warning](#input\_process\_alert\_threshold\_warning) | Process Alert warning threshold | `number` | `2` | no |
 | <a name="input_process_alert_timeframe"></a> [process\_alert\_timeframe](#input\_process\_alert\_timeframe) | Monitor timeframe for Process Alert [available values: `#m` (1, 5, 10, 15, or 30), `#h` (1, 2, or 4), or `1d`] | `string` | `"5m"` | no |

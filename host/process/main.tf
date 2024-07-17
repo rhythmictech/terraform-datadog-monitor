@@ -26,7 +26,7 @@ resource "datadog_monitor" "process_alert" {
   require_full_window = true
 
   query = <<EOQ
-    processes("")${local.service_filter}.by("host").last(${var.process_alert_timeframe}})
+    processes("${var.process_alert_process_name}")${local.service_filter}.by("host").last(${var.process_alert_timeframe}})
       ${var.process_alert_operator} ${var.process_alert_threshold_critical}
   EOQ
 

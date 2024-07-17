@@ -22,6 +22,12 @@ variable "process_alert_enabled" {
   default     = "true"
 }
 
+variable "process_alert_process_name" {
+  description = "Name of Process for Process Alert"
+  type        = string
+  default     = ""
+}
+
 variable "process_alert_timeframe" {
   description = "Monitor timeframe for Process Alert [available values: `#m` (1, 5, 10, 15, or 30), `#h` (1, 2, or 4), or `1d`]"
   type        = string
