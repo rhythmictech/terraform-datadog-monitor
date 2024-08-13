@@ -27,13 +27,26 @@ resource "datadog_synthetics_test" "browser" {
   dynamic "browser_step" {
     for_each = var.browser_synthetic_steps
     content {
-      name = browser_step.value["name"]
-      type = browser_step.value["type"]
-      dynamic "params" {
-        for_each = browser_step.value["params"]
-        content {
-          value = params.value["value"]
-        }
+      name = browser_step.value.name
+      type = browser_step.value.type
+      params {
+        attribute         = lookup(browser_step.value.params, "attribute", null)
+        check             = lookup(browser_step.value.params, "check", null)
+        click_type        = lookup(browser_step.value.params, "click_type", null)
+        code              = lookup(browser_step.value.params, "code", null)
+        delay             = lookup(browser_step.value.params, "delay", null)
+        element           = lookup(browser_step.value.params, "element", null)
+        email             = lookup(browser_step.value.params, "email", null)
+        file              = lookup(browser_step.value.params, "file", null)
+        files             = lookup(browser_step.value.params, "files", null)
+        modifiers         = lookup(browser_step.value.params, "modifiers", null)
+        playing_tab_id    = lookup(browser_step.value.params, "playing_tab_id", null)
+        request           = lookup(browser_step.value.params, "request", null)
+        subtest_public_id = lookup(browser_step.value.params, "subtest_public_id", null)
+        value             = lookup(browser_step.value.params, "value", null)
+        with_click        = lookup(browser_step.value.params, "with_click", null)
+        x                 = lookup(browser_step.value.params, "x", null)
+        y                 = lookup(browser_step.value.params, "y", null)
       }
     }
   }
