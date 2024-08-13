@@ -44,7 +44,7 @@ variable "browser_synthetic_steps" {
   type = list(object({
     name   = string
     type   = string
-    params = object(map)
+    params = map(any)
   }))
 }
 
