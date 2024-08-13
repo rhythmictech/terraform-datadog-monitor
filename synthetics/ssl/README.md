@@ -1,4 +1,4 @@
-# terraform-datadog-monitor/synthetics/certificate
+# terraform-datadog-monitor/synthetics/ssl
 
 Configures Synthetic Test for SSL Certificate
 

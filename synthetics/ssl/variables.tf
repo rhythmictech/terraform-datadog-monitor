@@ -14,7 +14,7 @@ variable "base_tags" {
 }
 
 ########################################
-# Certificate
+# SSL Synthetic Test variables
 ########################################
 variable "ssl_synthetic_enabled" {
   description = "Flag to enable SSL Synthetic Test"
