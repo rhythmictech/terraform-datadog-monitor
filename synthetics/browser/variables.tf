@@ -42,9 +42,27 @@ variable "browser_synthetic_request_url" {
 variable "browser_synthetic_steps" {
   description = "Steps for the Browser Synthetic Test to take."
   type = list(object({
-    name   = string
-    type   = string
-    params = map(any)
+    name = string
+    type = string
+    params = map(object({
+      attribute         = string
+      check             = string
+      click_type        = string
+      code              = string
+      delay             = number
+      element           = string
+      email             = string
+      file              = string
+      files             = string
+      modifiers         = list(string)
+      playing_tab_id    = string
+      request           = string
+      subtest_public_id = string
+      value             = string
+      with_click        = bool
+      x                 = number
+      y                 = number
+    }))
   }))
 }
 

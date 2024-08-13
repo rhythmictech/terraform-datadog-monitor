@@ -39,7 +39,7 @@ resource "datadog_synthetics_test" "browser" {
         email             = lookup(browser_step.value.params, "email", null)
         file              = lookup(browser_step.value.params, "file", null)
         files             = lookup(browser_step.value.params, "files", null)
-        modifiers         = lookup(browser_step.value.params, "modifiers", [])
+        modifiers         = lookup(browser_step.value.params, "modifiers", null)
         playing_tab_id    = lookup(browser_step.value.params, "playing_tab_id", null)
         request           = lookup(browser_step.value.params, "request", null)
         subtest_public_id = lookup(browser_step.value.params, "subtest_public_id", null)
