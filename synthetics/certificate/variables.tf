@@ -45,6 +45,18 @@ variable "ssl_synthetic_days_to_expiration" {
   default     = 7
 }
 
+variable "ssl_synthetic_min_tls_version" {
+  description = "Number Certificate TLS version should be equal to or greater than."
+  type        = number
+  default     = 1.2
+}
+
+variable "ssl_synthetic_max_response_time" {
+  description = "Number of milliseconds host response time should be less than."
+  type        = number
+  default     = 2000
+}
+
 variable "ssl_synthetic_tick_every" {
   description = "How often SSL Synthetic Test should run in seconds."
   type        = number

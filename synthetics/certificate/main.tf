@@ -30,6 +30,18 @@ resource "datadog_synthetics_test" "ssl" {
     target   = var.ssl_synthetic_days_to_expiration
   }
 
+  assertion {
+    type     = "tlsVersion"
+    operator = "moreThanOrEqual"
+    target   = var.ssl_synthetic_min_tls_version
+  }
+
+  assertion {
+    type     = "responseTime"
+    operator = "lessThan"
+    target   = var.ssl_synthetic_max_response_time
+  }
+
   options_list {
     tick_every         = var.ssl_synthetic_tick_every
     accept_self_signed = var.ssl_synthetic_accept_self_signed

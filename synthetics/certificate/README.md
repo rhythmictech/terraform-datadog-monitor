@@ -26,7 +26,6 @@ No modules.
 | Name | Type |
 |------|------|
 | [datadog_synthetics_test.ssl](https://registry.terraform.io/providers/datadog/datadog/latest/docs/resources/synthetics_test) | resource |
-| [datadog_synthetics_locations.ssl](https://registry.terraform.io/providers/datadog/datadog/latest/docs/data-sources/synthetics_locations) | data source |
 
 ## Inputs
 
@@ -58,6 +57,8 @@ No modules.
 | <a name="input_ssl_synthetic_enabled"></a> [ssl\_synthetic\_enabled](#input\_ssl\_synthetic\_enabled) | Flag to enable SSL Synthetic Test | `string` | `"true"` | no |
 | <a name="input_ssl_synthetic_host"></a> [ssl\_synthetic\_host](#input\_ssl\_synthetic\_host) | Host name to perform SSL Synthetic Test with. | `string` | n/a | yes |
 | <a name="input_ssl_synthetic_locations"></a> [ssl\_synthetic\_locations](#input\_ssl\_synthetic\_locations) | An array of datadog locations used to run SSL Synthetic Test | `list(string)` | <pre>[<br>  "aws:us-east-1"<br>]</pre> | no |
+| <a name="input_ssl_synthetic_max_response_time"></a> [ssl\_synthetic\_max\_response\_time](#input\_ssl\_synthetic\_max\_response\_time) | Number of milliseconds host response time should be less than. | `number` | `2000` | no |
+| <a name="input_ssl_synthetic_min_tls_version"></a> [ssl\_synthetic\_min\_tls\_version](#input\_ssl\_synthetic\_min\_tls\_version) | Number Certificate TLS version should be equal to or greater than. | `number` | `1.2` | no |
 | <a name="input_ssl_synthetic_port"></a> [ssl\_synthetic\_port](#input\_ssl\_synthetic\_port) | Port to use when performing SSL Synthetic Test. | `number` | `443` | no |
 | <a name="input_ssl_synthetic_tick_every"></a> [ssl\_synthetic\_tick\_every](#input\_ssl\_synthetic\_tick\_every) | How often SSL Synthetic Test should run in seconds. | `number` | `900` | no |
 | <a name="input_team"></a> [team](#input\_team) | Team supporting the monitored resource (leave blank to omit tag) | `string` | `null` | no |
