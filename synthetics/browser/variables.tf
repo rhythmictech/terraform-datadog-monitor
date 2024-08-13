@@ -44,25 +44,25 @@ variable "browser_synthetic_steps" {
   type = list(object({
     name = string
     type = string
-    params = map(object({
-      attribute         = string
-      check             = string
-      click_type        = string
-      code              = string
-      delay             = number
-      element           = string
-      email             = string
-      file              = string
-      files             = string
-      modifiers         = list(string)
-      playing_tab_id    = string
-      request           = string
-      subtest_public_id = string
-      value             = string
-      with_click        = bool
-      x                 = number
-      y                 = number
-    }))
+    params = object({
+      attribute         = optional(string)
+      check             = optional(string)
+      click_type        = optional(string)
+      code              = optional(string)
+      delay             = optional(number)
+      element           = optional(string)
+      email             = optional(string)
+      file              = optional(string)
+      files             = optional(string)
+      modifiers         = optional(list(string))
+      playing_tab_id    = optional(string)
+      request           = optional(string)
+      subtest_public_id = optional(string)
+      value             = optional(string)
+      with_click        = optional(bool)
+      x                 = optional(number)
+      y                 = optional(number)
+    })
   }))
 }
 
