@@ -15,7 +15,7 @@ resource "datadog_synthetics_test" "ssl" {
   type      = "api"
   subtype   = "ssl"
   status    = "live"
-  message   = local.query_alert_base_message
+  message   = local.synthetic_alert_base_message
   locations = var.ssl_synthetic_locations
   tags      = concat(local.common_tags, var.base_tags, var.additional_tags)
 
