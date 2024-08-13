@@ -15,7 +15,7 @@ Configures Synthetic Test for Browser
 
 | Name | Version |
 |------|---------|
-| <a name="provider_datadog"></a> [datadog](#provider\_datadog) | >= 3.37 |
+| <a name="provider_datadog"></a> [datadog](#provider\_datadog) | 3.42.0 |
 
 ## Modules
 
@@ -40,7 +40,7 @@ No modules.
 | <a name="input_browser_synthetic_enabled"></a> [browser\_synthetic\_enabled](#input\_browser\_synthetic\_enabled) | Flag to enable Browser Synthetic Test. | `bool` | `true` | no |
 | <a name="input_browser_synthetic_locations"></a> [browser\_synthetic\_locations](#input\_browser\_synthetic\_locations) | An array of datadog locations used to run Browser Synthetic Test. | `list(string)` | <pre>[<br>  "aws:us-east-1"<br>]</pre> | no |
 | <a name="input_browser_synthetic_request_url"></a> [browser\_synthetic\_request\_url](#input\_browser\_synthetic\_request\_url) | URL to send Browser Synthetic Test requests to. | `string` | n/a | yes |
-| <a name="input_browser_synthetic_steps"></a> [browser\_synthetic\_steps](#input\_browser\_synthetic\_steps) | Steps for the Browser Synthetic Test to take. | <pre>map(object({<br>    name = string<br>    type = string<br>    params = map(object({<br>      value = "string"<br>    }))<br>  }))</pre> | n/a | yes |
+| <a name="input_browser_synthetic_steps"></a> [browser\_synthetic\_steps](#input\_browser\_synthetic\_steps) | Steps for the Browser Synthetic Test to take. | <pre>list(object({<br>    name   = string<br>    type   = string<br>    params = object()<br>  }))</pre> | n/a | yes |
 | <a name="input_browser_synthetic_tick_every"></a> [browser\_synthetic\_tick\_every](#input\_browser\_synthetic\_tick\_every) | How often Browser Synthetic Test should run in seconds. | `number` | `900` | no |
 | <a name="input_cost_center"></a> [cost\_center](#input\_cost\_center) | Cost Center of the monitored resource (leave blank to omit tag) | `string` | `null` | no |
 | <a name="input_dashboard_link"></a> [dashboard\_link](#input\_dashboard\_link) | Dashboard link to include in message | `string` | `null` | no |

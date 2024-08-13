@@ -41,12 +41,10 @@ variable "browser_synthetic_request_url" {
 
 variable "browser_synthetic_steps" {
   description = "Steps for the Browser Synthetic Test to take."
-  type = map(object({
-    name = string
-    type = string
-    params = map(object({
-      value = string
-    }))
+  type = list(object({
+    name   = string
+    type   = string
+    params = object()
   }))
 }
 
