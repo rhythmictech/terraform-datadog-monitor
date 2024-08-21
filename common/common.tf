@@ -256,4 +256,11 @@ ${local.alert_context}
 {{#is_no_data}} ${local.notify_on_nodata} {{/is_no_data}}
 {{#is_recovery}} ${local.notify_on_recovery} {{/is_recovery}}
 END
+
+  synthetic_alert_base_message = <<END
+${local.alert_context}
+**Alert Information**
+{{#is_alert}} ${local.notify_on_alert} {{/is_alert}}
+{{#is_recovery}} ${local.notify_on_recovery} {{/is_recovery}}
+END
 }
