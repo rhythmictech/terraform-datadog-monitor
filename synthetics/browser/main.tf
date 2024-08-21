@@ -37,7 +37,7 @@ resource "datadog_synthetics_test" "browser" {
         delay      = lookup(browser_step.value.params, "delay", null)
         element    = lookup(browser_step.value.params, "element", null)
         dynamic "element_user_locator" {
-          for_each = lookup(browser_step.value.params, "element_user_locator", {})
+          for_each = lookup(browser_step.value.params, "element_user_locator", [])
           content {
             value {
               value = lookup(element_user_locator.value, "value", null)
@@ -55,7 +55,7 @@ resource "datadog_synthetics_test" "browser" {
         subtest_public_id = lookup(browser_step.value.params, "subtest_public_id", null)
         value             = lookup(browser_step.value.params, "value", null)
         dynamic "variable" {
-          for_each = lookup(browser_step.value.params, "variable", {})
+          for_each = lookup(browser_step.value.params, "variable", [])
           content {
             example = lookup(variable.value, "example", null)
             name    = lookup(variable.value, "name", null)
