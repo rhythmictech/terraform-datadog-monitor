@@ -6,6 +6,7 @@ provider "registry.terraform.io/datadog/datadog" {
   constraints = ">= 3.37.0"
   hashes = [
     "h1:6rSVMI3RBWRHA70wH8eIGyzH1IZHu1hwdixT+UbD9S0=",
+    "h1:i2teIBkWHesijmdA9Hny73TQXzIpGo3400Iqz1+aBn4=",
     "zh:3389298e5116232edd1c6e64c7a83f696d5663f1a1c7da5bb32be3472faa4a9e",
     "zh:39b5d91e58372716d9c7d4869e8391612d3799a936f7c94cc9b3efbe08f4a6d9",
     "zh:4a077105269fd187fc751a390d3e894092a2dd1b44e7e76ff9923968d971dc6a",
@@ -28,6 +29,7 @@ provider "registry.terraform.io/hashicorp/null" {
   constraints = ">= 3.1.0"
   hashes = [
     "h1:IMVAUHKoydFrlPrl9OzasDnw/8ntZFerCC9iXw1rXQY=",
+    "h1:vWAsYRd7MjYr3adj8BVKRohVfHpWQdvkIwUQ2Jf5FVM=",
     "zh:3248aae6a2198f3ec8394218d05bd5e42be59f43a3a7c0b71c66ec0df08b69e7",
     "zh:32b1aaa1c3013d33c245493f4a65465eab9436b454d250102729321a44c8ab9a",
     "zh:38eff7e470acb48f66380a73a5c7cdd76cc9b9c9ba9a7249c7991488abe22fe3",
