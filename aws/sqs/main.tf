@@ -11,7 +11,7 @@ locals {
 resource "datadog_monitor" "oldest_message" {
   count = var.oldest_message_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "Oldest queued message - {{host.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "Oldest queued message - {{queuename.name}}", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -40,7 +40,7 @@ END
 resource "datadog_monitor" "queue_depth" {
   count = var.queue_depth_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "Queue depth - {{host.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "Queue depth - {{queuename.name}}", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
