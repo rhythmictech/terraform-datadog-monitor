@@ -4,7 +4,7 @@ locals {
   monitor_warn_default_priority   = null
   monitor_nodata_default_priority = null
 
-  title_prefix = "${var.title_prefix == null ? "" : "[${var.title_prefix}]"}[${var.env}] "
+  title_prefix = "${var.title_prefix == null ? "" : "[${var.title_prefix}]"}"
   title_suffix = var.title_suffix == null ? "" : " (${var.title_suffix})"
 
   cold_start_query_filter = local.query_filter == "{*}" ? "{cold_start:true}" : replace(local.query_filter, "{", "{cold_star:true,")
