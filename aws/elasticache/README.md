@@ -24,7 +24,7 @@ Configures the following for ElastiCache clusters based on tag matches:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_datadog"></a> [datadog](#provider\_datadog) | >= 3.37 |
+| <a name="provider_datadog"></a> [datadog](#provider\_datadog) | 3.37.0 |
 
 ## Modules
 

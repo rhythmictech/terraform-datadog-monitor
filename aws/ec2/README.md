@@ -17,7 +17,7 @@ All checks are enabled by default.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_datadog"></a> [datadog](#provider\_datadog) | >= 3.37 |
+| <a name="provider_datadog"></a> [datadog](#provider\_datadog) | 3.37.0 |
 
 ## Modules
 
@@ -57,26 +57,18 @@ No modules.
 | <a name="input_renotify_interval"></a> [renotify\_interval](#input\_renotify\_interval) | Interval in minutes to re-send notifications about an alert | `number` | `0` | no |
 | <a name="input_runbook_link"></a> [runbook\_link](#input\_runbook\_link) | Runbook link to include in message | `string` | `null` | no |
 | <a name="input_service"></a> [service](#input\_service) | Service associated with the monitored resource (leave blank to omit tag) | `string` | `null` | no |
-| <a name="input_status_failed_check_enabled"></a> [status\_failed\_check\_enabled](#input\_status\_failed\_check\_enabled) | Enable ec2 instance status check monitor | `bool` | `false` | no |
+| <a name="input_status_failed_check_enabled"></a> [status\_failed\_check\_enabled](#input\_status\_failed\_check\_enabled) | Enable ec2 instance status check monitor | `bool` | `true` | no |
 | <a name="input_status_failed_check_evaluation_window"></a> [status\_failed\_check\_evaluation\_window](#input\_status\_failed\_check\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_status_failed_check_no_data_window"></a> [status\_failed\_check\_no\_data\_window](#input\_status\_failed\_check\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
-| <a name="input_status_failed_check_threshold_critical"></a> [status\_failed\_check\_threshold\_critical](#input\_status\_failed\_check\_threshold\_critical) | Critical threshold (percentage, 0-100) | `number` | `75` | no |
-| <a name="input_status_failed_check_threshold_warning"></a> [status\_failed\_check\_threshold\_warning](#input\_status\_failed\_check\_threshold\_warning) | Warning threshold (percentage, 0-100) | `number` | `25` | no |
-| <a name="input_status_failed_instance_enabled"></a> [status\_failed\_instance\_enabled](#input\_status\_failed\_instance\_enabled) | Enable instance status check monitor | `bool` | `false` | no |
+| <a name="input_status_failed_instance_enabled"></a> [status\_failed\_instance\_enabled](#input\_status\_failed\_instance\_enabled) | Enable instance status check monitor | `bool` | `true` | no |
 | <a name="input_status_failed_instance_evaluation_window"></a> [status\_failed\_instance\_evaluation\_window](#input\_status\_failed\_instance\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_status_failed_instance_no_data_window"></a> [status\_failed\_instance\_no\_data\_window](#input\_status\_failed\_instance\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
-| <a name="input_status_failed_instance_threshold_critical"></a> [status\_failed\_instance\_threshold\_critical](#input\_status\_failed\_instance\_threshold\_critical) | Critical threshold (percentage, 0-100) | `number` | `75` | no |
-| <a name="input_status_failed_instance_threshold_warning"></a> [status\_failed\_instance\_threshold\_warning](#input\_status\_failed\_instance\_threshold\_warning) | Warning threshold (percentage, 0-100) | `number` | `25` | no |
-| <a name="input_status_failed_system_enabled"></a> [status\_failed\_system\_enabled](#input\_status\_failed\_system\_enabled) | Enable instance system failure monitor | `bool` | `false` | no |
+| <a name="input_status_failed_system_enabled"></a> [status\_failed\_system\_enabled](#input\_status\_failed\_system\_enabled) | Enable instance system failure monitor | `bool` | `true` | no |
 | <a name="input_status_failed_system_evaluation_window"></a> [status\_failed\_system\_evaluation\_window](#input\_status\_failed\_system\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_status_failed_system_no_data_window"></a> [status\_failed\_system\_no\_data\_window](#input\_status\_failed\_system\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
-| <a name="input_status_failed_system_threshold_critical"></a> [status\_failed\_system\_threshold\_critical](#input\_status\_failed\_system\_threshold\_critical) | Critical threshold (percentage, 0-100) | `number` | `75` | no |
-| <a name="input_status_failed_system_threshold_warning"></a> [status\_failed\_system\_threshold\_warning](#input\_status\_failed\_system\_threshold\_warning) | Warning threshold (percentage, 0-100) | `number` | `25` | no |
-| <a name="input_status_failed_volume_enabled"></a> [status\_failed\_volume\_enabled](#input\_status\_failed\_volume\_enabled) | Enable attached volume status monitor | `bool` | `false` | no |
+| <a name="input_status_failed_volume_enabled"></a> [status\_failed\_volume\_enabled](#input\_status\_failed\_volume\_enabled) | Enable attached volume status monitor | `bool` | `true` | no |
 | <a name="input_status_failed_volume_evaluation_window"></a> [status\_failed\_volume\_evaluation\_window](#input\_status\_failed\_volume\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_status_failed_volume_no_data_window"></a> [status\_failed\_volume\_no\_data\_window](#input\_status\_failed\_volume\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
-| <a name="input_status_failed_volume_threshold_critical"></a> [status\_failed\_volume\_threshold\_critical](#input\_status\_failed\_volume\_threshold\_critical) | Critical threshold (percentage, 0-100) | `number` | `75` | no |
-| <a name="input_status_failed_volume_threshold_warning"></a> [status\_failed\_volume\_threshold\_warning](#input\_status\_failed\_volume\_threshold\_warning) | Warning threshold (percentage, 0-100) | `number` | `25` | no |
 | <a name="input_team"></a> [team](#input\_team) | Team supporting the monitored resource (leave blank to omit tag) | `string` | `null` | no |
 | <a name="input_timeout_h"></a> [timeout\_h](#input\_timeout\_h) | Auto-resolve alert in specified hours if condition no longer matches | `number` | `0` | no |
 | <a name="input_title_prefix"></a> [title\_prefix](#input\_title\_prefix) | Prefix all alerts with specified value in brackets | `string` | `null` | no |
