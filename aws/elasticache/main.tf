@@ -4,14 +4,14 @@ locals {
   monitor_warn_default_priority   = null
   monitor_nodata_default_priority = null
 
-  title_prefix = "${var.title_prefix == null ? "" : "[${var.title_prefix}]"}[${var.env}] "
+  title_prefix = "${var.title_prefix == null ? "" : "[${var.title_prefix}]"}"
   title_suffix = var.title_suffix == null ? "" : " (${var.title_suffix})"
 }
 
 resource "datadog_monitor" "cpu_utilization" {
   count = var.cpu_utilization_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "Elasticache CPU Utilization - {{host.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "Elasticache CPU Utilization - {{cacheclusterid.name}} - {{value}}%", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -27,7 +27,7 @@ resource "datadog_monitor" "cpu_utilization" {
 
   query = <<END
     avg(${var.cpu_utilization_evaluation_window}):
-      avg:aws.elasticache.cpuutilization${local.query_filter} by {cachenodeid,cacheclusterid,region,aws_account}
+      avg:aws.elasticache.cpuutilization${local.query_filter} by {cachenodeid,cacheclusterid,region,aws_account,env}
     >= ${var.cpu_utilization_threshold_critical}
 END
 
@@ -40,7 +40,7 @@ END
 resource "datadog_monitor" "cpu_utilization_anomaly" {
   count = var.cpu_utilization_anomaly_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "Elasticache CPU utilization anomalous activity - {{host.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "Elasticache CPU utilization anomalous activity - {{cacheclusterid.name}}", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -56,7 +56,7 @@ resource "datadog_monitor" "cpu_utilization_anomaly" {
 
   query = <<END
     avg(${var.cpu_utilization_evaluation_window}):anomalies(
-      avg:aws.elasticache.cpuutilization${local.query_filter} by {cachenodeid,cacheclusterid,region,aws_account}, 'agile', ${var.cpu_utilization_anomaly_deviations},
+      avg:aws.elasticache.cpuutilization${local.query_filter} by {cachenodeid,cacheclusterid,region,aws_account,env}, 'agile', ${var.cpu_utilization_anomaly_deviations},
       direction='above', count_default_zero='true', interval=${var.cpu_utilization_anomaly_rollup},
       seasonality='${var.cpu_utilization_anomaly_seasonality}'
     ) >= ${var.cpu_utilization_anomaly_threshold_critical}
@@ -70,7 +70,7 @@ END
 resource "datadog_monitor" "evictions" {
   count = var.evictions_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "Elasticache evictions - {{host.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "Elasticache evictions - {{cacheclusterid.name}}", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -86,7 +86,7 @@ resource "datadog_monitor" "evictions" {
 
   query = <<END
     sum(${var.evictions_evaluation_window}): (
-      avg:aws.elasticache.evictions${local.query_filter} by {cachenodeid,cacheclusterid,region,aws_account}
+      avg:aws.elasticache.evictions${local.query_filter} by {cachenodeid,cacheclusterid,region,aws_account,env}
     ) >= ${var.evictions_threshold_critical}
 END
 
@@ -99,7 +99,7 @@ END
 resource "datadog_monitor" "hit_rate" {
   count = var.hit_rate_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "Elasticache cache hit rate - {{host.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "Elasticache cache hit rate - {{cacheclusterid.name}} - {{value}}% ", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -115,7 +115,7 @@ resource "datadog_monitor" "hit_rate" {
 
   query = <<END
     max(${var.hit_rate_evaluation_window}):(
-      avg:aws.elasticache.cache_hit_rate${local.query_filter} by {cachenodeid,cacheclusterid,region,aws_account}
+      avg:aws.elasticache.cache_hit_rate${local.query_filter} by {cachenodeid,cacheclusterid,region,aws_account,env}
     )  >= ${var.hit_rate_threshold_critical}
 END
 
@@ -128,7 +128,7 @@ END
 resource "datadog_monitor" "hit_rate_anomaly" {
   count = var.hit_rate_anomaly_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "Elasticache cache hit rate anomalous activity - {{host.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "Elasticache cache hit rate anomalous activity - {{cacheclusterid.name}}", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -144,7 +144,7 @@ resource "datadog_monitor" "hit_rate_anomaly" {
 
   query = <<END
     avg(${var.hit_rate_evaluation_window}):anomalies(
-      avg:aws.elasticache.cache_hit_rate${local.query_filter} by {cachenodeid,cacheclusterid,region,aws_account}, 'agile', ${var.hit_rate_anomaly_deviations},
+      avg:aws.elasticache.cache_hit_rate${local.query_filter} by {cachenodeid,cacheclusterid,region,aws_account,env}, 'agile', ${var.hit_rate_anomaly_deviations},
       direction='below', count_default_zero='true',
       seasonality='${var.hit_rate_anomaly_seasonality}'
     ) >= ${var.hit_rate_anomaly_threshold_critical}
@@ -158,7 +158,7 @@ END
 resource "datadog_monitor" "max_connections" {
   count = var.max_connections_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "Elasticache max connections - {{host.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "Elasticache max connections reached - {{cacheclusterid.name}}", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -174,7 +174,7 @@ resource "datadog_monitor" "max_connections" {
 
   query = <<END
     max(${var.max_connections_evaluation_window}):(
-      avg:aws.elasticache.curr_connections${local.query_filter} by {cachenodeid,cacheclusterid,region,aws_account}
+      avg:aws.elasticache.curr_connections${local.query_filter} by {cachenodeid,cacheclusterid,region,aws_account,env}
     )  >= ${var.max_connections_threshold_critical}
 END
 
@@ -187,7 +187,7 @@ END
 resource "datadog_monitor" "swap_usage" {
   count = var.swap_usage_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "Elasticache swap usage - {{host.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "Elasticache swap usage - {{cacheclusterid.name}} - {{value}}MB", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -203,7 +203,7 @@ resource "datadog_monitor" "swap_usage" {
 
   query = <<END
     max(${var.swap_usage_evaluation_window}):(
-      avg:aws.elasticache.swap_usage${local.query_filter} by {cachenodeid,cacheclusterid,region,aws_account}
+      avg:aws.elasticache.swap_usage${local.query_filter} by {cachenodeid,cacheclusterid,region,aws_account,env}
     )  <= ${var.swap_usage_threshold_critical}
 END
 

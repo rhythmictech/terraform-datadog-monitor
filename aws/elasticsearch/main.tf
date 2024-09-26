@@ -4,14 +4,14 @@ locals {
   monitor_warn_default_priority   = null
   monitor_nodata_default_priority = null
 
-  title_prefix = "${var.title_prefix == null ? "" : "[${var.title_prefix}]"}[${var.env}] "
+  title_prefix = "${var.title_prefix == null ? "" : "[${var.title_prefix}]"}"
   title_suffix = var.title_suffix == null ? "" : " (${var.title_suffix})"
 }
 
 resource "datadog_monitor" "cluster_health_red" {
   count = var.cluster_health_red_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "ElasticSearch cluster health red - {{host.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "ElasticSearch cluster health red - {{name.name}}", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -27,7 +27,7 @@ resource "datadog_monitor" "cluster_health_red" {
 
   query = <<END
     max(${var.cluster_health_red_evaluation_window}):
-      max:aws.es.cluster_statusred${local.query_filter} by {name,region,aws_account}
+      max:aws.es.cluster_statusred${local.query_filter} by {name,region,aws_account,env}
     >= 1
 END
 
@@ -39,7 +39,7 @@ END
 resource "datadog_monitor" "cluster_health_yellow" {
   count = var.cluster_health_yellow_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "ElasticSearch cluster health yellow - {{host.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "ElasticSearch cluster health yellow - {{name.name}}", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -55,7 +55,7 @@ resource "datadog_monitor" "cluster_health_yellow" {
 
   query = <<END
     max(${var.cluster_health_yellow_evaluation_window}):
-      max:aws.es.cluster_statusyellow${local.query_filter} by {name,region,aws_account}
+      max:aws.es.cluster_statusyellow${local.query_filter} by {name,region,aws_account,env}
     >= 1
 END
 
@@ -67,7 +67,7 @@ END
 resource "datadog_monitor" "cpu_utilization" {
   count = var.cpu_utilization_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "ElasticSearch CPU Utilization - {{host.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "ElasticSearch CPU Utilization - {{name.name}} - {{value}}%", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -83,7 +83,7 @@ resource "datadog_monitor" "cpu_utilization" {
 
   query = <<END
     avg(${var.cpu_utilization_evaluation_window}):
-      avg:aws.es.cpuutilization${local.query_filter} by {name,region,aws_account}
+      avg:aws.es.cpuutilization${local.query_filter} by {name,region,aws_account,env}
     >= ${var.cpu_utilization_threshold_critical}
 END
 
@@ -96,7 +96,7 @@ END
 resource "datadog_monitor" "cpu_utilization_anomaly" {
   count = var.cpu_utilization_anomaly_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "ElasticSearch CPU utilization anomalous activity - {{host.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "ElasticSearch CPU utilization anomalous activity - {{name.name}}", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -132,7 +132,7 @@ END
 resource "datadog_monitor" "free_storage" {
   count = var.free_storage_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "ElasticSearch cluster free storage - {{host.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "ElasticSearch cluster storage - {{name.name}} - {{value}}% used", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -146,11 +146,13 @@ resource "datadog_monitor" "free_storage" {
   require_full_window = true
   timeout_h           = var.timeout_h
 
-  query = <<END
-    max(${var.free_storage_evaluation_window}):(
-        avg:aws.es.free_storage_storage${local.query_filter} by {name,region,aws_account}
-    ) < ${var.free_storage_threshold_critical}
-END
+  query = <<EOQ
+    max(${var.free_storage_evaluation_window}): ((
+    avg:aws.es.cluster_used_space${local.query_filter} by {name,region,aws_account,env} / 
+    avg:aws.es.free_storage_space${local.query_filter} by {name,region,aws_account,env} + 
+    avg:aws.es.cluster_used_space.average${local.query_filter} by {name,region,aws_account,env})) * 100) 
+    > ${var.free_storage_threshold_critical}
+EOQ
 
   monitor_thresholds {
     critical = var.free_storage_threshold_critical
