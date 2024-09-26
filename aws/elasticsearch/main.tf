@@ -148,7 +148,7 @@ resource "datadog_monitor" "free_storage" {
 
   query = <<EOQ
     max(${var.free_storage_evaluation_window}): ((
-    avg:aws.es.cluster_used_space${local.query_filter} by {name,region,aws_account,env} / 
+    avg:aws.es.cluster_used_space.average${local.query_filter} by {name,region,aws_account,env} / 
     avg:aws.es.free_storage_space${local.query_filter} by {name,region,aws_account,env} + 
     avg:aws.es.cluster_used_space.average${local.query_filter} by {name,region,aws_account,env})) * 100) 
     > ${var.free_storage_threshold_critical}
