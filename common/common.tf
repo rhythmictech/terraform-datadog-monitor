@@ -10,6 +10,7 @@ variable "cost_center" {
 }
 
 variable "env" {
+  default     = null
   description = "Environment the monitored resource is in (leave blank to omit tag)"
   type        = string
 }
