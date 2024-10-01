@@ -17,7 +17,7 @@ variable "base_tags" {
 # ECS service running tasks
 ########################################
 variable "running_tasks_enabled" {
-  default     = false
+  default     = true
   description = "Enable running tasks monitor"
   type        = bool
 }
@@ -35,7 +35,7 @@ variable "running_tasks_no_data_window" {
 }
 
 variable "running_tasks_threshold_critical" {
-  default     = 0.25
+  default     = 0.50
   description = "Critical threshold (percentage)"
   type        = number
 }
@@ -50,7 +50,7 @@ variable "running_tasks_threshold_warning" {
 # Service CPU Utilization
 ########################################
 variable "cpu_utilization_enabled" {
-  default     = false
+  default     = true
   description = "Enable Fargate task CPU utilization monitor"
   type        = bool
 }
@@ -131,7 +131,7 @@ variable "cpu_utilization_anomaly_trigger_window" {
 }
 
 variable "cpu_utilization_anomaly_threshold_critical" {
-  default     = null
+  default     = 0.75
   description = "Critical threshold (percent)"
   type        = number
 }

@@ -17,7 +17,7 @@ variable "base_tags" {
 # ElasticSearch cluster health (red)
 ########################################
 variable "cluster_health_red_enabled" {
-  default     = false
+  default     = true
   description = "Enable cluster health_red monitor"
   type        = bool
 }
@@ -38,7 +38,7 @@ variable "cluster_health_red_no_data_window" {
 # ElasticSearch cluster health (yellow)
 ########################################
 variable "cluster_health_yellow_enabled" {
-  default     = false
+  default     = true
   description = "Enable cluster health monitor"
   type        = bool
 }
@@ -173,13 +173,13 @@ variable "free_storage_evaluation_window" {
 }
 
 variable "free_storage_threshold_critical" {
-  default     = null
-  description = "Critical threshold (GB)"
+  default     = 90
+  description = "Critical threshold for used disk space (%)"
   type        = number
 }
 
 variable "free_storage_threshold_warning" {
-  default     = null
-  description = "Warning threshold (GB)"
+  default     = 80
+  description = "Warning threshold for used disk space (%)"
   type        = number
 }

@@ -17,7 +17,7 @@ variable "base_tags" {
 # Connection Rate (anomaly detection)
 ########################################
 variable "connection_count_anomaly_enabled" {
-  default     = false
+  default     = true
   description = "Enable CPU utilization anomaly monitor"
   type        = bool
 }
@@ -80,7 +80,7 @@ variable "connection_count_anomaly_threshold_warning" {
 # Node CPU Utilization
 ########################################
 variable "cpu_utilization_enabled" {
-  default     = false
+  default     = true
   description = "Enable CPU utilization monitor"
   type        = bool
 }

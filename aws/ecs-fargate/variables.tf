@@ -17,7 +17,7 @@ variable "base_tags" {
 # Fargate Agent Status
 ########################################
 variable "fargate_check_enabled" {
-  default     = false
+  default     = true
   description = "Enable Fargate check monitor"
   type        = bool
 }

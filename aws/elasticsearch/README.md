@@ -45,10 +45,10 @@ No modules.
 | <a name="input_alert_message"></a> [alert\_message](#input\_alert\_message) | Message to prepend to alert notifications | `string` | `"Alert"` | no |
 | <a name="input_alert_nodata_priority"></a> [alert\_nodata\_priority](#input\_alert\_nodata\_priority) | Priority for alerts within warning threshold (P1-P5, uses monitor defaults if not specified) | `string` | `null` | no |
 | <a name="input_base_tags"></a> [base\_tags](#input\_base\_tags) | Base tags (key:value format) to add to this type of check (combined with `local.tags` and `var.additional_tags`, generally you should not change this) | `list(string)` | <pre>[<br>  "resource:elasticsearch"<br>]</pre> | no |
-| <a name="input_cluster_health_red_enabled"></a> [cluster\_health\_red\_enabled](#input\_cluster\_health\_red\_enabled) | Enable cluster health\_red monitor | `bool` | `false` | no |
+| <a name="input_cluster_health_red_enabled"></a> [cluster\_health\_red\_enabled](#input\_cluster\_health\_red\_enabled) | Enable cluster health\_red monitor | `bool` | `true` | no |
 | <a name="input_cluster_health_red_evaluation_window"></a> [cluster\_health\_red\_evaluation\_window](#input\_cluster\_health\_red\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_cluster_health_red_no_data_window"></a> [cluster\_health\_red\_no\_data\_window](#input\_cluster\_health\_red\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
-| <a name="input_cluster_health_yellow_enabled"></a> [cluster\_health\_yellow\_enabled](#input\_cluster\_health\_yellow\_enabled) | Enable cluster health monitor | `bool` | `false` | no |
+| <a name="input_cluster_health_yellow_enabled"></a> [cluster\_health\_yellow\_enabled](#input\_cluster\_health\_yellow\_enabled) | Enable cluster health monitor | `bool` | `true` | no |
 | <a name="input_cluster_health_yellow_evaluation_window"></a> [cluster\_health\_yellow\_evaluation\_window](#input\_cluster\_health\_yellow\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_cluster_health_yellow_no_data_window"></a> [cluster\_health\_yellow\_no\_data\_window](#input\_cluster\_health\_yellow\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
 | <a name="input_cost_center"></a> [cost\_center](#input\_cost\_center) | Cost Center of the monitored resource (leave blank to omit tag) | `string` | `null` | no |
@@ -73,8 +73,8 @@ No modules.
 | <a name="input_free_storage_enabled"></a> [free\_storage\_enabled](#input\_free\_storage\_enabled) | Enable free storage monitor | `bool` | `true` | no |
 | <a name="input_free_storage_evaluation_window"></a> [free\_storage\_evaluation\_window](#input\_free\_storage\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_free_storage_no_data_window"></a> [free\_storage\_no\_data\_window](#input\_free\_storage\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
-| <a name="input_free_storage_threshold_critical"></a> [free\_storage\_threshold\_critical](#input\_free\_storage\_threshold\_critical) | Critical threshold (GB) | `number` | `null` | no |
-| <a name="input_free_storage_threshold_warning"></a> [free\_storage\_threshold\_warning](#input\_free\_storage\_threshold\_warning) | Warning threshold (GB) | `number` | `null` | no |
+| <a name="input_free_storage_threshold_critical"></a> [free\_storage\_threshold\_critical](#input\_free\_storage\_threshold\_critical) | Critical threshold (%) | `number` | `90` | no |
+| <a name="input_free_storage_threshold_warning"></a> [free\_storage\_threshold\_warning](#input\_free\_storage\_threshold\_warning) | Warning threshold (%) | `number` | `80` | no |
 | <a name="input_monitor_exclude_tags"></a> [monitor\_exclude\_tags](#input\_monitor\_exclude\_tags) | Tags to be excluded in the monitoring query. Specify in key:value format | `list(string)` | `[]` | no |
 | <a name="input_monitor_include_tags"></a> [monitor\_include\_tags](#input\_monitor\_include\_tags) | Tags to be included in the monitoring query. Specify in key:value format | `list(string)` | `[]` | no |
 | <a name="input_new_group_delay"></a> [new\_group\_delay](#input\_new\_group\_delay) | Delay in seconds before generating alerts for a new resource | `number` | `300` | no |

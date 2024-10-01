@@ -17,7 +17,7 @@ variable "base_tags" {
 # Lambda error rate
 ########################################
 variable "error_rate_enabled" {
-  default     = false
+  default     = true
   description = "Enable Lambda error rate monitor"
   type        = bool
 }
@@ -50,7 +50,7 @@ variable "error_rate_threshold_warning" {
 # Lambda timeouts
 ########################################
 variable "timeouts_enabled" {
-  default     = false
+  default     = true
   description = "Enable timeout count monitor"
   type        = bool
 }
@@ -116,7 +116,7 @@ variable "cold_starts_threshold_warning" {
 # OOM monitor
 ########################################
 variable "out_of_memory_enabled" {
-  default     = false
+  default     = true
   description = "Enable out of memory monitor (requires enhanced metrics)"
   type        = bool
 }
@@ -134,7 +134,7 @@ variable "out_of_memory_no_data_window" {
 }
 
 variable "out_of_memory_threshold_critical" {
-  default     = null
+  default     = 5
   description = "Critical threshold (count)"
   type        = number
 }
@@ -203,7 +203,7 @@ variable "iterator_age_forecast_no_data_window" {
 # Lambda throttle rate
 ########################################
 variable "throttle_rate_enabled" {
-  default     = false
+  default     = true
   description = "Enable Lambda throttle rate monitor"
   type        = bool
 }

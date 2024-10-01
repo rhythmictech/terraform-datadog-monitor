@@ -72,7 +72,7 @@ END
 resource "datadog_monitor" "latency" {
   count = var.latency_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "{{loadbalancer.name}} ALB latency - {{value}}s ", local.title_suffix])
+  name         = join("", [local.title_prefix, "ALB latency - {{loadbalancer.name}} {{value}}s ", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -101,7 +101,7 @@ END
 resource "datadog_monitor" "no_healthy_instances" {
   count = var.no_healthy_instances_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "{{loadbalancer.name}} ALB healthy instances is at {{value}}%", local.title_suffix])
+  name         = join("", [local.title_prefix, "ALB available healthy instances - {{loadbalancer.name}} {{value}}%", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
