@@ -27,7 +27,7 @@ resource "datadog_monitor" "oldest_message" {
 
   query = <<END
     min(${var.oldest_message_evaluation_window}):(
-      avg:aws.sqs.approximate_age_of_oldest_message${local.query_filter} by {queuename,region}
+      avg:aws.sqs.approximate_age_of_oldest_message${local.query_filter} by {queuename,region,env,datadog_critical}
     ) > ${var.oldest_message_threshold_critical}
 END
 
@@ -56,7 +56,7 @@ resource "datadog_monitor" "queue_depth" {
 
   query = <<END
     min(${var.queue_depth_evaluation_window}):(
-      avg:aws.sqs.approximate_number_of_messages_visible${local.query_filter} by {queuename,region}
+      avg:aws.sqs.approximate_number_of_messages_visible${local.query_filter} by {queuename,region,env,datadog_critical}
     ) > ${var.queue_depth_threshold_critical}
 END
 

@@ -65,7 +65,7 @@ variable "connection_count_anomaly_trigger_window" {
 }
 
 variable "connection_count_anomaly_threshold_critical" {
-  default     = null
+  default     = 0.75
   description = "Critical threshold (percent)"
   type        = number
 }

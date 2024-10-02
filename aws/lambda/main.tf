@@ -29,8 +29,8 @@ resource "datadog_monitor" "error_rate" {
 
   query = <<END
     min(${var.error_rate_evaluation_window}):
-      default(avg:aws.lambda.errors${local.query_filter} by {functionname,region,aws_account,env}.as_rate(), 0) / (
-      default(avg:aws.lambda.invocations${local.query_filter} by {functionname,region,aws_account,env}.as_rate(), 1)
+      default(avg:aws.lambda.errors${local.query_filter} by {functionname,region,aws_account,env,datadog_critical}.as_rate(), 0) / (
+      default(avg:aws.lambda.invocations${local.query_filter} by {functionname,region,aws_account,env,datadog_critical}.as_rate(), 1)
     ) * 100 > ${var.error_rate_threshold_critical}
 END
 
@@ -59,8 +59,8 @@ resource "datadog_monitor" "timeouts" {
 
   query = <<END
     min(${var.timeouts_evaluation_window}):
-      default(avg:aws.lambda.duration.maximum${local.query_filter} by {functionname,region,aws_account,env}.as_rate(), 0) / (
-      (default(avg:aws.lambda.timeout${local.query_filter} by {functionname,region,aws_account,env}.as_rate(), 1) * 1000)
+      default(avg:aws.lambda.duration.maximum${local.query_filter} by {functionname,region,aws_account,env,datadog_critical}.as_rate(), 0) / (
+      (default(avg:aws.lambda.timeout${local.query_filter} by {functionname,region,aws_account,env,datadog_critical}.as_rate(), 1) * 1000)
     )  > ${var.timeouts_threshold_critical}
 END
 
@@ -89,8 +89,8 @@ resource "datadog_monitor" "cold_starts" {
 
   query = <<END
     min(${var.cold_starts_evaluation_window}):
-      default(avg:aws.lambda.enhanced.invocations${local.cold_start_query_filter} by {functionname,region,aws_account,env}.as_rate(), 0) / (
-      default(avg:aws.lambda.enhanced.invocations${local.query_filter} by {functionname,region,aws_account,env}.as_rate(), 1)
+      default(avg:aws.lambda.enhanced.invocations${local.cold_start_query_filter} by {functionname,region,aws_account,env,datadog_critical}.as_rate(), 0) / (
+      default(avg:aws.lambda.enhanced.invocations${local.query_filter} by {functionname,region,aws_account,env,datadog_critical}.as_rate(), 1)
     ) > ${var.cold_starts_threshold_critical}
 END
 
@@ -149,7 +149,7 @@ resource "datadog_monitor" "iterator_age" {
 
   query = <<END
     max(${var.iterator_age_evaluation_window}):
-      default(avg:aws.lambda.iterator_age.maximum${local.query_filter} by {functionname,region,aws_account,env}
+      default(avg:aws.lambda.iterator_age.maximum${local.query_filter} by {functionname,region,aws_account,env,datadog_critical}
     > ${var.iterator_age_threshold_critical}
 END
 

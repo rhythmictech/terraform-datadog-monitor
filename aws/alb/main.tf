@@ -27,8 +27,8 @@ resource "datadog_monitor" "http_5xx_responses" {
 
   query = <<END
     min(${var.http_5xx_responses_evaluation_window}):
-      default(avg:aws.applicationelb.httpcode_elb_5xx${local.query_filter} by {aws_account,env,loadbalancer,region}.as_rate(), 0) / (
-      default(avg:aws.applicationelb.request_count${local.query_filter} by {aws_account,env,loadbalancer,region}.as_rate(), 1)
+      default(avg:aws.applicationelb.httpcode_elb_5xx${local.query_filter} by {aws_account,env,datadog_critical,loadbalancer,region}.as_rate(), 0) / (
+      default(avg:aws.applicationelb.request_count${local.query_filter} by {aws_account,env,datadog_critical,loadbalancer,region}.as_rate(), 1)
     ) * 100 > ${var.http_5xx_responses_threshold_critical}
 END
 
@@ -57,8 +57,8 @@ resource "datadog_monitor" "http_5xx_tg_responses" {
 
   query = <<END
     min(${var.http_5xx_tg_responses_evaluation_window}):
-      default(avg:aws.applicationelb.httpcode_elb_5xx${local.query_filter} by {loadbalancer,region,aws_account,targetgroup,env}.as_rate(), 0) / (
-      default(avg:aws.applicationelb.request_count${local.query_filter} by {loadbalancer,region,aws_account,targetgroup,env}.as_rate(), 1)
+      default(avg:aws.applicationelb.httpcode_elb_5xx${local.query_filter} by {loadbalancer,region,aws_account,targetgroup,env,datadog_critical}.as_rate(), 0) / (
+      default(avg:aws.applicationelb.request_count${local.query_filter} by {loadbalancer,region,aws_account,targetgroup,env,datadog_critical}.as_rate(), 1)
     ) * 100 > ${var.http_5xx_tg_responses_threshold_critical}
 END
 
@@ -88,7 +88,7 @@ resource "datadog_monitor" "latency" {
 
   query = <<END
     avg(${var.latency_evaluation_window}):
-      default(avg:aws.applicationelb.target_response_time.average${local.query_filter} by {aws_account,env,loadbalancer,region}, 0
+      default(avg:aws.applicationelb.target_response_time.average${local.query_filter} by {aws_account,env,datadog_critical,loadbalancer,region}, 0
     ) > ${var.latency_threshold_critical}
 END
 
@@ -117,9 +117,9 @@ resource "datadog_monitor" "no_healthy_instances" {
 
   query = <<END
     min(${var.no_healthy_instances_evaluation_window}): (
-      sum:aws.applicationelb.healthy_host_count.minimum${local.query_filter} by {aws_account,env,region,loadbalancer} / (
-      sum:aws.applicationelb.healthy_host_count.minimum${local.query_filter} by {aws_account,env,region,loadbalancer} +
-      sum:aws.applicationelb.un_healthy_host_count.maximum${local.query_filter} by {aws_account,env,region,loadbalancer} )
+      sum:aws.applicationelb.healthy_host_count.minimum${local.query_filter} by {aws_account,env,datadog_critical,region,loadbalancer} / (
+      sum:aws.applicationelb.healthy_host_count.minimum${local.query_filter} by {aws_account,env,datadog_critical,region,loadbalancer} +
+      sum:aws.applicationelb.un_healthy_host_count.maximum${local.query_filter} by {aws_account,env,datadog_critical,region,loadbalancer} )
     ) * 100 <= ${var.no_healthy_instances_threshold_critical}
 END
 

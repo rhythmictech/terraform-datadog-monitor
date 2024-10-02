@@ -27,7 +27,7 @@ resource "datadog_monitor" "connection_count_anomaly" {
 
   query = <<END
     avg(${var.connection_count_anomaly_evaluation_window}):anomalies(
-      avg:aws.rds.database_connections${local.query_filter} by {dbinstanceidentifier,region,aws_account,env}, 'agile', ${var.connection_count_anomaly_deviations},
+      avg:aws.rds.database_connections${local.query_filter} by {dbinstanceidentifier,region,aws_account,env,datadog_critical}, 'agile', ${var.connection_count_anomaly_deviations},
       direction='both', count_default_zero='true', interval=${var.connection_count_anomaly_rollup},
       seasonality='${var.connection_count_anomaly_seasonality}'
     ) >= ${var.connection_count_anomaly_threshold_critical}
@@ -63,7 +63,7 @@ resource "datadog_monitor" "cpu_utilization" {
 
   query = <<END
     avg(${var.cpu_utilization_evaluation_window}):
-      avg:aws.rds.cpuutilization${local.query_filter} by {dbinstanceidentifier,region,aws_account,env}
+      avg:aws.rds.cpuutilization${local.query_filter} by {dbinstanceidentifier,region,aws_account,env,datadog_critical}
     >= ${var.cpu_utilization_threshold_critical}
 END
 
@@ -92,7 +92,7 @@ resource "datadog_monitor" "cpu_utilization_anomaly" {
 
   query = <<END
     avg(${var.cpu_utilization_anomaly_evaluation_window}):anomalies(
-      avg:aws.rds.cpuutilization${local.query_filter} by {dbinstanceidentifier,region,aws_account,env}, 'agile', ${var.cpu_utilization_anomaly_deviations},
+      avg:aws.rds.cpuutilization${local.query_filter} by {dbinstanceidentifier,region,aws_account,env,datadog_critical}, 'agile', ${var.cpu_utilization_anomaly_deviations},
       direction='below', count_default_zero='true', interval=${var.cpu_utilization_anomaly_rollup},
       seasonality='${var.cpu_utilization_anomaly_seasonality}'
     ) >= ${var.cpu_utilization_anomaly_threshold_critical}
@@ -129,8 +129,8 @@ resource "datadog_monitor" "used_storage" {
   query = <<END
     max(${var.used_storage_evaluation_window}):(
       100 - ((
-        default(avg:aws.rds.free_storage_space${local.query_filter} by {dbinstanceidentifier,region,aws_account,env}, 0) /
-        default(avg:aws.rds.total_storage_space${local.query_filter} by {dbinstanceidentifier,region,aws_account,env}, 1)
+        default(avg:aws.rds.free_storage_space${local.query_filter} by {dbinstanceidentifier,region,aws_account,env,datadog_critical}, 0) /
+        default(avg:aws.rds.total_storage_space${local.query_filter} by {dbinstanceidentifier,region,aws_account,env,datadog_critical}, 1)
       ) * 100)
     ) >= ${var.used_storage_threshold_critical}
 END

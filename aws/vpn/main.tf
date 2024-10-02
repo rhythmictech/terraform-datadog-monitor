@@ -27,7 +27,7 @@ resource "datadog_monitor" "tunnel_state" {
 
   query = <<END
     min(${var.tunnel_state_evaluation_window}):(
-      min:aws.vpn.tunnel_state${local.query_filter} by {tunnelipaddress,region}
+      min:aws.vpn.tunnel_state${local.query_filter} by {tunnelipaddress,region,env,datadog_critical}
     ) <= 0
 END
 

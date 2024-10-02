@@ -40,7 +40,7 @@ END
 resource "datadog_monitor" "cpu_utilization" {
   count = var.cpu_utilization_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "ECS Fargate task CPU utilization", local.title_suffix])
+  name         = join("", [local.title_prefix, "ECS Fargate task CPU utilization - {{ecs_cluster}} ({{task_family}})", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -56,7 +56,7 @@ resource "datadog_monitor" "cpu_utilization" {
 
   query = <<END
     avg(${var.cpu_utilization_evaluation_window}):
-      avg:ecs.fargate.cpu.percent${local.query_filter} by {ecs_container_name,task_family,region,aws_account,env}
+      avg:ecs.fargate.cpu.percent${local.query_filter} by {ecs_cluster,ecs_container_name,task_family,region,aws_account,env,datadog_critical}
     > ${var.cpu_utilization_threshold_critical}
 END
 
@@ -69,7 +69,7 @@ END
 resource "datadog_monitor" "cpu_utilization_anomaly" {
   count = var.cpu_utilization_anomaly_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "ECS service CPU utilization anomalous activity", local.title_suffix])
+  name         = join("", [local.title_prefix, "ECS service CPU utilization anomalous activity - {{ecs_cluster}} ({{task_family}})", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -85,7 +85,7 @@ resource "datadog_monitor" "cpu_utilization_anomaly" {
 
   query = <<END
     avg(${var.cpu_utilization_anomaly_evaluation_window}):anomalies(
-      avg:ecs.fargate.cpu.percent${local.query_filter} by {servicename,region,aws_account,env}, 'agile', ${var.cpu_utilization_anomaly_deviations},
+      avg:ecs.fargate.cpu.percent${local.query_filter} by {ecs_cluster,ecs_container_name,region,aws_account,env,datadog_critical,task_family}, 'agile', ${var.cpu_utilization_anomaly_deviations},
       direction='above', count_default_zero='true', interval=${var.cpu_utilization_anomaly_rollup},
       seasonality='${var.cpu_utilization_anomaly_seasonality}'
     ) >= ${var.cpu_utilization_anomaly_threshold_critical}
@@ -105,7 +105,7 @@ END
 resource "datadog_monitor" "memory_utilization" {
   count = var.memory_utilization_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "ECS Fargate task memory utilization", local.title_suffix])
+  name         = join("", [local.title_prefix, "ECS Fargate task memory utilization - {{ecs_cluster}} ({{task_family}})", local.title_suffix])
   include_tags = true
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -121,8 +121,8 @@ resource "datadog_monitor" "memory_utilization" {
 
   query = <<END
     avg(${var.memory_utilization_evaluation_window}):(
-      avg:ecs.fargate.mem.usage${local.query_filter} by {ecs_container_name,task_family,region,aws_account,env} /
-      avg:ecs.fargate.mem.limit${local.query_filter} by {ecs_container_name,task_family,region,aws_account,env}
+      avg:ecs.fargate.mem.usage${local.query_filter} by {ecs_cluster,ecs_container_name,task_family,region,aws_account,env,datadog_critical} /
+      avg:ecs.fargate.mem.limit${local.query_filter} by {ecs_cluster,ecs_container_name,task_family,region,aws_account,env,datadog_critical}
     )  >= ${var.memory_utilization_threshold_critical}
 END
 

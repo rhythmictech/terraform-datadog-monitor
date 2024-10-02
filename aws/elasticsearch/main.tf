@@ -27,7 +27,7 @@ resource "datadog_monitor" "cluster_health_red" {
 
   query = <<END
     max(${var.cluster_health_red_evaluation_window}):
-      max:aws.es.cluster_statusred${local.query_filter} by {name,region,aws_account,env}
+      max:aws.es.cluster_statusred${local.query_filter} by {name,region,aws_account,env,datadog_critical}
     >= 1
 END
 
@@ -55,7 +55,7 @@ resource "datadog_monitor" "cluster_health_yellow" {
 
   query = <<END
     max(${var.cluster_health_yellow_evaluation_window}):
-      max:aws.es.cluster_statusyellow${local.query_filter} by {name,region,aws_account,env}
+      max:aws.es.cluster_statusyellow${local.query_filter} by {name,region,aws_account,env,datadog_critical}
     >= 1
 END
 
@@ -83,7 +83,7 @@ resource "datadog_monitor" "cpu_utilization" {
 
   query = <<END
     avg(${var.cpu_utilization_evaluation_window}):
-      avg:aws.es.cpuutilization${local.query_filter} by {name,region,aws_account,env}
+      avg:aws.es.cpuutilization${local.query_filter} by {name,region,aws_account,env,datadog_critical}
     >= ${var.cpu_utilization_threshold_critical}
 END
 
@@ -147,10 +147,10 @@ resource "datadog_monitor" "free_storage" {
   timeout_h           = var.timeout_h
 
   query = <<EOQ
-    max(${var.free_storage_evaluation_window}): ((
-    avg:aws.es.cluster_used_space.average${local.query_filter} by {name,region,aws_account,env} / 
-    avg:aws.es.free_storage_space${local.query_filter} by {name,region,aws_account,env} + 
-    avg:aws.es.cluster_used_space.average${local.query_filter} by {name,region,aws_account,env})) * 100) 
+    max(${var.free_storage_evaluation_window}): (
+    max:aws.es.cluster_used_space.average${local.query_filter} by {name,region,aws_account,env,datadog_critical} / 
+    ( max:aws.es.free_storage_space${local.query_filter} by {name,region,aws_account,env,datadog_critical} + 
+    max:aws.es.cluster_used_space.average${local.query_filter} by {name,region,aws_account,env,datadog_critical})) * 100
     > ${var.free_storage_threshold_critical}
 EOQ
 

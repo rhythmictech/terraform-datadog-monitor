@@ -26,7 +26,7 @@ resource "datadog_monitor" "status_failed_check" {
 
   query = <<END
     max(${var.status_failed_check_evaluation_window}):
-      max:aws.ec2.status_check_failed${local.query_filter} by {aws_account,env,instance_id,name,region}
+      max:aws.ec2.status_check_failed${local.query_filter} by {aws_account,env,instance_id,name,region,env,datadog_critical}
     >= 1
 END
 
@@ -53,7 +53,7 @@ resource "datadog_monitor" "status_failed_instance" {
 
   query = <<END
     max(${var.status_failed_instance_evaluation_window}):
-      max:aws.ec2.status_check_failed_instance${local.query_filter} by {aws_account,env,instance_id,name,region}
+      max:aws.ec2.status_check_failed_instance${local.query_filter} by {aws_account,env,instance_id,name,region,env,datadog_critical}
     >= 1
 END
 
@@ -80,7 +80,7 @@ resource "datadog_monitor" "status_failed_system" {
 
   query = <<END
     max(${var.status_failed_system_evaluation_window}):
-      max:aws.ec2.status_check_failed_system${local.query_filter} by {aws_account,env,instance_id,name,region}
+      max:aws.ec2.status_check_failed_system${local.query_filter} by {aws_account,env,instance_id,name,region,env,datadog_critical}
     >= 1
 END
 
@@ -107,7 +107,7 @@ resource "datadog_monitor" "status_failed_volume" {
 
   query = <<END
     max(${var.status_failed_volume_evaluation_window}):
-      max:aws.ec2.status_check_failed_attached_ebs${local.query_filter} by {aws_account,env,instance_id,name,region}
+      max:aws.ec2.status_check_failed_attached_ebs${local.query_filter} by {aws_account,env,instance_id,name,region,env,datadog_critical}
     >= 1
 END
 
