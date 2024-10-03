@@ -12,7 +12,7 @@ resource "datadog_monitor" "http_5xx_responses" {
   count = var.http_5xx_responses_enabled ? 1 : 0
 
   name         = join("", [local.title_prefix, "API Gateway 5xx Responses - {{apiname.name}}", local.title_suffix])
-  include_tags = true
+  include_tags = false
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
@@ -27,8 +27,8 @@ resource "datadog_monitor" "http_5xx_responses" {
 
   query = <<END
     min(${var.http_5xx_responses_evaluation_window}):
-      default(avg:aws.apigateway.5xxerror{${local.query_filter}} by {stage,apiname,region,aws_account,env,datadog_critical}.as_rate(), 0) / (
-      default(avg:aws.apigateway.count{${local.query_filter}} by {stage,apiname,region,aws_account,env,datadog_critical}.as_rate(), 1)
+      default(avg:aws.apigateway.5xxerror{${local.query_filter}} by {stage,apiname,region,aws_account,env,datadog_managed}.as_rate(), 0) / (
+      default(avg:aws.apigateway.count{${local.query_filter}} by {stage,apiname,region,aws_account,env,datadog_managed}.as_rate(), 1)
     ) * 100 > ${var.http_5xx_responses_threshold_critical}
 END
 
@@ -42,7 +42,7 @@ resource "datadog_monitor" "latency" {
   count = var.latency_enabled ? 1 : 0
 
   name         = join("", [local.title_prefix, "API Gateway latency - {{apiname.name}}", local.title_suffix])
-  include_tags = true
+  include_tags = false
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
@@ -57,7 +57,7 @@ resource "datadog_monitor" "latency" {
 
   query = <<END
     avg(${var.latency_evaluation_window}):
-      default(avg:aws.apigateway.latency{${local.query_filter}} by {stage,apiname,region,aws_account,env,datadog_critical}, 0)
+      default(avg:aws.apigateway.latency{${local.query_filter}} by {stage,apiname,region,aws_account,env,datadog_managed}, 0)
     ) > ${var.latency_threshold_critical}
 END
 

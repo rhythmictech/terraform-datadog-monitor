@@ -12,7 +12,7 @@ resource "datadog_monitor" "cluster_health_red" {
   count = var.cluster_health_red_enabled ? 1 : 0
 
   name         = join("", [local.title_prefix, "ElasticSearch cluster health red - {{name.name}}", local.title_suffix])
-  include_tags = true
+  include_tags = false
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
@@ -27,7 +27,7 @@ resource "datadog_monitor" "cluster_health_red" {
 
   query = <<END
     max(${var.cluster_health_red_evaluation_window}):
-      max:aws.es.cluster_statusred${local.query_filter} by {name,region,aws_account,env,datadog_critical}
+      max:aws.es.cluster_statusred${local.query_filter} by {name,region,aws_account,env,datadog_managed}
     >= 1
 END
 
@@ -40,7 +40,7 @@ resource "datadog_monitor" "cluster_health_yellow" {
   count = var.cluster_health_yellow_enabled ? 1 : 0
 
   name         = join("", [local.title_prefix, "ElasticSearch cluster health yellow - {{name.name}}", local.title_suffix])
-  include_tags = true
+  include_tags = false
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
@@ -55,7 +55,7 @@ resource "datadog_monitor" "cluster_health_yellow" {
 
   query = <<END
     max(${var.cluster_health_yellow_evaluation_window}):
-      max:aws.es.cluster_statusyellow${local.query_filter} by {name,region,aws_account,env,datadog_critical}
+      max:aws.es.cluster_statusyellow${local.query_filter} by {name,region,aws_account,env,datadog_managed}
     >= 1
 END
 
@@ -68,7 +68,7 @@ resource "datadog_monitor" "cpu_utilization" {
   count = var.cpu_utilization_enabled ? 1 : 0
 
   name         = join("", [local.title_prefix, "ElasticSearch CPU Utilization - {{name.name}} - {{value}}%", local.title_suffix])
-  include_tags = true
+  include_tags = false
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
@@ -83,7 +83,7 @@ resource "datadog_monitor" "cpu_utilization" {
 
   query = <<END
     avg(${var.cpu_utilization_evaluation_window}):
-      avg:aws.es.cpuutilization${local.query_filter} by {name,region,aws_account,env,datadog_critical}
+      avg:aws.es.cpuutilization${local.query_filter} by {name,region,aws_account,env,datadog_managed}
     >= ${var.cpu_utilization_threshold_critical}
 END
 
@@ -97,7 +97,7 @@ resource "datadog_monitor" "cpu_utilization_anomaly" {
   count = var.cpu_utilization_anomaly_enabled ? 1 : 0
 
   name         = join("", [local.title_prefix, "ElasticSearch CPU utilization anomalous activity - {{name.name}}", local.title_suffix])
-  include_tags = true
+  include_tags = false
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
@@ -133,7 +133,7 @@ resource "datadog_monitor" "free_storage" {
   count = var.free_storage_enabled ? 1 : 0
 
   name         = join("", [local.title_prefix, "ElasticSearch cluster storage - {{name.name}} - {{value}}% used", local.title_suffix])
-  include_tags = true
+  include_tags = false
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
@@ -148,9 +148,9 @@ resource "datadog_monitor" "free_storage" {
 
   query = <<EOQ
     max(${var.free_storage_evaluation_window}): (
-    max:aws.es.cluster_used_space.average${local.query_filter} by {name,region,aws_account,env,datadog_critical} / 
-    ( max:aws.es.free_storage_space${local.query_filter} by {name,region,aws_account,env,datadog_critical} + 
-    max:aws.es.cluster_used_space.average${local.query_filter} by {name,region,aws_account,env,datadog_critical})) * 100
+    max:aws.es.cluster_used_space.average${local.query_filter} by {name,region,aws_account,env,datadog_managed} / 
+    ( max:aws.es.free_storage_space${local.query_filter} by {name,region,aws_account,env,datadog_managed} + 
+    max:aws.es.cluster_used_space.average${local.query_filter} by {name,region,aws_account,env,datadog_managed})) * 100
     > ${var.free_storage_threshold_critical}
 EOQ
 

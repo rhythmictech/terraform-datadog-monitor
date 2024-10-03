@@ -25,7 +25,7 @@ resource "datadog_monitor" "health" {
   count = var.health_enabled ? 1 : 0
 
   name         = join("", [local.title_prefix, "Beanstalk Health Events - {{environmentname.name}}", local.title_suffix])
-  include_tags = true
+  include_tags = false
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "metric alert"
@@ -40,7 +40,7 @@ resource "datadog_monitor" "health" {
 
   query = <<END
     min(${var.health_evaluation_window}):
-      min:aws.elasticbeanstalk.environment_health${local.query_filter} by {environmentname,region,aws_account,env,datadog_critical}
+      min:aws.elasticbeanstalk.environment_health${local.query_filter} by {environmentname,region,aws_account,env,datadog_managed}
     >= ${var.health_threshold_critical}
 END
 
@@ -54,7 +54,7 @@ resource "datadog_monitor" "http_5xx_responses" {
   count = var.http_5xx_responses_enabled ? 1 : 0
 
   name         = join("", [local.title_prefix, "ALB 5xx Responses - {{environmentname.name}}", local.title_suffix])
-  include_tags = true
+  include_tags = false
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
@@ -69,8 +69,8 @@ resource "datadog_monitor" "http_5xx_responses" {
 
   query = <<END
     min(${var.http_5xx_responses_evaluation_window}):(
-      default(sum:aws.elasticbeanstalk.application_requests_5xx${local.query_filter} by {environmentname,region,aws_account,env,datadog_critical}.as_rate(), 0) /
-      default(sum:aws.elasticbeanstalk.application_requests_total${local.query_filter} by {environmentname,region,aws_account,env,datadog_critical}.as_rate(), 1)
+      default(sum:aws.elasticbeanstalk.application_requests_5xx${local.query_filter} by {environmentname,region,aws_account,env,datadog_managed}.as_rate(), 0) /
+      default(sum:aws.elasticbeanstalk.application_requests_total${local.query_filter} by {environmentname,region,aws_account,env,datadog_managed}.as_rate(), 1)
     ) * 100 > ${var.http_5xx_responses_threshold_critical}
 END
 
@@ -84,7 +84,7 @@ resource "datadog_monitor" "latency" {
   count = var.latency_enabled ? 1 : 0
 
   name         = join("", [local.title_prefix, "Beanstalk Latency - {{environmentname.name}}", local.title_suffix])
-  include_tags = true
+  include_tags = false
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
@@ -98,7 +98,7 @@ resource "datadog_monitor" "latency" {
   timeout_h           = var.timeout_h
 
   query = <<END
-    min:${var.latency_evaluation_window}):min:aws.elasticbeanstalk.${local.latency_metric}${local.query_filter} by {environmentname,region,aws_account,env,datadog_critical}
+    min:${var.latency_evaluation_window}):min:aws.elasticbeanstalk.${local.latency_metric}${local.query_filter} by {environmentname,region,aws_account,env,datadog_managed}
      >= ${var.latency_threshold_critical}
 END
 
@@ -112,7 +112,7 @@ resource "datadog_monitor" "root_disk_usage" {
   count = var.root_disk_usage_enabled ? 1 : 0
 
   name         = join("", [local.title_prefix, "Beanstalk Instance Root Disk Usage - {{environmentname.name}}", local.title_suffix])
-  include_tags = true
+  include_tags = false
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
@@ -127,7 +127,7 @@ resource "datadog_monitor" "root_disk_usage" {
 
   query = <<END
     max:${var.latency_evaluation_window}):
-      min:aws.elasticbeanstalk.root_filesystem_util${local.query_filter} by {host,environmentname,region,aws_account,env,datadog_critical}
+      min:aws.elasticbeanstalk.root_filesystem_util${local.query_filter} by {host,environmentname,region,aws_account,env,datadog_managed}
     >= ${var.root_disk_usage_threshold_critical}
 END
 
