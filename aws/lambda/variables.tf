@@ -46,6 +46,12 @@ variable "error_rate_threshold_warning" {
   type        = number
 }
 
+variable "error_rate_use_message" {
+  description = "Whether to use the query alert base message for error rate monitor"
+  type        = bool
+  default     = true
+}
+
 ########################################
 # Lambda timeouts
 ########################################
@@ -77,6 +83,12 @@ variable "timeouts_threshold_warning" {
   default     = 25
   description = "Warning threshold (count)"
   type        = number
+}
+
+variable "timeouts_use_message" {
+  description = "Whether to use the query alert base message for timeouts monitor"
+  type        = bool
+  default     = false
 }
 
 ########################################
@@ -112,6 +124,12 @@ variable "cold_starts_threshold_warning" {
   type        = number
 }
 
+variable "cold_starts_use_message" {
+  description = "Whether to use the query alert base message for cold starts monitor"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # OOM monitor
 ########################################
@@ -143,6 +161,12 @@ variable "out_of_memory_threshold_warning" {
   default     = null
   description = "Warning threshold (count)"
   type        = number
+}
+
+variable "out_of_memory_use_message" {
+  description = "Whether to use the query alert base message for out of memory monitor"
+  type        = bool
+  default     = false
 }
 
 ########################################
@@ -178,6 +202,12 @@ variable "iterator_age_threshold_warning" {
   type        = number
 }
 
+variable "iterator_age_use_message" {
+  description = "Whether to use the query alert base message for iterator age monitor"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # Iterator Age forecast data loss
 ########################################
@@ -197,6 +227,12 @@ variable "iterator_age_forecast_no_data_window" {
   default     = null
   description = "No data threshold (in minutes, null to disable)"
   type        = number
+}
+
+variable "iterator_age_forecast_use_message" {
+  description = "Whether to use the query alert base message for iterator age forecast monitor"
+  type        = bool
+  default     = false
 }
 
 ########################################
@@ -230,4 +266,10 @@ variable "throttle_rate_threshold_warning" {
   default     = 25
   description = "Warning threshold (percentage, 0-100)"
   type        = number
+}
+
+variable "throttle_rate_use_message" {
+  description = "Whether to use the query alert base message for throttle rate monitor"
+  type        = bool
+  default     = false
 }

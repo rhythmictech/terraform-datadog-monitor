@@ -5,7 +5,7 @@ locals {
   monitor_warn_default_priority   = null
   monitor_nodata_default_priority = null
 
-  title_prefix = "${var.title_prefix == null ? "" : "[${var.title_prefix}]"}"
+  title_prefix = var.title_prefix == null ? "" : "[${var.title_prefix}]"
   title_suffix = var.title_suffix == null ? "" : " (${var.title_suffix})"
 }
 
@@ -14,7 +14,7 @@ resource "datadog_monitor" "fargate_check" {
 
   name         = join("", [local.title_prefix, "Fargate service not responding", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.fargate_check_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "service check"
 
@@ -42,7 +42,7 @@ resource "datadog_monitor" "cpu_utilization" {
 
   name         = join("", [local.title_prefix, "ECS Fargate task CPU utilization - {{ecs_cluster}} ({{task_family}})", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.cpu_utilization_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -71,7 +71,7 @@ resource "datadog_monitor" "cpu_utilization_anomaly" {
 
   name         = join("", [local.title_prefix, "ECS service CPU utilization anomalous activity - {{ecs_cluster}} ({{task_family}})", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.cpu_utilization_anomaly_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -107,7 +107,7 @@ resource "datadog_monitor" "memory_utilization" {
 
   name         = join("", [local.title_prefix, "ECS Fargate task memory utilization - {{ecs_cluster}} ({{task_family}})", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.memory_utilization_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 

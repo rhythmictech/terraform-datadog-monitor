@@ -46,6 +46,12 @@ variable "http_5xx_responses_threshold_warning" {
   type        = number
 }
 
+variable "http_5xx_responses_use_message" {
+  description = "Whether to use the query alert base message"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # HTTP 5xx Response Codes (Target Group)
 ########################################
@@ -77,6 +83,12 @@ variable "http_5xx_tg_responses_threshold_warning" {
   default     = 25
   description = "Warning threshold (percentage, 0-100)"
   type        = number
+}
+
+variable "http_5xx_tg_responses_use_message" {
+  description = "Whether to use the query alert base message"
+  type        = bool
+  default     = false
 }
 
 ########################################
@@ -112,6 +124,12 @@ variable "latency_threshold_warning" {
   type        = number
 }
 
+variable "latency_use_message" {
+  description = "Whether to use the query alert base message"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # No Healthy Instances
 ########################################
@@ -143,4 +161,10 @@ variable "no_healthy_instances_threshold_warning" {
   default     = null
   description = "Warning threshold (percentage)"
   type        = number
+}
+
+variable "no_healthy_instances_use_message" {
+  description = "Whether to use the query alert base message"
+  type        = bool
+  default     = true
 }

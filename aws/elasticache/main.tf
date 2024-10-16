@@ -4,7 +4,7 @@ locals {
   monitor_warn_default_priority   = null
   monitor_nodata_default_priority = null
 
-  title_prefix = "${var.title_prefix == null ? "" : "[${var.title_prefix}]"}"
+  title_prefix = var.title_prefix == null ? "" : "[${var.title_prefix}]"
   title_suffix = var.title_suffix == null ? "" : " (${var.title_suffix})"
 }
 
@@ -13,7 +13,7 @@ resource "datadog_monitor" "cpu_utilization" {
 
   name         = join("", [local.title_prefix, "Elasticache CPU Utilization - {{cacheclusterid.name}} - {{value}}%", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.cpu_utilization_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -42,7 +42,7 @@ resource "datadog_monitor" "cpu_utilization_anomaly" {
 
   name         = join("", [local.title_prefix, "Elasticache CPU utilization anomalous activity - {{cacheclusterid.name}}", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.cpu_utilization_anomaly_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -72,7 +72,7 @@ resource "datadog_monitor" "evictions" {
 
   name         = join("", [local.title_prefix, "Elasticache evictions - {{cacheclusterid.name}}", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.evictions_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -101,7 +101,7 @@ resource "datadog_monitor" "hit_rate" {
 
   name         = join("", [local.title_prefix, "Elasticache cache hit rate - {{cacheclusterid.name}} - {{value}}% ", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.hit_rate_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -130,7 +130,7 @@ resource "datadog_monitor" "hit_rate_anomaly" {
 
   name         = join("", [local.title_prefix, "Elasticache cache hit rate anomalous activity - {{cacheclusterid.name}}", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.hit_rate_anomaly_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -160,7 +160,7 @@ resource "datadog_monitor" "max_connections" {
 
   name         = join("", [local.title_prefix, "Elasticache max connections reached - {{cacheclusterid.name}}", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.max_connections_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -189,7 +189,7 @@ resource "datadog_monitor" "swap_usage" {
 
   name         = join("", [local.title_prefix, "Elasticache swap usage - {{cacheclusterid.name}} - {{value}}MB", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.swap_usage_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 

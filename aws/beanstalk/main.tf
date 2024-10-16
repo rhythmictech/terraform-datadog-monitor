@@ -17,7 +17,7 @@ locals {
 
   latency_metric = local.latency_metric_map[var.latency_measurement]
 
-  title_prefix = "${var.title_prefix == null ? "" : "[${var.title_prefix}]"}"
+  title_prefix = var.title_prefix == null ? "" : "[${var.title_prefix}]"
   title_suffix = var.title_suffix == null ? "" : " (${var.title_suffix})"
 }
 
@@ -26,7 +26,7 @@ resource "datadog_monitor" "health" {
 
   name         = join("", [local.title_prefix, "Beanstalk Health Events - {{environmentname.name}}", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.health_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "metric alert"
 
@@ -55,7 +55,7 @@ resource "datadog_monitor" "http_5xx_responses" {
 
   name         = join("", [local.title_prefix, "ALB 5xx Responses - {{environmentname.name}}", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.http_5xx_responses_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -85,7 +85,7 @@ resource "datadog_monitor" "latency" {
 
   name         = join("", [local.title_prefix, "Beanstalk Latency - {{environmentname.name}}", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.latency_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -113,7 +113,7 @@ resource "datadog_monitor" "root_disk_usage" {
 
   name         = join("", [local.title_prefix, "Beanstalk Instance Root Disk Usage - {{environmentname.name}}", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.root_disk_usage_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 

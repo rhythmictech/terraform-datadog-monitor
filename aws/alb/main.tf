@@ -4,7 +4,7 @@ locals {
   monitor_warn_default_priority   = null
   monitor_nodata_default_priority = null
 
-  title_prefix = "${var.title_prefix == null ? "" : "[${var.title_prefix}]"}"
+  title_prefix = var.title_prefix == null ? "" : "[${var.title_prefix}]"
   title_suffix = var.title_suffix == null ? "" : " (${var.title_suffix})"
 }
 
@@ -13,7 +13,7 @@ resource "datadog_monitor" "http_5xx_responses" {
 
   name         = join("", [local.title_prefix, "ALB 5xx Responses - {{loadbalancer.name}}", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.http_5xx_responses_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -43,7 +43,7 @@ resource "datadog_monitor" "http_5xx_tg_responses" {
 
   name         = join("", [local.title_prefix, "ALB Target Group 5xx Responses - {{loadbalancer.name}}", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.http_5xx_tg_responses_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -74,7 +74,7 @@ resource "datadog_monitor" "latency" {
 
   name         = join("", [local.title_prefix, "ALB latency - {{loadbalancer.name}} {{value}}s ", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.latency_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -103,7 +103,7 @@ resource "datadog_monitor" "no_healthy_instances" {
 
   name         = join("", [local.title_prefix, "ALB available healthy instances - {{loadbalancer.name}} {{value}}%", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.no_healthy_instances_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 

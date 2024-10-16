@@ -4,7 +4,7 @@ locals {
   monitor_warn_default_priority   = null
   monitor_nodata_default_priority = null
 
-  title_prefix = "${var.title_prefix == null ? "" : "[${var.title_prefix}]"}"
+  title_prefix = var.title_prefix == null ? "" : "[${var.title_prefix}]"
   title_suffix = var.title_suffix == null ? "" : " (${var.title_suffix})"
 }
 
@@ -13,7 +13,7 @@ resource "datadog_monitor" "oldest_message" {
 
   name         = join("", [local.title_prefix, "Oldest queued message - {{queuename.name}}", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.oldest_message_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -42,7 +42,7 @@ resource "datadog_monitor" "queue_depth" {
 
   name         = join("", [local.title_prefix, "Queue depth - {{queuename.name}}", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.queue_depth_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 

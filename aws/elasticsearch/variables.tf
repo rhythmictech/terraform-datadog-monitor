@@ -34,6 +34,12 @@ variable "cluster_health_red_no_data_window" {
   type        = number
 }
 
+variable "cluster_health_red_use_message" {
+  description = "Whether to use the query alert base message for cluster health red monitor"
+  type        = bool
+  default     = true
+}
+
 #######################################
 # ElasticSearch cluster health (yellow)
 ########################################
@@ -53,6 +59,12 @@ variable "cluster_health_yellow_no_data_window" {
   default     = 10
   description = "No data threshold (in minutes, 0 to disable)"
   type        = number
+}
+
+variable "cluster_health_yellow_use_message" {
+  description = "Whether to use the query alert base message for cluster health yellow monitor"
+  type        = bool
+  default     = false
 }
 
 ########################################
@@ -86,6 +98,12 @@ variable "cpu_utilization_threshold_warning" {
   default     = 0.80
   description = "Warning threshold (percent)"
   type        = number
+}
+
+variable "cpu_utilization_use_message" {
+  description = "Whether to use the query alert base message for CPU utilization monitor"
+  type        = bool
+  default     = false
 }
 
 ########################################
@@ -151,6 +169,12 @@ variable "cpu_utilization_anomaly_threshold_warning" {
   type        = number
 }
 
+variable "cpu_utilization_anomaly_use_message" {
+  description = "Whether to use the query alert base message for CPU utilization anomaly monitor"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # ElasticSearch cluster free storage
 ########################################
@@ -182,4 +206,10 @@ variable "free_storage_threshold_warning" {
   default     = 80
   description = "Warning threshold for used disk space (%)"
   type        = number
+}
+
+variable "free_storage_use_message" {
+  description = "Whether to use the query alert base message for free storage monitor"
+  type        = bool
+  default     = true
 }

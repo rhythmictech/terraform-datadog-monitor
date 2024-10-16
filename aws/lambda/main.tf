@@ -4,7 +4,7 @@ locals {
   monitor_warn_default_priority   = null
   monitor_nodata_default_priority = null
 
-  title_prefix = "${var.title_prefix == null ? "" : "[${var.title_prefix}]"}"
+  title_prefix = var.title_prefix == null ? "" : "[${var.title_prefix}]"
   title_suffix = var.title_suffix == null ? "" : " (${var.title_suffix})"
 
   cold_start_query_filter = local.query_filter == "{*}" ? "{cold_start:true}" : replace(local.query_filter, "{", "{cold_star:true,")
@@ -15,7 +15,7 @@ resource "datadog_monitor" "error_rate" {
 
   name         = join("", [local.title_prefix, "Lambda error rate - {{functionname.name}} - {{value}}%", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.error_rate_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -45,7 +45,7 @@ resource "datadog_monitor" "timeouts" {
 
   name         = join("", [local.title_prefix, "Lambda timeouts - {{functionname.name}}", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.timeouts_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -75,7 +75,7 @@ resource "datadog_monitor" "cold_starts" {
 
   name         = join("", [local.title_prefix, "Lambda cold starts - {{functionname.name}}", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.cold_starts_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -105,7 +105,7 @@ resource "datadog_monitor" "out_of_memory" {
 
   name         = join("", [local.title_prefix, "Lambda out of memory - {{functionname.name}}", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.out_of_memory_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -135,7 +135,7 @@ resource "datadog_monitor" "iterator_age" {
 
   name         = join("", [local.title_prefix, "Lambda iterator age - {{functionname.name}}", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.iterator_age_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -164,7 +164,7 @@ resource "datadog_monitor" "iterator_age_forecast" {
 
   name         = join("", [local.title_prefix, "Lambda stream data loss forecasted - {{functionname.name}}", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.iterator_age_forecast_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -192,7 +192,7 @@ resource "datadog_monitor" "throttle_rate" {
 
   name         = join("", [local.title_prefix, "Lambda throttle rate - {{functionname.name}}", local.title_suffix])
   include_tags = false
-  message      = local.query_alert_base_message
+  message      = var.throttle_rate_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 

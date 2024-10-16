@@ -46,6 +46,12 @@ variable "http_5xx_responses_threshold_warning" {
   type        = number
 }
 
+variable "http_5xx_responses_use_message" {
+  description = "Whether to use the query alert base message for HTTP 5xx responses monitor"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # Latency Instances
 ########################################
@@ -77,4 +83,10 @@ variable "latency_threshold_warning" {
   default     = null
   description = "Warning threshold (seconds)"
   type        = number
+}
+
+variable "latency_use_message" {
+  description = "Whether to use the query alert base message for the latency monitor"
+  type        = bool
+  default     = false
 }

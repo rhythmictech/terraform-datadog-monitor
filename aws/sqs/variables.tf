@@ -46,6 +46,12 @@ variable "oldest_message_threshold_warning" {
   type        = number
 }
 
+variable "oldest_message_use_message" {
+  description = "Whether to use the query alert base message for oldest message monitor"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # Lambda queue_depth
 ########################################
@@ -77,4 +83,10 @@ variable "queue_depth_threshold_warning" {
   default     = null
   description = "Warning threshold (count)"
   type        = number
+}
+
+variable "queue_depth_use_message" {
+  description = "Whether to use the query alert base message for queue depth monitor"
+  type        = bool
+  default     = false
 }
