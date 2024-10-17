@@ -286,9 +286,6 @@ END
   query_alert_base_message = <<END
 ${local.alert_context}
 {{#is_alert}}
-Alert: {{alarm_name}} is in a critical state.
-
-Metric: {{metric_name}}
 Current value: {{value}}
 Threshold: {{threshold}}
 
@@ -310,9 +307,8 @@ Please investigate and take necessary actions.
 {{/is_alert}}
 
 {{#is_recovery}}
-Recovery: {{alarm_name}} has returned to a normal state.
+Recovery: Monitor has returned to a normal state.
 
-Metric: {{metric_name}}
 Current value: {{value}}
 Threshold: {{threshold}}
 

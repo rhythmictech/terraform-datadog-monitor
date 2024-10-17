@@ -17,7 +17,7 @@ variable "base_tags" {
 # HTTP 5xx Response Codes (ALB)
 ########################################
 variable "http_5xx_responses_enabled" {
-  default     = false
+  default     = true
   description = "Enable HTTP 5xx response monitor"
   type        = bool
 }
@@ -56,7 +56,7 @@ variable "http_5xx_responses_use_message" {
 # HTTP 5xx Response Codes (Target Group)
 ########################################
 variable "http_5xx_tg_responses_enabled" {
-  default     = false
+  default     = true
   description = "Enable HTTP 5xx response monitor (target group)"
   type        = bool
 }
@@ -95,7 +95,7 @@ variable "http_5xx_tg_responses_use_message" {
 # Latency Instances
 ########################################
 variable "latency_enabled" {
-  default     = false
+  default     = true
   description = "Enable latency monitor"
   type        = bool
 }

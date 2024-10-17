@@ -71,7 +71,7 @@ variable "cluster_health_yellow_use_message" {
 # Node CPU Utilization
 ########################################
 variable "cpu_utilization_enabled" {
-  default     = false
+  default     = true
   description = "Enable CPU utilization monitor"
   type        = bool
 }
