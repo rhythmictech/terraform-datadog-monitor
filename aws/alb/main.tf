@@ -72,7 +72,7 @@ END
 resource "datadog_monitor" "latency" {
   count = var.latency_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "ALB latency - {{loadbalancer.name}} {{value}}s ", local.title_suffix])
+  name         = join("", [local.title_prefix, "ALB latency - {{loadbalancer.name}} {{value}}s", local.title_suffix])
   include_tags = false
   message      = var.latency_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
