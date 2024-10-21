@@ -113,7 +113,7 @@ variable "latency_no_data_window" {
 }
 
 variable "latency_threshold_critical" {
-  default     = null
+  default     = 3
   description = "Critical threshold (seconds)"
   type        = number
 }
