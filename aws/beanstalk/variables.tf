@@ -68,6 +68,12 @@ Warning threshold (
 END
 }
 
+variable "health_use_message" {
+  description = "Whether to use the query alert base message for health monitor"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # HTTP 5xx Responses
 ########################################
@@ -99,6 +105,12 @@ variable "http_5xx_responses_threshold_warning" {
   default     = 25
   description = "Warning threshold (percentage)"
   type        = number
+}
+
+variable "http_5xx_responses_use_message" {
+  description = "Whether to use the query alert base message for HTTP 5xx responses monitor"
+  type        = bool
+  default     = false
 }
 
 ########################################
@@ -153,6 +165,12 @@ variable "latency_threshold_warning" {
   type        = number
 }
 
+variable "latency_use_message" {
+  description = "Whether to use the query alert base message for latency monitor"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # Root FS Disk Usage
 ########################################
@@ -184,4 +202,10 @@ variable "root_disk_usage_threshold_warning" {
   default     = 80
   description = "Warning threshold (percent)"
   type        = number
+}
+
+variable "root_disk_usage_use_message" {
+  description = "Whether to use the query alert base message for root disk usage monitor"
+  type        = bool
+  default     = false
 }

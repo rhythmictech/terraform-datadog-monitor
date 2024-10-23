@@ -46,6 +46,12 @@ variable "agent_status_threshold_warning" {
   type        = number
 }
 
+variable "agent_status_use_message" {
+  description = "Whether to use the query alert base message for agent status monitor"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # Cluster CPU Utilization
 ########################################
@@ -77,6 +83,12 @@ variable "cpu_utilization_threshold_warning" {
   default     = 80
   description = "Warning threshold (percent)"
   type        = number
+}
+
+variable "cpu_utilization_use_message" {
+  description = "Whether to use the query alert base message for CPU utilization monitor"
+  type        = bool
+  default     = false
 }
 
 ########################################
@@ -142,6 +154,12 @@ variable "cpu_utilization_anomaly_threshold_warning" {
   type        = number
 }
 
+variable "cpu_utilization_anomaly_use_message" {
+  description = "Whether to use the query alert base message for CPU utilization anomaly monitor"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # Cluster Memory Reservation
 ########################################
@@ -172,4 +190,10 @@ variable "memory_reservation_threshold_warning" {
   default     = 80
   description = "Warning threshold (percent)"
   type        = number
+}
+
+variable "memory_reservation_use_message" {
+  description = "Whether to use the query alert base message for memory reservation monitor"
+  type        = bool
+  default     = false
 }

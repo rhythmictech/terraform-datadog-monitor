@@ -17,7 +17,7 @@ variable "base_tags" {
 # Connection Rate (anomaly detection)
 ########################################
 variable "connection_count_anomaly_enabled" {
-  default     = false
+  default     = true
   description = "Enable CPU utilization anomaly monitor"
   type        = bool
 }
@@ -65,7 +65,7 @@ variable "connection_count_anomaly_trigger_window" {
 }
 
 variable "connection_count_anomaly_threshold_critical" {
-  default     = null
+  default     = 0.75
   description = "Critical threshold (percent)"
   type        = number
 }
@@ -76,11 +76,17 @@ variable "connection_count_anomaly_threshold_warning" {
   type        = number
 }
 
+variable "connection_count_anomaly_use_message" {
+  description = "Whether to use the query alert base message for connection count anomaly monitor"
+  type        = bool
+  default     = true
+}
+
 ########################################
 # Node CPU Utilization
 ########################################
 variable "cpu_utilization_enabled" {
-  default     = false
+  default     = true
   description = "Enable CPU utilization monitor"
   type        = bool
 }
@@ -107,6 +113,12 @@ variable "cpu_utilization_threshold_warning" {
   default     = 80
   description = "Warning threshold (percent)"
   type        = number
+}
+
+variable "cpu_utilization_use_message" {
+  description = "Whether to use the query alert base message for CPU utilization monitor"
+  type        = bool
+  default     = false
 }
 
 ########################################
@@ -172,6 +184,12 @@ variable "cpu_utilization_anomaly_threshold_warning" {
   type        = number
 }
 
+variable "cpu_utilization_anomaly_use_message" {
+  description = "Whether to use the query alert base message for CPU utilization anomaly monitor"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # ElasticSearch cluster used storage
 ########################################
@@ -203,4 +221,10 @@ variable "used_storage_threshold_warning" {
   default     = 80
   description = "Warning threshold (percentage, 0-100)"
   type        = number
+}
+
+variable "used_storage_use_message" {
+  description = "Whether to use the query alert base message for used storage monitor"
+  type        = bool
+  default     = true
 }

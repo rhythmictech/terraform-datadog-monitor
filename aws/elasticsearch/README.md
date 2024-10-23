@@ -20,7 +20,7 @@ Configures the following for ElasticSearch domains based on tag matches:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_datadog"></a> [datadog](#provider\_datadog) | >= 3.37 |
+| <a name="provider_datadog"></a> [datadog](#provider\_datadog) | 3.37.0 |
 
 ## Modules
 
@@ -45,12 +45,14 @@ No modules.
 | <a name="input_alert_message"></a> [alert\_message](#input\_alert\_message) | Message to prepend to alert notifications | `string` | `"Alert"` | no |
 | <a name="input_alert_nodata_priority"></a> [alert\_nodata\_priority](#input\_alert\_nodata\_priority) | Priority for alerts within warning threshold (P1-P5, uses monitor defaults if not specified) | `string` | `null` | no |
 | <a name="input_base_tags"></a> [base\_tags](#input\_base\_tags) | Base tags (key:value format) to add to this type of check (combined with `local.tags` and `var.additional_tags`, generally you should not change this) | `list(string)` | <pre>[<br>  "resource:elasticsearch"<br>]</pre> | no |
-| <a name="input_cluster_health_red_enabled"></a> [cluster\_health\_red\_enabled](#input\_cluster\_health\_red\_enabled) | Enable cluster health\_red monitor | `bool` | `false` | no |
+| <a name="input_cluster_health_red_enabled"></a> [cluster\_health\_red\_enabled](#input\_cluster\_health\_red\_enabled) | Enable cluster health\_red monitor | `bool` | `true` | no |
 | <a name="input_cluster_health_red_evaluation_window"></a> [cluster\_health\_red\_evaluation\_window](#input\_cluster\_health\_red\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_cluster_health_red_no_data_window"></a> [cluster\_health\_red\_no\_data\_window](#input\_cluster\_health\_red\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
-| <a name="input_cluster_health_yellow_enabled"></a> [cluster\_health\_yellow\_enabled](#input\_cluster\_health\_yellow\_enabled) | Enable cluster health monitor | `bool` | `false` | no |
+| <a name="input_cluster_health_red_use_message"></a> [cluster\_health\_red\_use\_message](#input\_cluster\_health\_red\_use\_message) | Whether to use the query alert base message for cluster health red monitor | `bool` | `true` | no |
+| <a name="input_cluster_health_yellow_enabled"></a> [cluster\_health\_yellow\_enabled](#input\_cluster\_health\_yellow\_enabled) | Enable cluster health monitor | `bool` | `true` | no |
 | <a name="input_cluster_health_yellow_evaluation_window"></a> [cluster\_health\_yellow\_evaluation\_window](#input\_cluster\_health\_yellow\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_cluster_health_yellow_no_data_window"></a> [cluster\_health\_yellow\_no\_data\_window](#input\_cluster\_health\_yellow\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
+| <a name="input_cluster_health_yellow_use_message"></a> [cluster\_health\_yellow\_use\_message](#input\_cluster\_health\_yellow\_use\_message) | Whether to use the query alert base message for cluster health yellow monitor | `bool` | `false` | no |
 | <a name="input_cost_center"></a> [cost\_center](#input\_cost\_center) | Cost Center of the monitored resource (leave blank to omit tag) | `string` | `null` | no |
 | <a name="input_cpu_utilization_anomaly_deviations"></a> [cpu\_utilization\_anomaly\_deviations](#input\_cpu\_utilization\_anomaly\_deviations) | Standard deviations | `number` | `4` | no |
 | <a name="input_cpu_utilization_anomaly_enabled"></a> [cpu\_utilization\_anomaly\_enabled](#input\_cpu\_utilization\_anomaly\_enabled) | Enable CPU utilization anomaly monitor | `bool` | `false` | no |
@@ -62,26 +64,32 @@ No modules.
 | <a name="input_cpu_utilization_anomaly_threshold_critical"></a> [cpu\_utilization\_anomaly\_threshold\_critical](#input\_cpu\_utilization\_anomaly\_threshold\_critical) | Critical threshold (percent) | `number` | `null` | no |
 | <a name="input_cpu_utilization_anomaly_threshold_warning"></a> [cpu\_utilization\_anomaly\_threshold\_warning](#input\_cpu\_utilization\_anomaly\_threshold\_warning) | Warning threshold (percent) | `number` | `null` | no |
 | <a name="input_cpu_utilization_anomaly_trigger_window"></a> [cpu\_utilization\_anomaly\_trigger\_window](#input\_cpu\_utilization\_anomaly\_trigger\_window) | Trigger window for anomaly monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_1h"` | no |
+| <a name="input_cpu_utilization_anomaly_use_message"></a> [cpu\_utilization\_anomaly\_use\_message](#input\_cpu\_utilization\_anomaly\_use\_message) | Whether to use the query alert base message for CPU utilization anomaly monitor | `bool` | `false` | no |
 | <a name="input_cpu_utilization_enabled"></a> [cpu\_utilization\_enabled](#input\_cpu\_utilization\_enabled) | Enable CPU utilization monitor | `bool` | `false` | no |
 | <a name="input_cpu_utilization_evaluation_window"></a> [cpu\_utilization\_evaluation\_window](#input\_cpu\_utilization\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_cpu_utilization_no_data_window"></a> [cpu\_utilization\_no\_data\_window](#input\_cpu\_utilization\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
 | <a name="input_cpu_utilization_threshold_critical"></a> [cpu\_utilization\_threshold\_critical](#input\_cpu\_utilization\_threshold\_critical) | Critical threshold (percent) | `number` | `0.9` | no |
 | <a name="input_cpu_utilization_threshold_warning"></a> [cpu\_utilization\_threshold\_warning](#input\_cpu\_utilization\_threshold\_warning) | Warning threshold (percent) | `number` | `0.8` | no |
+| <a name="input_cpu_utilization_use_message"></a> [cpu\_utilization\_use\_message](#input\_cpu\_utilization\_use\_message) | Whether to use the query alert base message for CPU utilization monitor | `bool` | `false` | no |
 | <a name="input_dashboard_link"></a> [dashboard\_link](#input\_dashboard\_link) | Dashboard link to include in message | `string` | `null` | no |
-| <a name="input_env"></a> [env](#input\_env) | Environment the monitored resource is in (leave blank to omit tag) | `string` | n/a | yes |
+| <a name="input_env"></a> [env](#input\_env) | Environment the monitored resource is in (leave blank to omit tag) | `string` | `null` | no |
 | <a name="input_evaluation_delay"></a> [evaluation\_delay](#input\_evaluation\_delay) | Monitor evaluation delay (see [https://docs.datadoghq.com/monitors/configuration/?tab=thresholdalert#set-alert-conditions](Datadog Docs)) | `number` | `900` | no |
-| <a name="input_free_storage_enabled"></a> [free\_storage\_enabled](#input\_free\_storage\_enabled) | Enable free storage monitor | `bool` | `false` | no |
+| <a name="input_free_storage_enabled"></a> [free\_storage\_enabled](#input\_free\_storage\_enabled) | Enable free storage monitor | `bool` | `true` | no |
 | <a name="input_free_storage_evaluation_window"></a> [free\_storage\_evaluation\_window](#input\_free\_storage\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_free_storage_no_data_window"></a> [free\_storage\_no\_data\_window](#input\_free\_storage\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
-| <a name="input_free_storage_threshold_critical"></a> [free\_storage\_threshold\_critical](#input\_free\_storage\_threshold\_critical) | Critical threshold (GB) | `number` | `null` | no |
-| <a name="input_free_storage_threshold_warning"></a> [free\_storage\_threshold\_warning](#input\_free\_storage\_threshold\_warning) | Warning threshold (GB) | `number` | `null` | no |
+| <a name="input_free_storage_threshold_critical"></a> [free\_storage\_threshold\_critical](#input\_free\_storage\_threshold\_critical) | Critical threshold for used disk space (%) | `number` | `90` | no |
+| <a name="input_free_storage_threshold_warning"></a> [free\_storage\_threshold\_warning](#input\_free\_storage\_threshold\_warning) | Warning threshold for used disk space (%) | `number` | `80` | no |
+| <a name="input_free_storage_use_message"></a> [free\_storage\_use\_message](#input\_free\_storage\_use\_message) | Whether to use the query alert base message for free storage monitor | `bool` | `true` | no |
 | <a name="input_monitor_exclude_tags"></a> [monitor\_exclude\_tags](#input\_monitor\_exclude\_tags) | Tags to be excluded in the monitoring query. Specify in key:value format | `list(string)` | `[]` | no |
 | <a name="input_monitor_include_tags"></a> [monitor\_include\_tags](#input\_monitor\_include\_tags) | Tags to be included in the monitoring query. Specify in key:value format | `list(string)` | `[]` | no |
 | <a name="input_new_group_delay"></a> [new\_group\_delay](#input\_new\_group\_delay) | Delay in seconds before generating alerts for a new resource | `number` | `300` | no |
 | <a name="input_notify_alert_override"></a> [notify\_alert\_override](#input\_notify\_alert\_override) | List of notifications for alerts in critical threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
+| <a name="input_notify_crit_override"></a> [notify\_crit\_override](#input\_notify\_crit\_override) | List of notifications for 24x7 alerts in critical threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_notify_default"></a> [notify\_default](#input\_notify\_default) | List of alert notifications (can be overridden based on alert type) | `list(string)` | n/a | yes |
 | <a name="input_notify_no_data"></a> [notify\_no\_data](#input\_notify\_no\_data) | Alert if no matching data is found | `bool` | `false` | no |
 | <a name="input_notify_nodata_override"></a> [notify\_nodata\_override](#input\_notify\_nodata\_override) | List of notifications for no data (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
+| <a name="input_notify_nonprod_override"></a> [notify\_nonprod\_override](#input\_notify\_nonprod\_override) | List of notifications for non-prod alerts in critical threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
+| <a name="input_notify_prod_override"></a> [notify\_prod\_override](#input\_notify\_prod\_override) | List of notifications for 12x5 prod alerts in critical threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_notify_recovery_override"></a> [notify\_recovery\_override](#input\_notify\_recovery\_override) | List of notifications for alert recovery (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_notify_warn_override"></a> [notify\_warn\_override](#input\_notify\_warn\_override) | List of notifications for alerts in warning threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_renotify_interval"></a> [renotify\_interval](#input\_renotify\_interval) | Interval in minutes to re-send notifications about an alert | `number` | `0` | no |

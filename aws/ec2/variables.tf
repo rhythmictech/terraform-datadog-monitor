@@ -34,6 +34,12 @@ variable "status_failed_check_no_data_window" {
   type        = number
 }
 
+variable "status_failed_check_use_message" {
+  description = "Whether to use the query alert base message for ec2 instance status check monitor"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # Instance status check
 ########################################
@@ -53,6 +59,12 @@ variable "status_failed_instance_no_data_window" {
   default     = 10
   description = "No data threshold (in minutes, 0 to disable)"
   type        = number
+}
+
+variable "status_failed_instance_use_message" {
+  description = "Whether to use the query alert base message for instance status check monitor"
+  type        = bool
+  default     = false
 }
 
 #####################################
@@ -76,6 +88,12 @@ variable "status_failed_system_no_data_window" {
   type        = number
 }
 
+variable "status_failed_system_use_message" {
+  description = "Whether to use the query alert base message for instance system failure monitor"
+  type        = bool
+  default     = false
+}
+
 #####################################
 # Attached volume status check
 ########################################
@@ -95,4 +113,10 @@ variable "status_failed_volume_no_data_window" {
   default     = 10
   description = "No data threshold (in minutes, 0 to disable)"
   type        = number
+}
+
+variable "status_failed_volume_use_message" {
+  description = "Whether to use the query alert base message for attached volume status monitor"
+  type        = bool
+  default     = false
 }

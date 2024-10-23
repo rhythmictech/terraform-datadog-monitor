@@ -17,7 +17,7 @@ variable "base_tags" {
 # HTTP 5xx Response Codes (ALB)
 ########################################
 variable "http_5xx_responses_enabled" {
-  default     = false
+  default     = true
   description = "Enable HTTP 5xx response monitor"
   type        = bool
 }
@@ -46,11 +46,17 @@ variable "http_5xx_responses_threshold_warning" {
   type        = number
 }
 
+variable "http_5xx_responses_use_message" {
+  description = "Whether to use the query alert base message"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # HTTP 5xx Response Codes (Target Group)
 ########################################
 variable "http_5xx_tg_responses_enabled" {
-  default     = false
+  default     = true
   description = "Enable HTTP 5xx response monitor (target group)"
   type        = bool
 }
@@ -79,11 +85,17 @@ variable "http_5xx_tg_responses_threshold_warning" {
   type        = number
 }
 
+variable "http_5xx_tg_responses_use_message" {
+  description = "Whether to use the query alert base message"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # Latency Instances
 ########################################
 variable "latency_enabled" {
-  default     = false
+  default     = true
   description = "Enable latency monitor"
   type        = bool
 }
@@ -101,7 +113,7 @@ variable "latency_no_data_window" {
 }
 
 variable "latency_threshold_critical" {
-  default     = null
+  default     = 3
   description = "Critical threshold (seconds)"
   type        = number
 }
@@ -110,6 +122,12 @@ variable "latency_threshold_warning" {
   default     = null
   description = "Warning threshold (seconds)"
   type        = number
+}
+
+variable "latency_use_message" {
+  description = "Whether to use the query alert base message"
+  type        = bool
+  default     = false
 }
 
 ########################################
@@ -143,4 +161,10 @@ variable "no_healthy_instances_threshold_warning" {
   default     = null
   description = "Warning threshold (percentage)"
   type        = number
+}
+
+variable "no_healthy_instances_use_message" {
+  description = "Whether to use the query alert base message"
+  type        = bool
+  default     = true
 }

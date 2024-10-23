@@ -10,6 +10,7 @@ variable "cost_center" {
 }
 
 variable "env" {
+  default     = null
   description = "Environment the monitored resource is in (leave blank to omit tag)"
   type        = string
 }
@@ -160,6 +161,24 @@ variable "notify_recovery_override" {
   type        = list(string)
 }
 
+variable "notify_crit_override" {
+  default     = []
+  description = "List of notifications for 24x7 alerts in critical threshold (uses `notify_default` otherwise)"
+  type        = list(string)
+}
+
+variable "notify_nonprod_override" {
+  default     = []
+  description = "List of notifications for non-prod alerts in critical threshold (uses `notify_default` otherwise)"
+  type        = list(string)
+}
+
+variable "notify_prod_override" {
+  default     = []
+  description = "List of notifications for 12x5 prod alerts in critical threshold (uses `notify_default` otherwise)"
+  type        = list(string)
+}
+
 locals {
 
   # tag related locals
@@ -213,14 +232,17 @@ locals {
     var.runbook_link != null ? ["**Runbook**: ${var.runbook_link}"] : []
   ))
 
-  alert_priority  = coalesce(var.alert_critical_priority, local.monitor_alert_default_priority, "P2")
-  warn_priority   = coalesce(var.alert_critical_priority, local.monitor_warn_default_priority, "P2")
-  nodata_priority = coalesce(var.alert_critical_priority, local.monitor_nodata_default_priority, "P2")
+  alert_priority  = coalesce(var.alert_critical_priority, "P2")
+  warn_priority   = coalesce(var.warn_priority, "P2")
+  nodata_priority = coalesce(var.alert_nodata_priority, "P2")
 
   notify_on_alert    = join(" ", coalescelist(var.notify_alert_override, var.notify_default))
   notify_on_warn     = join(" ", coalescelist(var.notify_warn_override, var.notify_default))
   notify_on_nodata   = join(" ", coalescelist(var.notify_nodata_override, var.notify_default))
   notify_on_recovery = join(" ", coalescelist(var.notify_recovery_override, var.notify_default))
+  notify_on_crit     = join(" ", coalescelist(var.notify_crit_override, var.notify_default))
+  notify_on_nonprod  = join(" ", coalescelist(var.notify_nonprod_override, var.notify_default))
+  notify_on_prod     = join(" ", coalescelist(var.notify_prod_override, var.notify_default))
 
   log_alert_base_message = <<END
 ${local.alert_context}
@@ -232,29 +254,80 @@ ${local.alert_context}
 * **Message**: {{log.message}}
 * **Direct Link**: {{log.link}}
 {{#is_alert}}
-{{override_priority '${local.alert_priority}'}}
-${local.notify_on_alert}
+{{#is_match "env.name" "prod"}}
+  {{#is_match "datadog_managed" "critical"}}
+    ${local.notify_on_crit}
+  {{/is_match}}
+  {{#is_match "datadog_managed" "true"}}
+    ${local.notify_on_prod}
+  {{/is_match}}
+{{/is_match}}
+{{^is_match "env.name" "prod"}}
+    ${local.notify_on_nonprod}
+  {{/is_match}}
+{{/is_match}}
 {{/is_alert}}
-{{#is_warning}}
-{{override_priority '${local.warn_priority}'}}
-${local.notify_on_warn}
-{{/is_warning}}
-{{#is_no_data}}
-{{override_priority '${local.nodata_priority}'}}
-${local.notify_on_nodata}
-{{/is_no_data}}
 {{#is_recovery}}
-${local.notify_on_recovery}
+{{#is_match "env.name" "prod"}}
+  {{#is_match "datadog_managed" "critical"}}
+    ${local.notify_on_crit}
+  {{/is_match}}
+  {{#is_match "datadog_managed" "true"}}
+    ${local.notify_on_prod}
+  {{/is_match}}
+{{/is_match}}
+{{^is_match "env.name" "prod"}}
+    ${local.notify_on_nonprod}
+  {{/is_match}}
+{{/is_match}}
 {{/is_recovery}}
 END
 
   query_alert_base_message = <<END
 ${local.alert_context}
-**Alert Information**
-{{#is_alert}} ${local.notify_on_alert} {{/is_alert}}
-{{#is_warning}} ${local.notify_on_warn} {{/is_warning}}
-{{#is_no_data}} ${local.notify_on_nodata} {{/is_no_data}}
-{{#is_recovery}} ${local.notify_on_recovery} {{/is_recovery}}
+{{#is_alert}}
+Current value: {{value}}
+Threshold: {{threshold}}
+
+Environment: {{env.name}}
+
+  {{#is_match "env.name" "prod"}}
+    {{#is_match "datadog_managed" "critical"}}
+      ${local.notify_on_crit}
+    {{/is_match}}
+    {{#is_match "datadog_managed" "true"}}
+      ${local.notify_on_prod}
+    {{/is_match}}
+  {{/is_match}}
+  {{^is_match "env.name" "prod"}}
+      ${local.notify_on_nonprod}
+  {{/is_match}}
+
+Please investigate and take necessary actions.
+{{/is_alert}}
+
+{{#is_recovery}}
+Recovery: Monitor has returned to a normal state.
+
+Current value: {{value}}
+Threshold: {{threshold}}
+
+Environment: {{env.name}}
+
+No further action is required.
+
+  {{#is_match "env.name" "prod"}}
+    {{#is_match "datadog_managed" "critical"}}
+      ${local.notify_on_crit}
+    {{/is_match}}
+    {{#is_match "datadog_managed" "true"}}
+      ${local.notify_on_prod}
+    {{/is_match}}
+  {{/is_match}}
+  {{^is_match "env.name" "prod"}}
+      ${local.notify_on_nonprod}
+  {{/is_match}}
+{{/is_recovery}}
 END
 
   synthetic_alert_base_message = <<END

@@ -12,7 +12,7 @@ resource "datadog_monitor" "tunnel_state" {
   count = var.tunnel_state_enabled ? 1 : 0
 
   name         = join("", [local.title_prefix, "VPN tunnel state - {{host.name}}", local.title_suffix])
-  include_tags = true
+  include_tags = false
   message      = local.query_alert_base_message
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
@@ -27,7 +27,7 @@ resource "datadog_monitor" "tunnel_state" {
 
   query = <<END
     min(${var.tunnel_state_evaluation_window}):(
-      min:aws.vpn.tunnel_state${local.query_filter} by {tunnelipaddress,region}
+      min:aws.vpn.tunnel_state${local.query_filter} by {tunnelipaddress,region,env,datadog_managed}
     ) <= 0
 END
 

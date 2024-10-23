@@ -46,6 +46,12 @@ variable "cpu_utilization_threshold_warning" {
   type        = number
 }
 
+variable "cpu_utilization_use_message" {
+  description = "Whether to use the query alert base message for CPU utilization monitor"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # CPU Utilization (anomaly detection)
 ########################################
@@ -109,6 +115,12 @@ variable "cpu_utilization_anomaly_threshold_warning" {
   type        = number
 }
 
+variable "cpu_utilization_anomaly_use_message" {
+  description = "Whether to use the query alert base message for CPU utilization anomaly monitor"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # Elasticache Evictions
 ########################################
@@ -142,6 +154,12 @@ variable "evictions_threshold_warning" {
   type        = number
 }
 
+variable "evictions_use_message" {
+  description = "Whether to use the query alert base message for evictions monitor"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # Cache hit rate
 ########################################
@@ -173,6 +191,12 @@ variable "hit_rate_threshold_warning" {
   default     = null
   description = "Warning threshold (percentage)"
   type        = number
+}
+
+variable "hit_rate_use_message" {
+  description = "Whether to use the query alert base message for hit rate monitor"
+  type        = bool
+  default     = false
 }
 
 ########################################
@@ -214,6 +238,12 @@ variable "hit_rate_anomaly_threshold_critical" {
   type        = number
 }
 
+variable "hit_rate_anomaly_use_message" {
+  description = "Whether to use the query alert base message for hit rate anomaly monitor"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # Max Connections
 ########################################
@@ -247,6 +277,12 @@ variable "max_connections_threshold_warning" {
   type        = number
 }
 
+variable "max_connections_use_message" {
+  description = "Whether to use the query alert base message for max connections monitor"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # Swap usage (by node)
 ########################################
@@ -278,4 +314,10 @@ variable "swap_usage_threshold_warning" {
   default     = null
   description = "Warning threshold (bytes)"
   type        = number
+}
+
+variable "swap_usage_use_message" {
+  description = "Whether to use the query alert base message for swap usage monitor"
+  type        = bool
+  default     = false
 }

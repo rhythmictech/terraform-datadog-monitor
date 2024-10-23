@@ -5,7 +5,7 @@ locals {
   monitor_warn_default_priority   = null
   monitor_nodata_default_priority = null
 
-  title_prefix = "${var.title_prefix == null ? "" : "[${var.title_prefix}]"}"
+  title_prefix = var.title_prefix == null ? "" : "[${var.title_prefix}]"
   title_suffix = var.title_suffix == null ? "" : " (${var.title_suffix})"
 }
 
@@ -13,8 +13,8 @@ resource "datadog_monitor" "running_tasks" {
   count = var.running_tasks_enabled ? 1 : 0
 
   name         = join("", [local.title_prefix, "ECS service failed tasks - {{servicename.name}}", local.title_suffix])
-  include_tags = true
-  message      = local.query_alert_base_message
+  include_tags = false
+  message      = var.running_tasks_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -28,8 +28,8 @@ resource "datadog_monitor" "running_tasks" {
 
   query = <<END
     min(${var.running_tasks_evaluation_window}):(
-      avg:aws.ecs.service.running${local.query_filter} by {servicename,region,aws_account,env} /
-      avg:aws.ecs.service.desired${local.query_filter} by {servicename,region,aws_account,env}
+      avg:aws.ecs.service.running${local.query_filter} by {servicename,region,aws_account,env,datadog_managed} /
+      avg:aws.ecs.service.desired${local.query_filter} by {servicename,region,aws_account,env,datadog_managed}
     ) <= ${var.running_tasks_threshold_critical}
 END
 
@@ -43,8 +43,8 @@ resource "datadog_monitor" "cpu_utilization" {
   count = var.cpu_utilization_enabled ? 1 : 0
 
   name         = join("", [local.title_prefix, "ECS Service CPU Utilization - {{servicename.name}} - {{value}}%", local.title_suffix])
-  include_tags = true
-  message      = local.query_alert_base_message
+  include_tags = false
+  message      = var.cpu_utilization_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -58,7 +58,7 @@ resource "datadog_monitor" "cpu_utilization" {
 
   query = <<END
     avg(${var.cpu_utilization_evaluation_window}):
-      avg:aws.ecs.cpuutilization${local.query_filter} by {servicename,region,aws_account,env}
+      avg:aws.ecs.cpuutilization${local.query_filter} by {servicename,region,aws_account,env,datadog_managed}
     >= ${var.cpu_utilization_threshold_critical}
 END
 
@@ -72,8 +72,8 @@ resource "datadog_monitor" "cpu_utilization_anomaly" {
   count = var.cpu_utilization_anomaly_enabled ? 1 : 0
 
   name         = join("", [local.title_prefix, "ECS service CPU utilization anomalous activity - {{servicename.name}}", local.title_suffix])
-  include_tags = true
-  message      = local.query_alert_base_message
+  include_tags = false
+  message      = var.cpu_utilization_anomaly_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -87,7 +87,7 @@ resource "datadog_monitor" "cpu_utilization_anomaly" {
 
   query = <<END
     avg(${var.cpu_utilization_anomaly_evaluation_window}):anomalies(
-      avg:aws.ecs.cpuutilization${local.query_filter} by {servicename,region,aws_account,env}, 'agile', ${var.cpu_utilization_anomaly_deviations},
+      avg:aws.ecs.cpuutilization${local.query_filter} by {servicename,region,aws_account,env,datadog_managed}, 'agile', ${var.cpu_utilization_anomaly_deviations},
       direction='above', count_default_zero='true', interval=${var.cpu_utilization_anomaly_rollup},
       seasonality='${var.cpu_utilization_anomaly_seasonality}'
     ) >= ${var.cpu_utilization_anomaly_threshold_critical}
@@ -108,8 +108,8 @@ resource "datadog_monitor" "memory_utilization" {
   count = var.memory_utilization_enabled ? 1 : 0
 
   name         = join("", [local.title_prefix, "ECS Service memory utilization - {{servicename.name}} - {{value}}%", local.title_suffix])
-  include_tags = true
-  message      = local.query_alert_base_message
+  include_tags = false
+  message      = var.memory_utilization_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
   type         = "query alert"
 
@@ -123,7 +123,7 @@ resource "datadog_monitor" "memory_utilization" {
 
   query = <<END
     min(${var.memory_utilization_evaluation_window}):
-      avg:aws.ecs.memory_utilization${local.query_filter} by {servicename,region,aws_account,env}
+      avg:aws.ecs.memory_utilization${local.query_filter} by {servicename,region,aws_account,env,datadog_managed}
     >= ${var.memory_utilization_threshold_critical}
 END
 

@@ -17,7 +17,7 @@ variable "base_tags" {
 # Fargate Agent Status
 ########################################
 variable "fargate_check_enabled" {
-  default     = false
+  default     = true
   description = "Enable Fargate check monitor"
   type        = bool
 }
@@ -52,6 +52,12 @@ variable "fargate_check_threshold_warning" {
   type        = number
 }
 
+variable "fargate_check_use_message" {
+  description = "Whether to use the query alert base message for Fargate check monitor"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # Fargate Task CPU Utilization
 ########################################
@@ -83,6 +89,12 @@ variable "cpu_utilization_threshold_warning" {
   default     = 80
   description = "Warning threshold (percent)"
   type        = number
+}
+
+variable "cpu_utilization_use_message" {
+  description = "Whether to use the query alert base message for CPU utilization monitor"
+  type        = bool
+  default     = false
 }
 
 ########################################
@@ -148,6 +160,12 @@ variable "cpu_utilization_anomaly_threshold_warning" {
   type        = number
 }
 
+variable "cpu_utilization_anomaly_use_message" {
+  description = "Whether to use the query alert base message for CPU utilization anomaly monitor"
+  type        = bool
+  default     = false
+}
+
 ########################################
 # Fargate Task Memory Reservation
 ########################################
@@ -178,4 +196,10 @@ variable "memory_utilization_threshold_warning" {
   default     = 80
   description = "Warning threshold (percent)"
   type        = number
+}
+
+variable "memory_utilization_use_message" {
+  description = "Whether to use the query alert base message for memory utilization monitor"
+  type        = bool
+  default     = false
 }

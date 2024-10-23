@@ -17,7 +17,7 @@ variable "base_tags" {
 # ECS service running tasks
 ########################################
 variable "running_tasks_enabled" {
-  default     = false
+  default     = true
   description = "Enable running tasks monitor"
   type        = bool
 }
@@ -35,7 +35,7 @@ variable "running_tasks_no_data_window" {
 }
 
 variable "running_tasks_threshold_critical" {
-  default     = 0.25
+  default     = 0.50
   description = "Critical threshold (percentage)"
   type        = number
 }
@@ -46,11 +46,17 @@ variable "running_tasks_threshold_warning" {
   type        = number
 }
 
+variable "running_tasks_use_message" {
+  description = "Whether to use the query alert base message for running tasks monitor"
+  type        = bool
+  default     = true
+}
+
 ########################################
 # Service CPU Utilization
 ########################################
 variable "cpu_utilization_enabled" {
-  default     = false
+  default     = true
   description = "Enable Fargate task CPU utilization monitor"
   type        = bool
 }
@@ -77,6 +83,12 @@ variable "cpu_utilization_threshold_warning" {
   default     = 80
   description = "Warning threshold (percent)"
   type        = number
+}
+
+variable "cpu_utilization_use_message" {
+  description = "Whether to use the query alert base message for CPU utilization monitor"
+  type        = bool
+  default     = false
 }
 
 ########################################
@@ -131,7 +143,7 @@ variable "cpu_utilization_anomaly_trigger_window" {
 }
 
 variable "cpu_utilization_anomaly_threshold_critical" {
-  default     = null
+  default     = 0.75
   description = "Critical threshold (percent)"
   type        = number
 }
@@ -140,6 +152,13 @@ variable "cpu_utilization_anomaly_threshold_warning" {
   default     = null
   description = "Warning threshold (percent)"
   type        = number
+}
+
+
+variable "cpu_utilization_anomaly_use_message" {
+  description = "Whether to use the query alert base message for CPU utilization anomaly monitor"
+  type        = bool
+  default     = false
 }
 
 ########################################
@@ -172,4 +191,10 @@ variable "memory_utilization_threshold_warning" {
   default     = 0.80
   description = "Warning threshold (percent)"
   type        = number
+}
+
+variable "memory_utilization_use_message" {
+  description = "Whether to use the query alert base message for memory utilization monitor"
+  type        = bool
+  default     = false
 }
