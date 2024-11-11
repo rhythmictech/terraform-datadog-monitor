@@ -89,13 +89,13 @@ variable "cpu_utilization_evaluation_window" {
 }
 
 variable "cpu_utilization_threshold_critical" {
-  default     = 0.90
+  default     = 90
   description = "Critical threshold (percent)"
   type        = number
 }
 
 variable "cpu_utilization_threshold_warning" {
-  default     = 0.80
+  default     = 80
   description = "Warning threshold (percent)"
   type        = number
 }

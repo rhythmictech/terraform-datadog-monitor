@@ -21,3 +21,9 @@ variable "host_unreachable_enabled" {
   description = "Flag to enable Host unreachable monitor"
   type        = bool
 }
+
+variable "host_unreachable_use_message" {
+  default     = true
+  description = "Flag to enable Host unreachable alerting"
+  type        = bool
+}

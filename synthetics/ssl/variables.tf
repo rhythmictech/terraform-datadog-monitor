@@ -42,7 +42,7 @@ variable "ssl_synthetic_port" {
 variable "ssl_synthetic_days_to_expiration" {
   description = "Number of Days till certificate expiration for SSL Synthetic Test to alert."
   type        = number
-  default     = 7
+  default     = 30
 }
 
 variable "ssl_synthetic_min_tls_version" {
@@ -57,14 +57,32 @@ variable "ssl_synthetic_max_response_time" {
   default     = 2000
 }
 
+variable "ssl_synthetic_renotify_interval" {
+  description = "How often SSL Synthetic Test should renotify in minutes."
+  type        = number
+  default     = 10080
+}
+
 variable "ssl_synthetic_tick_every" {
   description = "How often SSL Synthetic Test should run in seconds."
   type        = number
-  default     = 900
+  default     = 86400
 }
 
 variable "ssl_synthetic_accept_self_signed" {
   description = "Whether or not SSL Synthetic Test should allow self signed certificates."
   type        = bool
+  default     = false
+}
+
+variable "ssl_synthetic_tls_check_enabled" {
+  type        = bool
+  description = "Enable TLS version checking in the synthetic test"
+  default     = false
+}
+
+variable "ssl_synthetic_response_time_check_enabled" {
+  type        = bool
+  description = "Enable response time checking in the synthetic test"
   default     = false
 }

@@ -46,6 +46,12 @@ variable "disk_space_threshold_critical" {
   default     = 90
 }
 
+variable "disk_space_use_message" {
+  description = "Flag to enable Free diskspace alerting"
+  type        = string
+  default     = "true"
+}
+
 ########################################
 # Disk Space Forecast
 ########################################
@@ -115,6 +121,12 @@ variable "disk_space_forecast_threshold_critical" {
   default     = 80
 }
 
+variable "disk_space_forecast_use_message" {
+  description = "Flag to enable Free diskspace forecast alerting"
+  type        = string
+  default     = "false"
+}
+
 ########################################
 # Disk Inodes
 ########################################
@@ -146,4 +158,10 @@ variable "disk_inodes_threshold_critical" {
   description = "Free disk space critical threshold"
   type        = number
   default     = 95
+}
+
+variable "disk_inodes_use_message" {
+  description = "Flag to enable Free disk inodes alerting"
+  type        = string
+  default     = "true"
 }

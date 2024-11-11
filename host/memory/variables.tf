@@ -45,3 +45,9 @@ variable "memory_threshold_critical" {
   type        = number
   default     = 5
 }
+
+variable "memory_use_message" {
+  description = "Flag to enable Free memory alerting"
+  type        = string
+  default     = "true"
+}

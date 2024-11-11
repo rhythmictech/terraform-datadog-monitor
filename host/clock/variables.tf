@@ -21,3 +21,9 @@ variable "system_clock_enabled" {
   description = "Flag to enable Host unreachable monitor"
   type        = bool
 }
+
+variable "system_clock_use_message" {
+  default     = false
+  description = "Flag to enable Host unreachable alerting"
+  type        = bool
+}

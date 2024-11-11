@@ -45,3 +45,9 @@ variable "swap_threshold_critical" {
   type        = number
   default     = 0.1
 }
+
+variable "swap_use_message" {
+  description = "Flag to enable Swap alerting"
+  type        = string
+  default     = "false"
+}

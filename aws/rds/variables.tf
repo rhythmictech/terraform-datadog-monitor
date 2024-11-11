@@ -23,7 +23,7 @@ variable "connection_count_anomaly_enabled" {
 }
 
 variable "connection_count_anomaly_evaluation_window" {
-  default     = "last_1h"
+  default     = "last_4h"
   description = "Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`]"
   type        = string
 }
