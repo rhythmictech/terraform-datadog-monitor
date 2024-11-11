@@ -51,3 +51,9 @@ variable "cpu_utilization_threshold_warning" {
   description = "Warning threshold (percent)"
   type        = number
 }
+
+variable "cpu_utilization_use_message" {
+  default     = false
+  description = "Flag to enable CPU Utilitzation alerting"
+  type        = bool
+}

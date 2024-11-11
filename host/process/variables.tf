@@ -51,3 +51,9 @@ variable "process_alert_operator" {
   type        = string
   default     = "<"
 }
+
+variable "process_alert_use_message" {
+  description = "Flag to enable Process Check alerting"
+  type        = string
+  default     = "true"
+}
