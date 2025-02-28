@@ -6,6 +6,9 @@ locals {
 
   title_prefix = var.title_prefix == null ? "" : "[${var.title_prefix}]"
   title_suffix = var.title_suffix == null ? "" : " (${var.title_suffix})"
+  
+  # Add permanent filter for /dev/loop* volumes
+  query_filter_with_loop_exclusion = replace(local.query_filter, "}", ",!device:/dev/loop*}")
 }
 
 resource "datadog_monitor" "disk_space" {
@@ -26,7 +29,7 @@ resource "datadog_monitor" "disk_space" {
 
   query = <<EOQ
     ${var.disk_space_time_aggregator}(${var.disk_space_timeframe}):
-      avg:system.disk.in_use${local.query_filter} by {name,aws_account,device,env,datadog_managed}
+      avg:system.disk.in_use${local.query_filter_with_loop_exclusion} by {name,aws_account,device,env,datadog_managed}
     * 100 > ${var.disk_space_threshold_critical}
   EOQ
 
@@ -82,7 +85,7 @@ resource "datadog_monitor" "disk_inodes" {
 
   query = <<EOQ
     ${var.disk_inodes_time_aggregator}(${var.disk_inodes_timeframe}):
-      avg:system.fs.inodes.in_use${local.query_filter} by {name,aws_account,device,env,datadog_managed}
+      avg:system.fs.inodes.in_use${local.query_filter_with_loop_exclusion} by {name,aws_account,device,env,datadog_managed}
     * 100 > ${var.disk_inodes_threshold_critical}
   EOQ
 
