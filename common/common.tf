@@ -64,7 +64,7 @@ variable "notify_no_data" {
 }
 
 variable "renotify_interval" {
-  default     = 0
+  default     = 60
   description = "Interval in minutes to re-send notifications about an alert"
   type        = number
 }
