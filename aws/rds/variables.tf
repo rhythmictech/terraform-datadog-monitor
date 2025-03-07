@@ -13,6 +13,12 @@ variable "base_tags" {
   type        = list(string)
 }
 
+variable "db_type" {
+  default     = "mysql"
+  description = "Database type (mysql, aurora)"
+  type        = string
+}
+
 ########################################
 # Connection Rate (anomaly detection)
 ########################################
@@ -217,9 +223,21 @@ variable "used_storage_threshold_critical" {
   type        = number
 }
 
+variable "used_storage_aurora_threshold_critical" {
+  default     = 1
+  description = "Critical threshold for GB storage available forAurora RDS instances (in GB)"
+  type        = number
+}
+
 variable "used_storage_threshold_warning" {
   default     = 80
   description = "Warning threshold (percentage, 0-100)"
+  type        = number
+}
+
+variable "used_storage_aurora_threshold_warning" {
+  default     = 5
+  description = "Warning threshold for GB storage available forAurora RDS instances (in GB)"
   type        = number
 }
 

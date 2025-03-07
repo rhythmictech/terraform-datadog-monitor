@@ -110,7 +110,7 @@ END
 }
 
 resource "datadog_monitor" "used_storage" {
-  count = var.used_storage_enabled ? 1 : 0
+  count = (var.used_storage_enabled && var.db_type != "aurora") ? 1 : 0
 
   name         = join("", [local.title_prefix, "RDS instance storage - {{dbinstanceidentifier.name}} - {{value}}% used", local.title_suffix])
   include_tags = false
@@ -138,5 +138,34 @@ END
   monitor_thresholds {
     critical = var.used_storage_threshold_critical
     warning  = var.used_storage_threshold_warning
+  }
+}
+
+resource "datadog_monitor" "used_storage_aurora" {
+  count = (var.used_storage_enabled && var.db_type == "aurora") ? 1 : 0
+
+  name         = join("", [local.title_prefix, "RDS Aurora instance storage - {{dbinstanceidentifier.name}} - {{value}} GB available", local.title_suffix])
+  include_tags = false
+  message      = var.used_storage_use_message ? local.query_alert_base_message : ""
+  tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
+  type         = "query alert"
+
+  evaluation_delay    = var.evaluation_delay
+  new_group_delay     = var.new_group_delay
+  notify_no_data      = var.notify_no_data
+  no_data_timeframe   = var.used_storage_no_data_window
+  renotify_interval   = var.renotify_interval
+  require_full_window = true
+  timeout_h           = var.timeout_h
+
+  query = <<END
+    max(${var.used_storage_evaluation_window}):(
+      default(avg:aws.rds.free_local_storage${local.query_filter} by {dbinstanceidentifier,region,aws_account,env,datadog_managed}, 0) /
+    ) <= ${var.used_storage_aurora_threshold_critical}
+END
+
+  monitor_thresholds {
+    critical = var.used_storage_aurora_threshold_critical
+    warning  = var.used_storage_aurora_threshold_warning
   }
 }
