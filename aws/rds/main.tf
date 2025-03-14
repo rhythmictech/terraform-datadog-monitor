@@ -1,11 +1,17 @@
 locals {
   # these must be defined but do not need to be overridden
-  monitor_alert_default_priority  = null
-  monitor_warn_default_priority   = null
+  # tflint-ignore: terraform_unused_declarations
+  monitor_alert_default_priority = null
+  # tflint-ignore: terraform_unused_declarations
+  monitor_warn_default_priority = null
+  # tflint-ignore: terraform_unused_declarations
   monitor_nodata_default_priority = null
 
   title_prefix = var.title_prefix == null ? "" : "[${var.title_prefix}]"
   title_suffix = var.title_suffix == null ? "" : " (${var.title_suffix})"
+
+  # Add RDS-specific query filter to exclude
+  rds_query_filter = "{!engine:aurora*,${trimprefix(local.query_filter, "{")}"
 }
 
 resource "datadog_monitor" "connection_count_anomaly" {
@@ -129,8 +135,8 @@ resource "datadog_monitor" "used_storage" {
   query = <<END
     max(${var.used_storage_evaluation_window}):(
       100 - ((
-        default(avg:aws.rds.free_storage_space${local.query_filter} by {dbinstanceidentifier,region,aws_account,env,datadog_managed}, 0) /
-        default(avg:aws.rds.total_storage_space${local.query_filter} by {dbinstanceidentifier,region,aws_account,env,datadog_managed}, 1)
+        default(avg:aws.rds.free_storage_space${local.rds_query_filter} by {dbinstanceidentifier,region,aws_account,env,datadog_managed}, 0) /
+        default(avg:aws.rds.total_storage_space${local.rds_query_filter} by {dbinstanceidentifier,region,aws_account,env,datadog_managed}, 1)
       ) * 100)
     ) >= ${var.used_storage_threshold_critical}
 END
