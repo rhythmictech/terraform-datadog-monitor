@@ -25,7 +25,7 @@ resource "datadog_monitor" "windows_service" {
   require_full_window = true
 
   query = <<EOQ
-    service_check("windows_service.state")${local.service_filter}.last("${var.windows_service_alert_timeframe}") ${var.windows_service_alert_operator} ${var.windows_service_alert_threshold_critical}
+    "windows_service.state"${local.service_filter}.by("host","windows_service").last(4).count_by_status()
   EOQ
 
   monitor_thresholds {
