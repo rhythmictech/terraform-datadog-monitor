@@ -68,7 +68,7 @@ No modules.
 | <a name="input_queue_depth_threshold_critical"></a> [queue\_depth\_threshold\_critical](#input\_queue\_depth\_threshold\_critical) | Critical threshold (count) | `number` | `null` | no |
 | <a name="input_queue_depth_threshold_warning"></a> [queue\_depth\_threshold\_warning](#input\_queue\_depth\_threshold\_warning) | Warning threshold (count) | `number` | `null` | no |
 | <a name="input_queue_depth_use_message"></a> [queue\_depth\_use\_message](#input\_queue\_depth\_use\_message) | Whether to use the query alert base message for queue depth monitor | `bool` | `false` | no |
-| <a name="input_renotify_interval"></a> [renotify\_interval](#input\_renotify\_interval) | Interval in minutes to re-send notifications about an alert | `number` | `0` | no |
+| <a name="input_renotify_interval"></a> [renotify\_interval](#input\_renotify\_interval) | Interval in minutes to re-send notifications about an alert | `number` | `60` | no |
 | <a name="input_runbook_link"></a> [runbook\_link](#input\_runbook\_link) | Runbook link to include in message | `string` | `null` | no |
 | <a name="input_service"></a> [service](#input\_service) | Service associated with the monitored resource (leave blank to omit tag) | `string` | `null` | no |
 | <a name="input_team"></a> [team](#input\_team) | Team supporting the monitored resource (leave blank to omit tag) | `string` | `null` | no |
