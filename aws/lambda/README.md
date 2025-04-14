@@ -94,7 +94,7 @@ No modules.
 | <a name="input_out_of_memory_threshold_critical"></a> [out\_of\_memory\_threshold\_critical](#input\_out\_of\_memory\_threshold\_critical) | Critical threshold (count) | `number` | `5` | no |
 | <a name="input_out_of_memory_threshold_warning"></a> [out\_of\_memory\_threshold\_warning](#input\_out\_of\_memory\_threshold\_warning) | Warning threshold (count) | `number` | `null` | no |
 | <a name="input_out_of_memory_use_message"></a> [out\_of\_memory\_use\_message](#input\_out\_of\_memory\_use\_message) | Whether to use the query alert base message for out of memory monitor | `bool` | `false` | no |
-| <a name="input_renotify_interval"></a> [renotify\_interval](#input\_renotify\_interval) | Interval in minutes to re-send notifications about an alert | `number` | `0` | no |
+| <a name="input_renotify_interval"></a> [renotify\_interval](#input\_renotify\_interval) | Interval in minutes to re-send notifications about an alert | `number` | `60` | no |
 | <a name="input_runbook_link"></a> [runbook\_link](#input\_runbook\_link) | Runbook link to include in message | `string` | `null` | no |
 | <a name="input_service"></a> [service](#input\_service) | Service associated with the monitored resource (leave blank to omit tag) | `string` | `null` | no |
 | <a name="input_team"></a> [team](#input\_team) | Team supporting the monitored resource (leave blank to omit tag) | `string` | `null` | no |

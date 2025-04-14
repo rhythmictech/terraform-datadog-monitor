@@ -321,3 +321,42 @@ variable "swap_usage_use_message" {
   type        = bool
   default     = false
 }
+
+########################################
+# Memory Utilization
+########################################
+variable "memory_utilization_enabled" {
+  default     = false
+  description = "Enable memory utilization monitor"
+  type        = bool
+}
+
+variable "memory_utilization_evaluation_window" {
+  default     = "last_1h"
+  description = "Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`)"
+  type        = string
+}
+
+variable "memory_utilization_no_data_window" {
+  default     = 15
+  description = "No data threshold (in minutes, 0 to disable)"
+  type        = number
+}
+
+variable "memory_utilization_threshold_critical" {
+  default     = 80
+  description = "Critical threshold (percentage)"
+  type        = number
+}
+
+variable "memory_utilization_threshold_warning" {
+  default     = 70
+  description = "Warning threshold (percentage)"
+  type        = number
+}
+
+variable "memory_utilization_use_message" {
+  description = "Whether to use the query alert base message for memory utilization monitor"
+  type        = bool
+  default     = false
+}

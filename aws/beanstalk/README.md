@@ -79,7 +79,7 @@ No modules.
 | <a name="input_notify_prod_override"></a> [notify\_prod\_override](#input\_notify\_prod\_override) | List of notifications for 12x5 prod alerts in critical threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_notify_recovery_override"></a> [notify\_recovery\_override](#input\_notify\_recovery\_override) | List of notifications for alert recovery (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_notify_warn_override"></a> [notify\_warn\_override](#input\_notify\_warn\_override) | List of notifications for alerts in warning threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
-| <a name="input_renotify_interval"></a> [renotify\_interval](#input\_renotify\_interval) | Interval in minutes to re-send notifications about an alert | `number` | `0` | no |
+| <a name="input_renotify_interval"></a> [renotify\_interval](#input\_renotify\_interval) | Interval in minutes to re-send notifications about an alert | `number` | `60` | no |
 | <a name="input_root_disk_usage_enabled"></a> [root\_disk\_usage\_enabled](#input\_root\_disk\_usage\_enabled) | Enable root disk usage monitor | `bool` | `false` | no |
 | <a name="input_root_disk_usage_evaluation_window"></a> [root\_disk\_usage\_evaluation\_window](#input\_root\_disk\_usage\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_root_disk_usage_no_data_window"></a> [root\_disk\_usage\_no\_data\_window](#input\_root\_disk\_usage\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |

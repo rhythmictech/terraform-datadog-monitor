@@ -1,10 +1,3 @@
-# terraform-datadog-monitor/aws/sqs
-
-Configures the following for Lambda functions based on tag matches:
-
-* oldest message
-* queue depth (visible messages) 
-
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -18,7 +11,7 @@ Configures the following for Lambda functions based on tag matches:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_datadog"></a> [datadog](#provider\_datadog) | 3.44.0 |
+| <a name="provider_datadog"></a> [datadog](#provider\_datadog) | >= 3.37 |
 
 ## Modules
 
@@ -28,18 +21,17 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [datadog_monitor.oldest_message](https://registry.terraform.io/providers/datadog/datadog/latest/docs/resources/monitor) | resource |
-| [datadog_monitor.queue_depth](https://registry.terraform.io/providers/datadog/datadog/latest/docs/resources/monitor) | resource |
+| [datadog_monitor.windows_service](https://registry.terraform.io/providers/datadog/datadog/latest/docs/resources/monitor) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_additional_tags"></a> [additional\_tags](#input\_additional\_tags) | Additional tags (key:value format) to add to this type of check (combined with `local.tags` and `var.base_tags`) | `list(string)` | `[]` | no |
+| <a name="input_additional_tags"></a> [additional\_tags](#input\_additional\_tags) | Additional tags to apply to all monitors | `list(string)` | `[]` | no |
 | <a name="input_alert_critical_priority"></a> [alert\_critical\_priority](#input\_alert\_critical\_priority) | Priority for alerts within critical threshold (P1-P5, uses monitor defaults if not specified) | `string` | `null` | no |
 | <a name="input_alert_message"></a> [alert\_message](#input\_alert\_message) | Message to prepend to alert notifications | `string` | `"Alert"` | no |
 | <a name="input_alert_nodata_priority"></a> [alert\_nodata\_priority](#input\_alert\_nodata\_priority) | Priority for alerts within warning threshold (P1-P5, uses monitor defaults if not specified) | `string` | `null` | no |
-| <a name="input_base_tags"></a> [base\_tags](#input\_base\_tags) | Base tags (key:value format) to add to this type of check (combined with `local.tags` and `var.additional_tags`, generally you should not change this) | `list(string)` | <pre>[<br>  "resource:queue"<br>]</pre> | no |
+| <a name="input_base_tags"></a> [base\_tags](#input\_base\_tags) | Base tags to apply to all monitors | `list(string)` | `[]` | no |
 | <a name="input_cost_center"></a> [cost\_center](#input\_cost\_center) | Cost Center of the monitored resource (leave blank to omit tag) | `string` | `null` | no |
 | <a name="input_dashboard_link"></a> [dashboard\_link](#input\_dashboard\_link) | Dashboard link to include in message | `string` | `null` | no |
 | <a name="input_env"></a> [env](#input\_env) | Environment the monitored resource is in (leave blank to omit tag) | `string` | `null` | no |
@@ -56,18 +48,6 @@ No modules.
 | <a name="input_notify_prod_override"></a> [notify\_prod\_override](#input\_notify\_prod\_override) | List of notifications for 12x5 prod alerts in critical threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_notify_recovery_override"></a> [notify\_recovery\_override](#input\_notify\_recovery\_override) | List of notifications for alert recovery (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_notify_warn_override"></a> [notify\_warn\_override](#input\_notify\_warn\_override) | List of notifications for alerts in warning threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
-| <a name="input_oldest_message_enabled"></a> [oldest\_message\_enabled](#input\_oldest\_message\_enabled) | Enable oldest queued message monitor | `bool` | `false` | no |
-| <a name="input_oldest_message_evaluation_window"></a> [oldest\_message\_evaluation\_window](#input\_oldest\_message\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
-| <a name="input_oldest_message_no_data_window"></a> [oldest\_message\_no\_data\_window](#input\_oldest\_message\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
-| <a name="input_oldest_message_threshold_critical"></a> [oldest\_message\_threshold\_critical](#input\_oldest\_message\_threshold\_critical) | Critical threshold (seconds) | `number` | `75` | no |
-| <a name="input_oldest_message_threshold_warning"></a> [oldest\_message\_threshold\_warning](#input\_oldest\_message\_threshold\_warning) | Warning threshold (seconds) | `number` | `null` | no |
-| <a name="input_oldest_message_use_message"></a> [oldest\_message\_use\_message](#input\_oldest\_message\_use\_message) | Whether to use the query alert base message for oldest message monitor | `bool` | `false` | no |
-| <a name="input_queue_depth_enabled"></a> [queue\_depth\_enabled](#input\_queue\_depth\_enabled) | Enable queue depth count monitor | `bool` | `false` | no |
-| <a name="input_queue_depth_evaluation_window"></a> [queue\_depth\_evaluation\_window](#input\_queue\_depth\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
-| <a name="input_queue_depth_no_data_window"></a> [queue\_depth\_no\_data\_window](#input\_queue\_depth\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
-| <a name="input_queue_depth_threshold_critical"></a> [queue\_depth\_threshold\_critical](#input\_queue\_depth\_threshold\_critical) | Critical threshold (count) | `number` | `null` | no |
-| <a name="input_queue_depth_threshold_warning"></a> [queue\_depth\_threshold\_warning](#input\_queue\_depth\_threshold\_warning) | Warning threshold (count) | `number` | `null` | no |
-| <a name="input_queue_depth_use_message"></a> [queue\_depth\_use\_message](#input\_queue\_depth\_use\_message) | Whether to use the query alert base message for queue depth monitor | `bool` | `false` | no |
 | <a name="input_renotify_interval"></a> [renotify\_interval](#input\_renotify\_interval) | Interval in minutes to re-send notifications about an alert | `number` | `60` | no |
 | <a name="input_runbook_link"></a> [runbook\_link](#input\_runbook\_link) | Runbook link to include in message | `string` | `null` | no |
 | <a name="input_service"></a> [service](#input\_service) | Service associated with the monitored resource (leave blank to omit tag) | `string` | `null` | no |
@@ -76,6 +56,12 @@ No modules.
 | <a name="input_title_prefix"></a> [title\_prefix](#input\_title\_prefix) | Prefix all alerts with specified value in brackets | `string` | `null` | no |
 | <a name="input_title_suffix"></a> [title\_suffix](#input\_title\_suffix) | Suffix all alerts with specified value in parenthesis | `string` | `null` | no |
 | <a name="input_warn_priority"></a> [warn\_priority](#input\_warn\_priority) | Priority for alerts with no data (P1-P5, uses monitor defaults if not specified) | `string` | `null` | no |
+| <a name="input_windows_service_alert_enabled"></a> [windows\_service\_alert\_enabled](#input\_windows\_service\_alert\_enabled) | Enable or disable the Windows service alert monitor | `bool` | `true` | no |
+| <a name="input_windows_service_alert_operator"></a> [windows\_service\_alert\_operator](#input\_windows\_service\_alert\_operator) | Operator for the Windows service alert threshold comparison | `string` | `"<"` | no |
+| <a name="input_windows_service_alert_threshold_critical"></a> [windows\_service\_alert\_threshold\_critical](#input\_windows\_service\_alert\_threshold\_critical) | Critical threshold for the Windows service alert | `number` | `1` | no |
+| <a name="input_windows_service_alert_threshold_warning"></a> [windows\_service\_alert\_threshold\_warning](#input\_windows\_service\_alert\_threshold\_warning) | Warning threshold for the Windows service alert | `number` | `2` | no |
+| <a name="input_windows_service_alert_timeframe"></a> [windows\_service\_alert\_timeframe](#input\_windows\_service\_alert\_timeframe) | Timeframe for the Windows service alert evaluation | `string` | `"5m"` | no |
+| <a name="input_windows_service_alert_use_message"></a> [windows\_service\_alert\_use\_message](#input\_windows\_service\_alert\_use\_message) | Whether to use the base message for the Windows service alert | `bool` | `true` | no |
 
 ## Outputs
 

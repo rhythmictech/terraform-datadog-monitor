@@ -212,3 +212,32 @@ END
     warning  = var.swap_usage_threshold_warning
   }
 }
+
+resource "datadog_monitor" "memory_utilization" {
+  count = var.memory_utilization_enabled ? 1 : 0
+
+  name         = join("", [local.title_prefix, "Elasticache Memory Utilization - {{replication_group.name}} - {{value}}%", local.title_suffix])
+  include_tags = false
+  message      = var.memory_utilization_use_message ? local.query_alert_base_message : ""
+  tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
+  type         = "query alert"
+
+  evaluation_delay    = var.evaluation_delay
+  new_group_delay     = var.new_group_delay
+  notify_no_data      = var.notify_no_data
+  no_data_timeframe   = var.memory_utilization_no_data_window
+  renotify_interval   = var.renotify_interval
+  require_full_window = true
+  timeout_h           = var.timeout_h
+
+  query = <<END
+    avg(${var.memory_utilization_evaluation_window}):
+      avg:aws.elasticache.database_memory_usage_percentage${local.query_filter} by {replication_group,region,aws_account,env,datadog_managed}
+    >= ${var.memory_utilization_threshold_critical}
+END
+
+  monitor_thresholds {
+    critical = var.memory_utilization_threshold_critical
+    warning  = var.memory_utilization_threshold_warning
+  }
+}

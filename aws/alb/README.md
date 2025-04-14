@@ -48,22 +48,22 @@ No modules.
 | <a name="input_dashboard_link"></a> [dashboard\_link](#input\_dashboard\_link) | Dashboard link to include in message | `string` | `null` | no |
 | <a name="input_env"></a> [env](#input\_env) | Environment the monitored resource is in (leave blank to omit tag) | `string` | `null` | no |
 | <a name="input_evaluation_delay"></a> [evaluation\_delay](#input\_evaluation\_delay) | Monitor evaluation delay (see [https://docs.datadoghq.com/monitors/configuration/?tab=thresholdalert#set-alert-conditions](Datadog Docs)) | `number` | `900` | no |
-| <a name="input_http_5xx_responses_enabled"></a> [http\_5xx\_responses\_enabled](#input\_http\_5xx\_responses\_enabled) | Enable HTTP 5xx response monitor | `bool` | `false` | no |
+| <a name="input_http_5xx_responses_enabled"></a> [http\_5xx\_responses\_enabled](#input\_http\_5xx\_responses\_enabled) | Enable HTTP 5xx response monitor | `bool` | `true` | no |
 | <a name="input_http_5xx_responses_evaluation_window"></a> [http\_5xx\_responses\_evaluation\_window](#input\_http\_5xx\_responses\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_http_5xx_responses_no_data_window"></a> [http\_5xx\_responses\_no\_data\_window](#input\_http\_5xx\_responses\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
 | <a name="input_http_5xx_responses_threshold_critical"></a> [http\_5xx\_responses\_threshold\_critical](#input\_http\_5xx\_responses\_threshold\_critical) | Critical threshold (percentage, 0-100) | `number` | `75` | no |
 | <a name="input_http_5xx_responses_threshold_warning"></a> [http\_5xx\_responses\_threshold\_warning](#input\_http\_5xx\_responses\_threshold\_warning) | Warning threshold (percentage, 0-100) | `number` | `25` | no |
 | <a name="input_http_5xx_responses_use_message"></a> [http\_5xx\_responses\_use\_message](#input\_http\_5xx\_responses\_use\_message) | Whether to use the query alert base message | `bool` | `false` | no |
-| <a name="input_http_5xx_tg_responses_enabled"></a> [http\_5xx\_tg\_responses\_enabled](#input\_http\_5xx\_tg\_responses\_enabled) | Enable HTTP 5xx response monitor (target group) | `bool` | `false` | no |
+| <a name="input_http_5xx_tg_responses_enabled"></a> [http\_5xx\_tg\_responses\_enabled](#input\_http\_5xx\_tg\_responses\_enabled) | Enable HTTP 5xx response monitor (target group) | `bool` | `true` | no |
 | <a name="input_http_5xx_tg_responses_evaluation_window"></a> [http\_5xx\_tg\_responses\_evaluation\_window](#input\_http\_5xx\_tg\_responses\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_http_5xx_tg_responses_no_data_window"></a> [http\_5xx\_tg\_responses\_no\_data\_window](#input\_http\_5xx\_tg\_responses\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
 | <a name="input_http_5xx_tg_responses_threshold_critical"></a> [http\_5xx\_tg\_responses\_threshold\_critical](#input\_http\_5xx\_tg\_responses\_threshold\_critical) | Critical threshold (percentage, 0-100) | `number` | `75` | no |
 | <a name="input_http_5xx_tg_responses_threshold_warning"></a> [http\_5xx\_tg\_responses\_threshold\_warning](#input\_http\_5xx\_tg\_responses\_threshold\_warning) | Warning threshold (percentage, 0-100) | `number` | `25` | no |
 | <a name="input_http_5xx_tg_responses_use_message"></a> [http\_5xx\_tg\_responses\_use\_message](#input\_http\_5xx\_tg\_responses\_use\_message) | Whether to use the query alert base message | `bool` | `false` | no |
-| <a name="input_latency_enabled"></a> [latency\_enabled](#input\_latency\_enabled) | Enable latency monitor | `bool` | `false` | no |
+| <a name="input_latency_enabled"></a> [latency\_enabled](#input\_latency\_enabled) | Enable latency monitor | `bool` | `true` | no |
 | <a name="input_latency_evaluation_window"></a> [latency\_evaluation\_window](#input\_latency\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_latency_no_data_window"></a> [latency\_no\_data\_window](#input\_latency\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
-| <a name="input_latency_threshold_critical"></a> [latency\_threshold\_critical](#input\_latency\_threshold\_critical) | Critical threshold (seconds) | `number` | `null` | no |
+| <a name="input_latency_threshold_critical"></a> [latency\_threshold\_critical](#input\_latency\_threshold\_critical) | Critical threshold (seconds) | `number` | `3` | no |
 | <a name="input_latency_threshold_warning"></a> [latency\_threshold\_warning](#input\_latency\_threshold\_warning) | Warning threshold (seconds) | `number` | `null` | no |
 | <a name="input_latency_use_message"></a> [latency\_use\_message](#input\_latency\_use\_message) | Whether to use the query alert base message | `bool` | `false` | no |
 | <a name="input_monitor_exclude_tags"></a> [monitor\_exclude\_tags](#input\_monitor\_exclude\_tags) | Tags to be excluded in the monitoring query. Specify in key:value format | `list(string)` | `[]` | no |
@@ -84,7 +84,7 @@ No modules.
 | <a name="input_notify_prod_override"></a> [notify\_prod\_override](#input\_notify\_prod\_override) | List of notifications for 12x5 prod alerts in critical threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_notify_recovery_override"></a> [notify\_recovery\_override](#input\_notify\_recovery\_override) | List of notifications for alert recovery (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_notify_warn_override"></a> [notify\_warn\_override](#input\_notify\_warn\_override) | List of notifications for alerts in warning threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
-| <a name="input_renotify_interval"></a> [renotify\_interval](#input\_renotify\_interval) | Interval in minutes to re-send notifications about an alert | `number` | `0` | no |
+| <a name="input_renotify_interval"></a> [renotify\_interval](#input\_renotify\_interval) | Interval in minutes to re-send notifications about an alert | `number` | `60` | no |
 | <a name="input_runbook_link"></a> [runbook\_link](#input\_runbook\_link) | Runbook link to include in message | `string` | `null` | no |
 | <a name="input_service"></a> [service](#input\_service) | Service associated with the monitored resource (leave blank to omit tag) | `string` | `null` | no |
 | <a name="input_team"></a> [team](#input\_team) | Team supporting the monitored resource (leave blank to omit tag) | `string` | `null` | no |
