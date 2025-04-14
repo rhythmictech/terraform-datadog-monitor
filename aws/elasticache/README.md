@@ -40,6 +40,7 @@ No modules.
 | [datadog_monitor.hit_rate](https://registry.terraform.io/providers/datadog/datadog/latest/docs/resources/monitor) | resource |
 | [datadog_monitor.hit_rate_anomaly](https://registry.terraform.io/providers/datadog/datadog/latest/docs/resources/monitor) | resource |
 | [datadog_monitor.max_connections](https://registry.terraform.io/providers/datadog/datadog/latest/docs/resources/monitor) | resource |
+| [datadog_monitor.memory_utilization](https://registry.terraform.io/providers/datadog/datadog/latest/docs/resources/monitor) | resource |
 | [datadog_monitor.swap_usage](https://registry.terraform.io/providers/datadog/datadog/latest/docs/resources/monitor) | resource |
 
 ## Inputs
@@ -97,6 +98,12 @@ No modules.
 | <a name="input_max_connections_threshold_critical"></a> [max\_connections\_threshold\_critical](#input\_max\_connections\_threshold\_critical) | Critical threshold (connections) | `number` | `64000` | no |
 | <a name="input_max_connections_threshold_warning"></a> [max\_connections\_threshold\_warning](#input\_max\_connections\_threshold\_warning) | Warning threshold (connections) | `number` | `60000` | no |
 | <a name="input_max_connections_use_message"></a> [max\_connections\_use\_message](#input\_max\_connections\_use\_message) | Whether to use the query alert base message for max connections monitor | `bool` | `false` | no |
+| <a name="input_memory_utilization_enabled"></a> [memory\_utilization\_enabled](#input\_memory\_utilization\_enabled) | Enable memory utilization monitor | `bool` | `false` | no |
+| <a name="input_memory_utilization_evaluation_window"></a> [memory\_utilization\_evaluation\_window](#input\_memory\_utilization\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`) | `string` | `"last_1h"` | no |
+| <a name="input_memory_utilization_no_data_window"></a> [memory\_utilization\_no\_data\_window](#input\_memory\_utilization\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `15` | no |
+| <a name="input_memory_utilization_threshold_critical"></a> [memory\_utilization\_threshold\_critical](#input\_memory\_utilization\_threshold\_critical) | Critical threshold (percentage) | `number` | `80` | no |
+| <a name="input_memory_utilization_threshold_warning"></a> [memory\_utilization\_threshold\_warning](#input\_memory\_utilization\_threshold\_warning) | Warning threshold (percentage) | `number` | `70` | no |
+| <a name="input_memory_utilization_use_message"></a> [memory\_utilization\_use\_message](#input\_memory\_utilization\_use\_message) | Whether to use the query alert base message for memory utilization monitor | `bool` | `false` | no |
 | <a name="input_monitor_exclude_tags"></a> [monitor\_exclude\_tags](#input\_monitor\_exclude\_tags) | Tags to be excluded in the monitoring query. Specify in key:value format | `list(string)` | `[]` | no |
 | <a name="input_monitor_include_tags"></a> [monitor\_include\_tags](#input\_monitor\_include\_tags) | Tags to be included in the monitoring query. Specify in key:value format | `list(string)` | `[]` | no |
 | <a name="input_new_group_delay"></a> [new\_group\_delay](#input\_new\_group\_delay) | Delay in seconds before generating alerts for a new resource | `number` | `300` | no |
@@ -109,7 +116,7 @@ No modules.
 | <a name="input_notify_prod_override"></a> [notify\_prod\_override](#input\_notify\_prod\_override) | List of notifications for 12x5 prod alerts in critical threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_notify_recovery_override"></a> [notify\_recovery\_override](#input\_notify\_recovery\_override) | List of notifications for alert recovery (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
 | <a name="input_notify_warn_override"></a> [notify\_warn\_override](#input\_notify\_warn\_override) | List of notifications for alerts in warning threshold (uses `notify_default` otherwise) | `list(string)` | `[]` | no |
-| <a name="input_renotify_interval"></a> [renotify\_interval](#input\_renotify\_interval) | Interval in minutes to re-send notifications about an alert | `number` | `0` | no |
+| <a name="input_renotify_interval"></a> [renotify\_interval](#input\_renotify\_interval) | Interval in minutes to re-send notifications about an alert | `number` | `60` | no |
 | <a name="input_runbook_link"></a> [runbook\_link](#input\_runbook\_link) | Runbook link to include in message | `string` | `null` | no |
 | <a name="input_service"></a> [service](#input\_service) | Service associated with the monitored resource (leave blank to omit tag) | `string` | `null` | no |
 | <a name="input_swap_usage_enabled"></a> [swap\_usage\_enabled](#input\_swap\_usage\_enabled) | Enable swap usage monitor | `bool` | `false` | no |
