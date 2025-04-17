@@ -17,7 +17,7 @@ variable "base_tags" {
 # Node CPU Utilization
 ########################################
 variable "cpu_utilization_enabled" {
-  default     = false
+  default     = true
   description = "Enable CPU utilization monitor"
   type        = bool
 }
@@ -29,7 +29,7 @@ variable "cpu_utilization_no_data_window" {
 }
 
 variable "cpu_utilization_evaluation_window" {
-  default     = "last_5m"
+  default     = "last_15m"
   description = "Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`]"
   type        = string
 }
@@ -49,7 +49,7 @@ variable "cpu_utilization_threshold_warning" {
 variable "cpu_utilization_use_message" {
   description = "Whether to use the query alert base message for CPU utilization monitor"
   type        = bool
-  default     = false
+  default     = true
 }
 
 ########################################
@@ -326,7 +326,7 @@ variable "swap_usage_use_message" {
 # Memory Utilization
 ########################################
 variable "memory_utilization_enabled" {
-  default     = false
+  default     = true
   description = "Enable memory utilization monitor"
   type        = bool
 }
@@ -358,5 +358,5 @@ variable "memory_utilization_threshold_warning" {
 variable "memory_utilization_use_message" {
   description = "Whether to use the query alert base message for memory utilization monitor"
   type        = bool
-  default     = false
+  default     = true
 }

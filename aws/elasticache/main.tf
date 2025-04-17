@@ -216,7 +216,7 @@ END
 resource "datadog_monitor" "memory_utilization" {
   count = var.memory_utilization_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "Elasticache Memory Utilization - {{replication_group.name}} - {{value}}%", local.title_suffix])
+  name         = join("", [local.title_prefix, "Elasticache Memory Utilization - {{name.name}} - {{value}}%", local.title_suffix])
   include_tags = false
   message      = var.memory_utilization_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -232,7 +232,7 @@ resource "datadog_monitor" "memory_utilization" {
 
   query = <<END
     avg(${var.memory_utilization_evaluation_window}):
-      avg:aws.elasticache.database_memory_usage_percentage${local.query_filter} by {replication_group,region,aws_account,env,datadog_managed}
+      avg:aws.elasticache.database_memory_usage_percentage${local.query_filter} by {name,region,aws_account,env,datadog_managed}
     >= ${var.memory_utilization_threshold_critical}
 END
 
