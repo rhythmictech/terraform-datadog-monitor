@@ -18,7 +18,7 @@ resource "datadog_monitor" "windows_service" {
 
   evaluation_delay    = var.evaluation_delay
   notify_no_data      = false
-  renotify_interval   = 0
+  renotify_interval   = 60
   notify_audit        = false
   timeout_h           = var.timeout_h
   include_tags        = false
