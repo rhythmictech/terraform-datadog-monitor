@@ -79,7 +79,7 @@ variable "connection_count_anomaly_threshold_warning" {
 variable "connection_count_anomaly_use_message" {
   description = "Whether to use the query alert base message for connection count anomaly monitor"
   type        = bool
-  default     = true
+  default     = false
 }
 
 ########################################
