@@ -13,6 +13,11 @@ variable "base_tags" {
   type        = list(string)
 }
 
+variable "query_organize_by_fields" {
+  default     = "cachenodeid,cacheclusterid,region,aws_account,env,datadog_managed"
+  description = "Fields (in order) by which to organize the results of the monitor queries for this module. An example modification would be to add replication_group to the front of the default value."
+}
+
 ########################################
 # Node CPU Utilization
 ########################################
