@@ -11,22 +11,22 @@ locals {
 resource "datadog_monitor" "host_unreachable" {
   count = var.host_unreachable_enabled ? 1 : 0
 
-  name    = join("", [local.title_prefix, "Datadog Agent Status - {{name.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "Datadog Agent Status - {{name.name}}", local.title_suffix])
   include_tags = false
   message      = var.host_unreachable_use_message ? local.query_alert_base_message : ""
-  tags    = concat(local.common_tags, var.base_tags, var.additional_tags)
-  type    = "service check"
+  tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
+  type         = "service check"
 
   evaluation_delay    = var.evaluation_delay
   new_group_delay     = var.new_group_delay
-  no_data_timeframe = "5"
+  no_data_timeframe   = "5"
   notify_no_data      = true
   renotify_interval   = var.renotify_interval
   require_full_window = true
   timeout_h           = var.timeout_h
 
   query = <<EOQ
-    "datadog.agent.up"${local.service_filter}.by("name","aws_account","env","datadog_managed").last(2).count_by_status()
+    "datadog.agent.up"${local.service_filter}.by(${local.service_group_by}).last(2).count_by_status()
   EOQ
 
   monitor_thresholds {

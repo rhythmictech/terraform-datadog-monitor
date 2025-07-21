@@ -12,7 +12,7 @@ resource "datadog_monitor" "process_alert" {
   count = var.process_alert_enabled ? 1 : 0
 
   name    = join("", [local.title_prefix, "Process Alert - {{host.name}}", local.title_suffix])
-  message      = var.process_alert_use_message ? local.query_alert_base_message : ""
+  message = var.process_alert_use_message ? local.query_alert_base_message : ""
   tags    = concat(local.common_tags, var.base_tags, var.additional_tags)
   type    = "process alert"
 

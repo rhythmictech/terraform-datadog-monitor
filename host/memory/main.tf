@@ -11,16 +11,16 @@ locals {
 resource "datadog_monitor" "memory" {
   count = var.memory_enabled ? 1 : 0
 
-  name    = join("", [local.title_prefix, "Usable Memory - {{name.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "Usable Memory - {{name.name}}", local.title_suffix])
   include_tags = false
   message      = var.memory_use_message ? local.query_alert_base_message : ""
-  tags    = concat(local.common_tags, var.base_tags, var.additional_tags)
-  type    = "query alert"
+  tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
+  type         = "query alert"
 
   query = <<EOQ
     ${var.memory_time_aggregator}(${var.memory_timeframe}):
-      avg:system.mem.usable${local.query_filter} by {name,aws_account,env,datadog_managed} /
-      avg:system.mem.total${local.query_filter} by {name,aws_account,env,datadog_managed} * 100
+      avg:system.mem.usable${local.query_filter} by {${local.query_group_by}} /
+      avg:system.mem.total${local.query_filter} by {${local.query_group_by}} * 100
     < ${var.memory_threshold_critical}
   EOQ
 
