@@ -8,7 +8,7 @@ variable "additional_tags" {
 }
 
 variable "base_tags" {
-  default     = [""]
+  default     = []
   description = "Base tags (key:value format) to add to this type of check (combined with `local.tags` and `var.additional_tags`, generally you should not change this)"
   type        = list(string)
 }

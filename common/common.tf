@@ -179,6 +179,12 @@ variable "notify_prod_override" {
   type        = list(string)
 }
 
+variable "group_by" {
+  default     = ["name", "aws_account", "env", "datadog_managed"]
+  description = "List of tags to group by"
+  type        = list(string)
+}
+
 locals {
 
   # tag related locals
@@ -336,4 +342,7 @@ ${local.alert_context}
 {{#is_alert}} ${local.notify_on_alert} {{/is_alert}}
 {{#is_recovery}} ${local.notify_on_recovery} {{/is_recovery}}
 END
+
+  service_group_by = join(",", formatlist("\"%s\"", var.group_by))
+  query_group_by   = join(",", var.group_by)
 }

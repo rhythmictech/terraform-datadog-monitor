@@ -12,7 +12,7 @@ resource "datadog_monitor" "disk_space" {
   count = var.disk_space_enabled ? 1 : 0
 
   name    = join("", [local.title_prefix, "Disk Space - {{name.name}}", local.title_suffix])
-  message      = var.disk_space_use_message ? local.query_alert_base_message : ""
+  message = var.disk_space_use_message ? local.query_alert_base_message : ""
   tags    = concat(local.common_tags, var.base_tags, var.additional_tags)
   type    = "query alert"
 
@@ -26,7 +26,7 @@ resource "datadog_monitor" "disk_space" {
 
   query = <<EOQ
     ${var.disk_space_time_aggregator}(${var.disk_space_timeframe}):
-      avg:system.disk.in_use${local.query_filter} by {name,aws_account,device,env,datadog_managed}
+      avg:system.disk.in_use${local.query_filter} by {device,${local.query_group_by}}
     * 100 > ${var.disk_space_threshold_critical}
   EOQ
 
@@ -39,11 +39,11 @@ resource "datadog_monitor" "disk_space" {
 resource "datadog_monitor" "disk_space_forecast" {
   count = var.disk_space_forecast_enabled ? 1 : 0
 
-  name    = join("", [local.title_prefix, "Disk Space Forecast - {{name.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "Disk Space Forecast - {{name.name}}", local.title_suffix])
   include_tags = false
   message      = var.disk_space_forecast_use_message ? local.query_alert_base_message : ""
-  tags    = concat(local.common_tags, var.base_tags, var.additional_tags)
-  type    = "query alert"
+  tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
+  type         = "query alert"
 
   evaluation_delay    = var.evaluation_delay
   new_group_delay     = var.new_group_delay
@@ -55,7 +55,7 @@ resource "datadog_monitor" "disk_space_forecast" {
 
   query = <<EOQ
     ${var.disk_space_forecast_time_aggregator}(${var.disk_space_forecast_timeframe}):
-      forecast(avg:system.disk.in_use${local.query_filter} by {name,aws_account,device,env,datadog_managed} * 100,
+      forecast(avg:system.disk.in_use${local.query_filter} by {device,${local.query_group_by}} * 100,
               '${var.disk_space_forecast_algorithm}',
                ${var.disk_space_forecast_deviations},
                interval='${var.disk_space_forecast_interval}',
@@ -74,15 +74,15 @@ resource "datadog_monitor" "disk_space_forecast" {
 resource "datadog_monitor" "disk_inodes" {
   count = var.disk_inodes_enabled ? 1 : 0
 
-  name    = join("", [local.title_prefix, "Disk Inodes Usage - {{name.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "Disk Inodes Usage - {{name.name}}", local.title_suffix])
   include_tags = false
   message      = var.disk_inodes_use_message ? local.query_alert_base_message : ""
-  tags    = concat(local.common_tags, var.base_tags, var.additional_tags)
-  type    = "query alert"
+  tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
+  type         = "query alert"
 
   query = <<EOQ
     ${var.disk_inodes_time_aggregator}(${var.disk_inodes_timeframe}):
-      avg:system.fs.inodes.in_use${local.query_filter} by {name,aws_account,device,env,datadog_managed}
+      avg:system.fs.inodes.in_use${local.query_filter} by {device,${local.query_group_by}}
     * 100 > ${var.disk_inodes_threshold_critical}
   EOQ
 

@@ -11,11 +11,11 @@ locals {
 resource "datadog_monitor" "system_clock" {
   count = var.system_clock_enabled ? 1 : 0
 
-  name    = join("", [local.title_prefix, "System Clock - {{name.name}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "System Clock - {{name.name}}", local.title_suffix])
   include_tags = false
   message      = var.system_clock_use_message ? local.query_alert_base_message : ""
-  tags    = concat(local.common_tags, var.base_tags, var.additional_tags)
-  type    = "service check"
+  tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
+  type         = "service check"
 
   evaluation_delay    = var.evaluation_delay
   new_group_delay     = var.new_group_delay
@@ -25,7 +25,7 @@ resource "datadog_monitor" "system_clock" {
   timeout_h           = var.timeout_h
 
   query = <<EOQ
-    "ntp.in_sync"${local.service_filter}.by("name","aws_account","env","datadog_managed").last(6).count_by_status()
+    "ntp.in_sync"${local.service_filter}.by(${local.service_group_by}).last(6).count_by_status()
   EOQ
 
   monitor_thresholds {

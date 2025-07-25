@@ -12,7 +12,7 @@ resource "datadog_monitor" "cpu_utilization" {
   count = var.cpu_utilization_enabled ? 1 : 0
 
   name    = join("", [local.title_prefix, "CPU Utilization - {{name.name}}", local.title_suffix])
-  message      = var.cpu_utilization_use_message ? local.query_alert_base_message : ""
+  message = var.cpu_utilization_use_message ? local.query_alert_base_message : ""
   tags    = concat(local.common_tags, var.base_tags, var.additional_tags)
   type    = "query alert"
 
@@ -23,12 +23,12 @@ resource "datadog_monitor" "cpu_utilization" {
   renotify_interval   = var.renotify_interval
   require_full_window = true
   timeout_h           = var.timeout_h
-  include_tags = false
+  include_tags        = false
 
 
   query = <<EOQ
     ${var.cpu_utilization_time_aggregator}(${var.cpu_utilization_timeframe}): (
-      100 - avg:system.cpu.idle${local.query_filter} by {name,aws_account,env,datadog_managed}
+      100 - avg:system.cpu.idle${local.query_filter} by {${local.query_group_by}}
     ) > ${var.cpu_utilization_threshold_critical}
   EOQ
 

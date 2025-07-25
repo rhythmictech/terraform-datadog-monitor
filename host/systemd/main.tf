@@ -24,7 +24,7 @@ resource "datadog_monitor" "systemd_unit" {
   require_full_window = false
 
   query = <<EOT
-"systemd.unit.state"${local.service_filter}.by("host","unit").last(3).count_by_status()
+"systemd.unit.state"${local.service_filter}.by(${local.service_group_by}).last(3).count_by_status()
 EOT
 
   monitor_thresholds {
