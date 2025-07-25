@@ -26,7 +26,7 @@ resource "datadog_monitor" "disk_space" {
 
   query = <<EOQ
     ${var.disk_space_time_aggregator}(${var.disk_space_timeframe}):
-      avg:system.disk.in_use${local.query_filter} by {${local.query_group_by}}
+      avg:system.disk.in_use${local.query_filter} by {device,${local.query_group_by}}
     * 100 > ${var.disk_space_threshold_critical}
   EOQ
 
@@ -55,7 +55,7 @@ resource "datadog_monitor" "disk_space_forecast" {
 
   query = <<EOQ
     ${var.disk_space_forecast_time_aggregator}(${var.disk_space_forecast_timeframe}):
-      forecast(avg:system.disk.in_use${local.query_filter} by {${local.query_group_by}} * 100,
+      forecast(avg:system.disk.in_use${local.query_filter} by {device,${local.query_group_by}} * 100,
               '${var.disk_space_forecast_algorithm}',
                ${var.disk_space_forecast_deviations},
                interval='${var.disk_space_forecast_interval}',
@@ -82,7 +82,7 @@ resource "datadog_monitor" "disk_inodes" {
 
   query = <<EOQ
     ${var.disk_inodes_time_aggregator}(${var.disk_inodes_timeframe}):
-      avg:system.fs.inodes.in_use${local.query_filter} by {${local.query_group_by}}
+      avg:system.fs.inodes.in_use${local.query_filter} by {device,${local.query_group_by}}
     * 100 > ${var.disk_inodes_threshold_critical}
   EOQ
 
