@@ -22,12 +22,6 @@ variable "systemd_unit_alert_threshold_warning" {
   default     = 1
 }
 
-variable "systemd_units_filter" {
-  description = "List of specific systemd units (services) to monitor. If empty, monitors all."
-  type        = list(string)
-  default     = []
-}
-
 variable "base_tags" {
   description = "Base tags to apply to all monitors"
   type        = list(string)

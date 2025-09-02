@@ -12,13 +12,13 @@ resource "datadog_monitor" "swap" {
   count = var.swap_enabled ? 1 : 0
 
   name    = join("", [local.title_prefix, "Usable Swap - {{name.name}}", local.title_suffix])
-  message      = var.swap_use_message ? local.query_alert_base_message : ""
+  message = var.swap_use_message ? local.query_alert_base_message : ""
   tags    = concat(local.common_tags, var.base_tags, var.additional_tags)
   type    = "query alert"
 
   query = <<EOQ
     ${var.swap_time_aggregator}(${var.swap_timeframe}):
-      avg:system.swap.pct_free${local.query_filter} by {name,aws_account,env,datadog_managed}
+      avg:system.swap.pct_free${local.query_filter} by {${local.query_group_by}}
     < ${var.swap_threshold_critical}
   EOQ
 
