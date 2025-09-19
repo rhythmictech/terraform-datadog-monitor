@@ -260,7 +260,7 @@ ${local.alert_context}
 * **Message**: {{log.message}}
 * **Direct Link**: {{log.link}}
 {{#is_alert}}
-{{#is_match "env.name" "prod"}}
+{{#is_match "env.name" "prod" "prd"}}
   {{#is_match "datadog_managed" "critical"}}
     ${local.notify_on_crit}
   {{/is_match}}
@@ -268,13 +268,13 @@ ${local.alert_context}
     ${local.notify_on_prod}
   {{/is_match}}
 {{/is_match}}
-{{^is_match "env.name" "prod"}}
+{{^is_match "env.name" "prod" "prd"}}
     ${local.notify_on_nonprod}
   {{/is_match}}
 {{/is_match}}
 {{/is_alert}}
 {{#is_recovery}}
-{{#is_match "env.name" "prod"}}
+{{#is_match "env.name" "prod" "prd"}}
   {{#is_match "datadog_managed" "critical"}}
     ${local.notify_on_crit}
   {{/is_match}}
@@ -282,7 +282,7 @@ ${local.alert_context}
     ${local.notify_on_prod}
   {{/is_match}}
 {{/is_match}}
-{{^is_match "env.name" "prod"}}
+{{^is_match "env.name" "prod" "prd"}}
     ${local.notify_on_nonprod}
   {{/is_match}}
 {{/is_match}}
@@ -297,7 +297,7 @@ Threshold: {{threshold}}
 
 Environment: {{env.name}}
 
-  {{#is_match "env.name" "prod"}}
+  {{#is_match "env.name" "prod" "prd"}}
     {{#is_match "datadog_managed" "critical"}}
       ${local.notify_on_crit}
     {{/is_match}}
@@ -305,7 +305,7 @@ Environment: {{env.name}}
       ${local.notify_on_prod}
     {{/is_match}}
   {{/is_match}}
-  {{^is_match "env.name" "prod"}}
+  {{^is_match "env.name" "prod" "prd"}}
       ${local.notify_on_nonprod}
   {{/is_match}}
 
@@ -322,7 +322,7 @@ Environment: {{env.name}}
 
 No further action is required.
 
-  {{#is_match "env.name" "prod"}}
+  {{#is_match "env.name" "prod" "prd"}}
     {{#is_match "datadog_managed" "critical"}}
       ${local.notify_on_crit}
     {{/is_match}}
@@ -330,7 +330,7 @@ No further action is required.
       ${local.notify_on_prod}
     {{/is_match}}
   {{/is_match}}
-  {{^is_match "env.name" "prod"}}
+  {{^is_match "env.name" "prod" "prd"}}
       ${local.notify_on_nonprod}
   {{/is_match}}
 {{/is_recovery}}
