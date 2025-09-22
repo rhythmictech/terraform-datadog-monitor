@@ -27,7 +27,7 @@ resource "datadog_monitor" "running_tasks" {
   timeout_h           = var.timeout_h
 
   query = <<END
-    min(${var.running_tasks_evaluation_window}):(
+    avg(${var.running_tasks_evaluation_window}):(
       avg:aws.ecs.service.running${local.query_filter} by {servicename,region,aws_account,env,datadog_managed} /
       avg:aws.ecs.service.desired${local.query_filter} by {servicename,region,aws_account,env,datadog_managed}
     ) <= ${var.running_tasks_threshold_critical}
