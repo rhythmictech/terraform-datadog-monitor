@@ -340,7 +340,34 @@ END
 ${local.alert_context}
 **Alert Information**
 {{#is_alert}} ${local.notify_on_alert} {{/is_alert}}
-{{#is_recovery}} ${local.notify_on_recovery} {{/is_recovery}}
+END
+
+  event_alert_base_message = <<END
+${local.alert_context}
+
+**Alert Information**
+* **Event Tags**: {{event.tags}}
+* **Event Text**: {{event.text}}
+{{#is_alert}}
+Current value: {{value}}
+Threshold: {{threshold}}
+
+Environment: {{env.name}}
+
+  {{#is_match "env.name" "prod" "prd"}}
+    {{#is_match "event.tags.datadog_managed" "critical"}}
+      ${local.notify_on_crit}
+    {{/is_match}}
+    {{#is_match "event.tags.datadog_managed" "true"}}
+      ${local.notify_on_prod}
+    {{/is_match}}
+  {{/is_match}}
+  {{^is_match "env.name" "prod" "prd"}}
+      ${local.notify_on_nonprod}
+  {{/is_match}}
+
+Please investigate and take necessary actions.
+{{/is_alert}}
 END
 
   service_group_by = join(",", formatlist("\"%s\"", var.group_by))
