@@ -340,7 +340,6 @@ END
 ${local.alert_context}
 **Alert Information**
 {{#is_alert}} ${local.notify_on_alert} {{/is_alert}}
-{{#is_recovery}} ${local.notify_on_recovery} {{/is_recovery}}
 END
 
   event_alert_base_message = <<END
@@ -369,29 +368,6 @@ Environment: {{env.name}}
 
 Please investigate and take necessary actions.
 {{/is_alert}}
-
-{{#is_recovery}}
-Recovery: Monitor has returned to a normal state.
-
-Current value: {{value}}
-Threshold: {{threshold}}
-
-Environment: {{env.name}}
-
-No further action is required.
-
-  {{#is_match "env.name" "prod" "prd"}}
-    {{#is_match "event.tags.datadog_managed" "critical"}}
-      ${local.notify_on_crit}
-    {{/is_match}}
-    {{#is_match "event.tags.datadog_managed" "true"}}
-      ${local.notify_on_prod}
-    {{/is_match}}
-  {{/is_match}}
-  {{^is_match "env.name" "prod" "prd"}}
-      ${local.notify_on_nonprod}
-  {{/is_match}}
-{{/is_recovery}}
 END
 
   service_group_by = join(",", formatlist("\"%s\"", var.group_by))
