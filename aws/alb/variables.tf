@@ -163,6 +163,12 @@ variable "no_healthy_instances_threshold_warning" {
   type        = number
 }
 
+variable "no_healthy_instances_rollup" {
+  default     = "weighted"
+  description = "Rollup aggregation for host count metrics (avg, min, max, sum, weighted). Defaults to weighted to avoid false alerts from transient CloudWatch minimum values during ECS scaling events."
+  type        = string
+}
+
 variable "no_healthy_instances_use_message" {
   description = "Whether to use the query alert base message"
   type        = bool
