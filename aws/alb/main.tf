@@ -117,9 +117,9 @@ resource "datadog_monitor" "no_healthy_instances" {
 
   query = <<END
     min(${var.no_healthy_instances_evaluation_window}): (
-      sum:aws.applicationelb.healthy_host_count.minimum${local.query_filter} by {aws_account,env,datadog_managed,region,loadbalancer} / (
-      sum:aws.applicationelb.healthy_host_count.minimum${local.query_filter} by {aws_account,env,datadog_managed,region,loadbalancer} +
-      sum:aws.applicationelb.un_healthy_host_count.maximum${local.query_filter} by {aws_account,env,datadog_managed,region,loadbalancer} )
+      sum:aws.applicationelb.healthy_host_count${local.query_filter} by {aws_account,env,datadog_managed,region,loadbalancer}.${var.no_healthy_instances_rollup}() / (
+      sum:aws.applicationelb.healthy_host_count${local.query_filter} by {aws_account,env,datadog_managed,region,loadbalancer}.${var.no_healthy_instances_rollup}() +
+      sum:aws.applicationelb.un_healthy_host_count${local.query_filter} by {aws_account,env,datadog_managed,region,loadbalancer}.${var.no_healthy_instances_rollup}() )
     ) * 100 <= ${var.no_healthy_instances_threshold_critical}
 END
 
