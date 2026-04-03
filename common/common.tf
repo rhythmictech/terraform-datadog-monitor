@@ -340,6 +340,7 @@ END
 ${local.alert_context}
 **Alert Information**
 {{#is_alert}} ${local.notify_on_alert} {{/is_alert}}
+{{#is_recovery}} ${local.notify_on_alert} {{/is_recovery}}
 END
 
   event_alert_base_message = <<END
@@ -348,7 +349,6 @@ ${local.alert_context}
 **Alert Information**
 * **Event Tags**: {{event.tags}}
 * **Event Text**: {{event.text}}
-{{#is_alert}}
 Current value: {{value}}
 Threshold: {{threshold}}
 
@@ -367,7 +367,6 @@ Environment: {{env.name}}
   {{/is_match}}
 
 Please investigate and take necessary actions.
-{{/is_alert}}
 END
 
   service_group_by = join(",", formatlist("\"%s\"", var.group_by))
