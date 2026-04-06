@@ -349,6 +349,7 @@ ${local.alert_context}
 **Alert Information**
 * **Event Tags**: {{event.tags}}
 * **Event Text**: {{event.text}}
+{{#is_alert}}
 Current value: {{value}}
 Threshold: {{threshold}}
 
@@ -367,6 +368,8 @@ Environment: {{env.name}}
   {{/is_match}}
 
 Please investigate and take necessary actions.
+{{/is_alert}}
+{{#is_recovery}} ${local.notify_on_alert} {{/is_recovery}}
 END
 
   service_group_by = join(",", formatlist("\"%s\"", var.group_by))
