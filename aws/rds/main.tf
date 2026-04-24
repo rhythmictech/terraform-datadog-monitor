@@ -126,8 +126,6 @@ resource "datadog_monitor" "used_storage" {
 
   evaluation_delay    = var.evaluation_delay
   new_group_delay     = var.new_group_delay
-  notify_no_data      = var.notify_no_data
-  no_data_timeframe   = var.used_storage_no_data_window
   on_missing_data     = var.used_storage_on_missing_data
   renotify_interval   = var.renotify_interval
   require_full_window = true
