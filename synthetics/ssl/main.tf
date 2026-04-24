@@ -15,7 +15,7 @@ resource "datadog_synthetics_test" "ssl" {
   type      = "api"
   subtype   = "ssl"
   status    = "live"
-  message = <<-EOT
+  message   = <<-EOT
     {{#is_alert}}
     ${local.notify_on_prod}
     SSL certificate is expiring in less than {{threshold}} days.

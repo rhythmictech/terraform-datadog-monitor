@@ -128,6 +128,7 @@ resource "datadog_monitor" "used_storage" {
   new_group_delay     = var.new_group_delay
   notify_no_data      = var.notify_no_data
   no_data_timeframe   = var.used_storage_no_data_window
+  on_missing_data     = var.used_storage_on_missing_data
   renotify_interval   = var.renotify_interval
   require_full_window = true
   timeout_h           = var.timeout_h
@@ -135,8 +136,8 @@ resource "datadog_monitor" "used_storage" {
   query = <<END
     max(${var.used_storage_evaluation_window}):(
       100 - ((
-        default(avg:aws.rds.free_storage_space${local.rds_query_filter} by {dbinstanceidentifier,region,aws_account,env,datadog_managed}, 0) /
-        default(avg:aws.rds.total_storage_space${local.rds_query_filter} by {dbinstanceidentifier,region,aws_account,env,datadog_managed}, 1)
+        avg:aws.rds.free_storage_space${local.rds_query_filter} by {dbinstanceidentifier,region,aws_account,env,datadog_managed} /
+        avg:aws.rds.total_storage_space${local.rds_query_filter} by {dbinstanceidentifier,region,aws_account,env,datadog_managed}
       ) * 100)
     ) >= ${var.used_storage_threshold_critical}
 END

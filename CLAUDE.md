@@ -68,7 +68,7 @@ terraform_requirements:
   version_pinning: REQUIRED
   validation_pattern: "^[0-9]+\.[0-9]+(\.[0-9]+)?$"
   error_message: "Terraform version must be pinned in .terraform-version or terraform block"
-  
+
 provider_versions:
   aws_provider: REQUIRED
   validation_pattern: "^~> [0-9]+\.[0-9]+$"
@@ -115,7 +115,7 @@ security_tools:
     enforce: true
     severity_threshold: "HIGH"
     error_message: "High severity security issues must be resolved"
-  
+
   tflint:
     enforce: true
     config_required: true
@@ -140,7 +140,7 @@ terraform_backend:
     region: REQUIRED
     encrypt: true
     dynamodb_table: REQUIRED
-  
+
   validation:
     bucket_versioning: REQUIRED
     bucket_encryption: REQUIRED
@@ -184,7 +184,7 @@ pr_requirements:
   plan_in_description: REQUIRED
   validation_passed: REQUIRED
   security_scan_passed: REQUIRED
-  
+
   template_sections:
     - "## Changes"
     - "## Business Justification"
@@ -203,7 +203,7 @@ readme_sections:
     - "Prerequisites"
     - "Usage instructions"
     - "Variable documentation"
-  
+
   validation:
     min_length: 500
     terraform_docs: REQUIRED
