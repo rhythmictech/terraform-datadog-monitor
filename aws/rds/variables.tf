@@ -211,6 +211,12 @@ variable "used_storage_evaluation_window" {
   type        = string
 }
 
+variable "used_storage_on_missing_data" {
+  default     = "show_no_data"
+  description = "How to handle missing data. (valid values are show_no_data, show_and_notify_no_data, resolve, default)"
+  type        = string
+}
+
 variable "used_storage_threshold_critical" {
   default     = 90
   description = "Critical threshold (percentage, 0-100)"
