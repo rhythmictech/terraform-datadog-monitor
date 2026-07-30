@@ -31,7 +31,8 @@ jobs:
           - azure/service-bus
           - azure/vm
     steps:
-      - uses: actions/checkout@v7
+      # SHA-pinned: this org requires all actions pinned to a full-length commit SHA.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       # tfenv reads .terraform-version, so the Terraform version stays
       # single-sourced rather than duplicated into this workflow.
       - name: Install tfenv
