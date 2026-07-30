@@ -1,0 +1,49 @@
+---
+name: terraform test
+# Scoped to the azure/* tree (and the common/ files it symlinks) so this job
+# never gates contributors working only on aws/, host/ or synthetics/.
+on:
+  pull_request:
+    paths:
+      - 'azure/**'
+      - 'common/**'
+  push:
+    branches:
+      - main
+      - master
+      - prod
+      - develop
+    paths:
+      - 'azure/**'
+      - 'common/**'
+
+jobs:
+  terraform-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        module:
+          - azure/app-service
+          - azure/app-service-plan
+          - azure/cognitive-services
+          - azure/functions
+          - azure/service-bus
+          - azure/vm
+    steps:
+      - uses: actions/checkout@v7
+      # tfenv reads .terraform-version, so the Terraform version stays
+      # single-sourced rather than duplicated into this workflow.
+      - name: Install tfenv
+        run: |
+          git clone --depth 1 https://github.com/tfutils/tfenv.git ~/.tfenv
+          echo "$HOME/.tfenv/bin" >> "$GITHUB_PATH"
+      - name: Install Terraform
+        run: tfenv install
+      - name: Terraform init
+        run: terraform init -backend=false
+        working-directory: ${{ matrix.module }}
+      # Uses mock_provider, so no Datadog credentials are required.
+      - name: Terraform test
+        run: terraform test
+        working-directory: ${{ matrix.module }}
