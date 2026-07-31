@@ -26,9 +26,12 @@ jobs:
         module:
           - azure/app-service
           - azure/app-service-plan
+          - azure/application-gateway
           - azure/cognitive-services
           - azure/functions
           - azure/service-bus
+          - azure/sql-database
+          - azure/sql-elastic-pool
           - azure/vm
     steps:
       # SHA-pinned: this org requires all actions pinned to a full-length commit SHA.
