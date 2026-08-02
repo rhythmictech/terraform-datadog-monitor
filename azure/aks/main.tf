@@ -18,8 +18,8 @@ locals {
   # than concatenate: "{*,phase:Failed}" is not valid Datadog filter syntax.
   #
   # Both the tag key and the tag value are variables. Azure spells these
-  # dimensions lowercase, but Kubernetes capitalises the VALUES (`Failed`,
-  # `Pending`, `Ready`) and Datadog normalises tag values to lowercase in some
+  # dimensions lowercase, but Kubernetes capitalizes the VALUES (`Failed`,
+  # `Pending`, `Ready`) and Datadog normalizes tag values to lowercase in some
   # integrations. Which it does here is unconfirmed, so the pair must be
   # correctable without a module release. See the README.
   pods_failed_dimension  = "${var.pods_failed_phase_tag_key}:${var.pods_failed_phase_tag_value}"

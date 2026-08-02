@@ -82,7 +82,7 @@ rather than lowering the threshold, since a threshold below 1 cannot fire.
 | `resiliency_ejected_hosts` | Same resiliency-policy gate. Threshold defaults to 0, so any ejected host alerts once enabled. |
 | `gpu_utilization_high` | GPU workloads only. Azure labels the metric Preview. |
 
-## Metrics deliberately not modelled
+## Metrics deliberately not modeled
 
 `UsageNanoCores`, `WorkingSetBytes`, `RxBytes` and `TxBytes` are absolute counterparts of the percentage
 metrics, and an absolute threshold is meaningless without knowing the container's configured limits.
@@ -95,11 +95,11 @@ The entire **Java** category, twelve `Jvm*` metrics, is omitted on purpose. JVM 
 the Agent's JMX integration, and wiring them in here would make this the only language-specific module in
 the repo.
 
-## A note on Azure's Preview labelling
+## A note on Azure's Preview labeling
 
 `CpuPercentage`, `MemoryPercentage`, `ResponseTime` and `GpuUtilizationPercentage` all carry "(Preview)" in
-their Azure display names. This module does not disable a monitor merely for being labelled preview, only
-for a real feature gate. The labelling is recorded so nobody is surprised if Microsoft changes it.
+their Azure display names. This module does not disable a monitor merely for being labeled preview, only
+for a real feature gate. The labeling is recorded so nobody is surprised if Microsoft changes it.
 
 ## Group by
 

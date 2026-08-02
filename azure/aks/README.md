@@ -37,8 +37,8 @@ against live data. Read this section before trusting them.
 Datadog's Azure integration maps Azure Monitor dimensions to Datadog tags: "Metrics are collected with all
 available dimensions (which are mapped to tags in Datadog)". What is not documented is how the resulting
 tag key is spelled, or whether tag values keep their source casing. Azure names these dimensions in
-lowercase, which is reassuring for the keys, but Kubernetes capitalises the **values** (`Failed`,
-`Pending`, `Ready`) and Datadog normalises tag values to lowercase in some integrations.
+lowercase, which is reassuring for the keys, but Kubernetes capitalizes the **values** (`Failed`,
+`Pending`, `Ready`) and Datadog normalizes tag values to lowercase in some integrations.
 
 | Monitor | Filter it applies | Variables to correct it |
 |---|---|---|
@@ -67,7 +67,7 @@ than an absent one. So on a first deployment:
   the kubelet reporting at all, so 90 is already too late.
 - **`etcd_database_usage_high` warns at 75** while alerting critical at 90. When the etcd database reaches
   its quota the cluster goes **read-only**, and recovery means finding and deleting objects, which takes
-  time to organise. This is the highest-value monitor in the module: etcd database growth is driven by the
+  time to organize. This is the highest-value monitor in the module: etcd database growth is driven by the
   client's own object count and size, so unlike the rest of the control plane it is genuinely actionable.
 - **`pods_pending` uses a 15 minute window**, longer than the module default. Pods sit in Pending routinely
   while images pull and volumes attach. What matters is pods *staying* pending, not passing through.
@@ -82,7 +82,7 @@ than an absent one. So on a first deployment:
 | `autoscaler_unhealthy` | Same cluster-autoscaler gate. |
 | `etcd_cpu_high` | Not a feature gate. Azure operates and scales the AKS control plane, so etcd CPU is not customer-actionable the way etcd *database* usage is. Enable for visibility, but expect to be unable to act on it. |
 
-## A note on Azure's PREVIEW labelling
+## A note on Azure's PREVIEW labeling
 
 Microsoft files every `node_*` metric under a "Nodes (PREVIEW)" category, and all four
 `cluster_autoscaler_*` metrics under "Cluster Autoscaler (PREVIEW)". The GA categories are API Server
@@ -92,10 +92,10 @@ This module does **not** disable a monitor merely because Microsoft labels it pr
 almost nothing enabled, and Microsoft's own [Azure Monitor Baseline
 Alerts](https://azure.github.io/azure-monitor-baseline-alerts/services/ContainerService/managedClusters/)
 ship `node_cpu_usage_percentage`, `node_memory_working_set_percentage` and `node_disk_usage_percentage`
-enabled. What does disable a monitor here is a feature gate, as in the table above. The labelling is
+enabled. What does disable a monitor here is a feature gate, as in the table above. The labeling is
 recorded so nobody is surprised if Microsoft changes it.
 
-## Metrics deliberately not modelled
+## Metrics deliberately not modeled
 
 `kube_node_status_allocatable_cpu_cores` and `kube_node_status_allocatable_memory_bytes` are capacity
 gauges rather than alertable conditions. The absolute-value counterparts of the percentage metrics
@@ -236,7 +236,7 @@ No modules.
 | <a name="input_node_memory_working_set_high_threshold_warning"></a> [node\_memory\_working\_set\_high\_threshold\_warning](#input\_node\_memory\_working\_set\_high\_threshold\_warning) | Node memory working set percentage at which to alert warning | `number` | `80` | no |
 | <a name="input_node_memory_working_set_high_use_message"></a> [node\_memory\_working\_set\_high\_use\_message](#input\_node\_memory\_working\_set\_high\_use\_message) | Whether to use the query alert base message for AKS node memory working set monitor | `bool` | `false` | no |
 | <a name="input_nodes_not_ready_condition_tag_key"></a> [nodes\_not\_ready\_condition\_tag\_key](#input\_nodes\_not\_ready\_condition\_tag\_key) | Datadog tag key carrying the node condition type. Azure names the dimension `condition`; NOT confirmed against live data | `string` | `"condition"` | no |
-| <a name="input_nodes_not_ready_condition_tag_value"></a> [nodes\_not\_ready\_condition\_tag\_value](#input\_nodes\_not\_ready\_condition\_tag\_value) | Datadog tag value identifying the Ready node condition. Kubernetes capitalises condition names; set to `ready` if the capitalised form returns no data | `string` | `"Ready"` | no |
+| <a name="input_nodes_not_ready_condition_tag_value"></a> [nodes\_not\_ready\_condition\_tag\_value](#input\_nodes\_not\_ready\_condition\_tag\_value) | Datadog tag value identifying the Ready node condition. Kubernetes capitalizes condition names; set to `ready` if the capitalized form returns no data | `string` | `"Ready"` | no |
 | <a name="input_nodes_not_ready_enabled"></a> [nodes\_not\_ready\_enabled](#input\_nodes\_not\_ready\_enabled) | Enable AKS nodes-not-ready monitor. NOTE: this is the most fragile monitor in the module, depending on TWO unconfirmed dimension tag pairs (condition and status). Confirm both against live data | `bool` | `true` | no |
 | <a name="input_nodes_not_ready_evaluation_window"></a> [nodes\_not\_ready\_evaluation\_window](#input\_nodes\_not\_ready\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_nodes_not_ready_no_data_window"></a> [nodes\_not\_ready\_no\_data\_window](#input\_nodes\_not\_ready\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
@@ -257,14 +257,14 @@ No modules.
 | <a name="input_pods_failed_evaluation_window"></a> [pods\_failed\_evaluation\_window](#input\_pods\_failed\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_pods_failed_no_data_window"></a> [pods\_failed\_no\_data\_window](#input\_pods\_failed\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
 | <a name="input_pods_failed_phase_tag_key"></a> [pods\_failed\_phase\_tag\_key](#input\_pods\_failed\_phase\_tag\_key) | Datadog tag key carrying the pod phase. Azure names the dimension `phase`; this is the expected Datadog key but has NOT been confirmed against live data. Exposed as a variable so it can be corrected without a module change | `string` | `"phase"` | no |
-| <a name="input_pods_failed_phase_tag_value"></a> [pods\_failed\_phase\_tag\_value](#input\_pods\_failed\_phase\_tag\_value) | Datadog tag value identifying the failed pod phase. Kubernetes capitalises phase names (`Failed`), but Datadog normalises tag values to lowercase in some integrations. Whether it does here is NOT confirmed; set to `failed` if the capitalised form returns no data | `string` | `"Failed"` | no |
+| <a name="input_pods_failed_phase_tag_value"></a> [pods\_failed\_phase\_tag\_value](#input\_pods\_failed\_phase\_tag\_value) | Datadog tag value identifying the failed pod phase. Kubernetes capitalizes phase names (`Failed`), but Datadog normalizes tag values to lowercase in some integrations. Whether it does here is NOT confirmed; set to `failed` if the capitalized form returns no data | `string` | `"Failed"` | no |
 | <a name="input_pods_failed_threshold_critical"></a> [pods\_failed\_threshold\_critical](#input\_pods\_failed\_threshold\_critical) | Number of failed pods at which to alert critical. Defaults to 0 so that any failed pod alerts, since the query compares with `>` | `number` | `0` | no |
 | <a name="input_pods_failed_use_message"></a> [pods\_failed\_use\_message](#input\_pods\_failed\_use\_message) | Whether to use the query alert base message for AKS failed pods monitor | `bool` | `false` | no |
 | <a name="input_pods_pending_enabled"></a> [pods\_pending\_enabled](#input\_pods\_pending\_enabled) | Enable AKS pending pods monitor. Same unconfirmed-dimension caveat as `pods_failed_enabled` | `bool` | `true` | no |
 | <a name="input_pods_pending_evaluation_window"></a> [pods\_pending\_evaluation\_window](#input\_pods\_pending\_evaluation\_window) | Evaluation window for monitor. Longer than the module default on purpose: pods sit in Pending routinely while images pull and volumes attach, so a short window alerts on healthy scheduling churn. What matters is pods staying pending | `string` | `"last_15m"` | no |
 | <a name="input_pods_pending_no_data_window"></a> [pods\_pending\_no\_data\_window](#input\_pods\_pending\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
 | <a name="input_pods_pending_phase_tag_key"></a> [pods\_pending\_phase\_tag\_key](#input\_pods\_pending\_phase\_tag\_key) | Datadog tag key carrying the pod phase. Not confirmed against live data; see `pods_failed_phase_tag_key` | `string` | `"phase"` | no |
-| <a name="input_pods_pending_phase_tag_value"></a> [pods\_pending\_phase\_tag\_value](#input\_pods\_pending\_phase\_tag\_value) | Datadog tag value identifying the pending pod phase. Not confirmed against live data; set to `pending` if the capitalised form returns no data | `string` | `"Pending"` | no |
+| <a name="input_pods_pending_phase_tag_value"></a> [pods\_pending\_phase\_tag\_value](#input\_pods\_pending\_phase\_tag\_value) | Datadog tag value identifying the pending pod phase. Not confirmed against live data; set to `pending` if the capitalized form returns no data | `string` | `"Pending"` | no |
 | <a name="input_pods_pending_threshold_critical"></a> [pods\_pending\_threshold\_critical](#input\_pods\_pending\_threshold\_critical) | Number of pending pods at which to alert critical. A guess tuned for a generic cluster; confirm against real scheduling churn | `number` | `5` | no |
 | <a name="input_pods_pending_threshold_warning"></a> [pods\_pending\_threshold\_warning](#input\_pods\_pending\_threshold\_warning) | Number of pending pods at which to alert warning | `number` | `1` | no |
 | <a name="input_pods_pending_use_message"></a> [pods\_pending\_use\_message](#input\_pods\_pending\_use\_message) | Whether to use the query alert base message for AKS pending pods monitor | `bool` | `false` | no |

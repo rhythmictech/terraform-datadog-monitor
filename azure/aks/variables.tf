@@ -266,7 +266,7 @@ variable "pods_failed_phase_tag_key" {
 
 variable "pods_failed_phase_tag_value" {
   default     = "Failed"
-  description = "Datadog tag value identifying the failed pod phase. Kubernetes capitalises phase names (`Failed`), but Datadog normalises tag values to lowercase in some integrations. Whether it does here is NOT confirmed; set to `failed` if the capitalised form returns no data"
+  description = "Datadog tag value identifying the failed pod phase. Kubernetes capitalizes phase names (`Failed`), but Datadog normalizes tag values to lowercase in some integrations. Whether it does here is NOT confirmed; set to `failed` if the capitalized form returns no data"
   type        = string
 }
 
@@ -313,7 +313,7 @@ variable "pods_pending_phase_tag_key" {
 
 variable "pods_pending_phase_tag_value" {
   default     = "Pending"
-  description = "Datadog tag value identifying the pending pod phase. Not confirmed against live data; set to `pending` if the capitalised form returns no data"
+  description = "Datadog tag value identifying the pending pod phase. Not confirmed against live data; set to `pending` if the capitalized form returns no data"
   type        = string
 }
 
@@ -366,7 +366,7 @@ variable "nodes_not_ready_condition_tag_key" {
 
 variable "nodes_not_ready_condition_tag_value" {
   default     = "Ready"
-  description = "Datadog tag value identifying the Ready node condition. Kubernetes capitalises condition names; set to `ready` if the capitalised form returns no data"
+  description = "Datadog tag value identifying the Ready node condition. Kubernetes capitalizes condition names; set to `ready` if the capitalized form returns no data"
   type        = string
 }
 
