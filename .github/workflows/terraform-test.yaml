@@ -24,10 +24,12 @@ jobs:
       fail-fast: false
       matrix:
         module:
+          - azure/aks
           - azure/app-service
           - azure/app-service-plan
           - azure/application-gateway
           - azure/cognitive-services
+          - azure/container-apps
           - azure/functions
           - azure/service-bus
           - azure/sql-database
