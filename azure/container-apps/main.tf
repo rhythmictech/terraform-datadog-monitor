@@ -249,7 +249,7 @@ resource "datadog_monitor" "cold_start_high" {
 
   query = <<END
     sum(${var.cold_start_high_evaluation_window}):
-      sum:azure.containerapps.enhanced.cold_start${local.query_filter}.as_count() by {${local.group_by}}
+      sum:azure.containerapps.enhanced.cold_start${local.query_filter} by {${local.group_by}}.as_count()
     > ${var.cold_start_high_threshold_critical}
 END
 
@@ -280,7 +280,7 @@ resource "datadog_monitor" "resiliency_request_timeouts" {
 
   query = <<END
     sum(${var.resiliency_request_timeouts_evaluation_window}):
-      sum:azure.app_containerapps.resiliency_request_timeouts${local.query_filter}.as_count() by {${local.group_by}}
+      sum:azure.app_containerapps.resiliency_request_timeouts${local.query_filter} by {${local.group_by}}.as_count()
     > ${var.resiliency_request_timeouts_threshold_critical}
 END
 
