@@ -246,7 +246,7 @@ resource "datadog_monitor" "pods_failed" {
 
   query = <<END
     sum(${var.pods_failed_evaluation_window}):
-      sum:azure.containerservice_managedclusters.kube_pod_status_phase${local.pods_failed_filter}.as_count() by {${local.group_by}}
+      sum:azure.containerservice_managedclusters.kube_pod_status_phase${local.pods_failed_filter} by {${local.group_by}}.as_count()
     > ${var.pods_failed_threshold_critical}
 END
 
@@ -279,7 +279,7 @@ resource "datadog_monitor" "pods_pending" {
 
   query = <<END
     sum(${var.pods_pending_evaluation_window}):
-      sum:azure.containerservice_managedclusters.kube_pod_status_phase${local.pods_pending_filter}.as_count() by {${local.group_by}}
+      sum:azure.containerservice_managedclusters.kube_pod_status_phase${local.pods_pending_filter} by {${local.group_by}}.as_count()
     > ${var.pods_pending_threshold_critical}
 END
 
@@ -313,7 +313,7 @@ resource "datadog_monitor" "nodes_not_ready" {
 
   query = <<END
     sum(${var.nodes_not_ready_evaluation_window}):
-      sum:azure.containerservice_managedclusters.kube_node_status_condition${local.nodes_not_ready_filter}.as_count() by {${local.group_by}}
+      sum:azure.containerservice_managedclusters.kube_node_status_condition${local.nodes_not_ready_filter} by {${local.group_by}}.as_count()
     > ${var.nodes_not_ready_threshold_critical}
 END
 

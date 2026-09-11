@@ -98,7 +98,7 @@ resource "datadog_monitor" "failed_requests" {
 
   query = <<END
     sum(${var.failed_requests_evaluation_window}):
-      sum:azure.network_applicationgateways.failed_requests${local.query_filter}.as_count() by {${local.group_by}}
+      sum:azure.network_applicationgateways.failed_requests${local.query_filter} by {${local.group_by}}.as_count()
     > ${var.failed_requests_threshold_critical}
 END
 

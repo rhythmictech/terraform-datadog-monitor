@@ -88,7 +88,7 @@ resource "datadog_monitor" "deadlocks" {
 
   query = <<END
     sum(${var.deadlocks_evaluation_window}):
-      sum:azure.sql_servers_databases.deadlock${local.query_filter}.as_count() by {${local.group_by}}
+      sum:azure.sql_servers_databases.deadlock${local.query_filter} by {${local.group_by}}.as_count()
     > ${var.deadlocks_threshold_critical}
 END
 
@@ -117,7 +117,7 @@ resource "datadog_monitor" "connection_failures" {
 
   query = <<END
     sum(${var.connection_failures_evaluation_window}):
-      sum:azure.sql_servers_databases.connection_failed${local.query_filter}.as_count() by {${local.group_by}}
+      sum:azure.sql_servers_databases.connection_failed${local.query_filter} by {${local.group_by}}.as_count()
     > ${var.connection_failures_threshold_critical}
 END
 

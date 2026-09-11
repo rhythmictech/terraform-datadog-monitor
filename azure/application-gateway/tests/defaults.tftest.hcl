@@ -261,3 +261,30 @@ run "tags_compose_base_common_and_additional" {
     error_message = "common.tf must always add provisioned-by:terraform"
   }
 }
+
+# Datadog rejects a query whose modifier precedes the grouping clause, with
+# "The value provided for parameter 'query' is invalid" from the validate
+# endpoint. `mock_provider` never calls that endpoint, so only a string
+# assertion catches it: every count-based monitor in azure/* shipped from
+# v1.7.0 through v1.9.0 with `.as_count()` written before `by {}`, and the
+# defect surfaced only at the first real plan against a Datadog org.
+#
+# The negative assertion is the guard. The positive one only confirms the
+# modifier is still present, since a closing brace also ends the tag filter.
+run "as_count_modifier_follows_the_grouping_clause" {
+  command = plan
+
+  assert {
+    condition = alltrue([
+      !can(regex("\\.as_count\\(\\) by", datadog_monitor.failed_requests[0].query)),
+    ])
+    error_message = "`.as_count()` must come after the `by {}` clause; Datadog rejects the reverse"
+  }
+
+  assert {
+    condition = alltrue([
+      can(regex("\\}\\.as_count\\(\\)", datadog_monitor.failed_requests[0].query)),
+    ])
+    error_message = "the `.as_count()` modifier must still be applied to these count metrics"
+  }
+}
