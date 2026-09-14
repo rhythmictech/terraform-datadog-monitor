@@ -32,9 +32,11 @@ run "defaults_enable_expected_monitors" {
 run "queries_target_the_azure_servicebus_namespace" {
   command = plan
 
+  # Datadog's metric name carries a trailing period; without it the query matches
+  # nothing. The regex requires the period followed by the filter brace.
   assert {
-    condition     = can(regex("azure\\.servicebus_namespaces\\.count_of_dead_lettered_messages_in_a_queue_topic", datadog_monitor.dead_lettered_messages[0].query))
-    error_message = "dead_lettered_messages must query count_of_dead_lettered_messages_in_a_queue_topic"
+    condition     = can(regex("azure\\.servicebus_namespaces\\.count_of_dead_lettered_messages_in_a_queue_topic\\.\\{", datadog_monitor.dead_lettered_messages[0].query))
+    error_message = "dead_lettered_messages must query count_of_dead_lettered_messages_in_a_queue_topic. (with the trailing period)"
   }
 
   assert {
@@ -48,8 +50,8 @@ run "queries_target_the_azure_servicebus_namespace" {
   }
 
   assert {
-    condition     = can(regex("azure\\.servicebus_namespaces\\.count_of_active_messages_in_a_queue_topic", datadog_monitor.active_messages_backlog[0].query))
-    error_message = "active_messages_backlog must query count_of_active_messages_in_a_queue_topic"
+    condition     = can(regex("azure\\.servicebus_namespaces\\.count_of_active_messages_in_a_queue_topic\\.\\{", datadog_monitor.active_messages_backlog[0].query))
+    error_message = "active_messages_backlog must query count_of_active_messages_in_a_queue_topic. (with the trailing period)"
   }
 }
 
@@ -68,15 +70,17 @@ run "queries_group_by_azure_identity_tags" {
     error_message = "every query must group by subscription_name"
   }
 
-  # entity_name splits namespace-level metrics down to the individual queue or topic.
+  # `entityname` (no underscore) is the tag Datadog emits for the EntityName
+  # dimension; it splits the namespace-level metrics down to the queue or topic.
+  # `entity_name` exists on no series and must not come back.
   assert {
     condition = alltrue([
       for q in [
         datadog_monitor.dead_lettered_messages[0].query,
         datadog_monitor.active_messages_backlog[0].query,
-      ] : can(regex("entity_name", q))
+      ] : can(regex("entityname", q)) && !can(regex("entity_name", q))
     ])
-    error_message = "per-entity metrics must group by entity_name"
+    error_message = "per-entity metrics must group by entityname, not entity_name"
   }
 
   assert {

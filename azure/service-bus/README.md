@@ -12,6 +12,14 @@ because those metrics are emitted only by **Premium** SKU namespaces.
 > `active_messages_backlog_threshold_critical` is deliberately generous and should be tuned to the
 > queue's normal depth.
 
+> **Metric names:** the dead-letter and backlog monitors query
+> `azure.servicebus_namespaces.count_of_dead_lettered_messages_in_a_queue_topic.` and
+> `azure.servicebus_namespaces.count_of_active_messages_in_a_queue_topic.`, **with the trailing
+> period**. That is the name Datadog publishes (see its Azure Service Bus integration docs), and the
+> period-less form matches nothing. Both are grouped by `entityname`, the tag Datadog emits for the
+> EntityName dimension, so one monitor covers every queue and topic under a namespace. Versions
+> through v1.9.1 omitted the period and grouped by `entity_name`, and sat in No Data.
+
 ## Running the tests
 
 Unit tests live in `tests/` and assert monitor toggles, metric namespaces, group-by tags, threshold

@@ -21,7 +21,11 @@ Available memory appears in both: `azure.vm.available_memory_percentage` here, a
 `host/memory`. Prefer `host/memory` where the agent is installed.
 
 > **Note:** `azure.vm.status` is deprecated and was disabled for existing Datadog organizations on
-> 2023-06-01. This module uses `azure.vm.vm_availability_metric_preview` instead.
+> 2023-06-01. This module uses `azure.vm.vm_availability_metric`, the GA successor of
+> `azure.vm.vm_availability_metric_preview`. Datadog's integration docs still list only the `_preview`
+> name, but a Datadog org integrated in 2026 receives only the GA name; the `_preview` query returned
+> no series there and the monitor sat in No Data (verified 2026-09-14). Versions through v1.9.1 used
+> the `_preview` name.
 
 ## Running the tests
 

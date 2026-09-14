@@ -29,9 +29,17 @@ run "defaults_enable_expected_monitors" {
 run "queries_target_the_azure_vm_namespace" {
   command = plan
 
+  # The GA metric name, immediately followed by the query filter brace. The
+  # _preview predecessor returns no series in orgs integrated after the GA
+  # rename, so it must not come back.
   assert {
-    condition     = can(regex("azure\\.vm\\.vm_availability_metric_preview", datadog_monitor.availability[0].query))
-    error_message = "availability must query azure.vm.vm_availability_metric_preview"
+    condition     = can(regex("azure\\.vm\\.vm_availability_metric\\{", datadog_monitor.availability[0].query))
+    error_message = "availability must query azure.vm.vm_availability_metric (the GA name)"
+  }
+
+  assert {
+    condition     = !can(regex("vm_availability_metric_preview", datadog_monitor.availability[0].query))
+    error_message = "availability must not query the retired azure.vm.vm_availability_metric_preview"
   }
 
   assert {

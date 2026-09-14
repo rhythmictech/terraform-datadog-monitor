@@ -29,9 +29,16 @@ resource "datadog_monitor" "availability" {
   require_full_window = true
   timeout_h           = var.timeout_h
 
+  # Azure promoted "VM Availability Metric (Preview)" to GA as
+  # VmAvailabilityMetric, and Datadog delivers the GA metric as
+  # azure.vm.vm_availability_metric. Verified 2026-09-14 against a Datadog org
+  # integrated in 2026: the GA name reports every minute for every VM and the
+  # _preview name this module queried through v1.9.1 returns no series at all,
+  # which left the availability monitor in No Data while the VM was healthy.
+  # Datadog's integration docs still list only the _preview name.
   query = <<END
     min(${var.availability_evaluation_window}):
-      min:azure.vm.vm_availability_metric_preview${local.query_filter} by {${local.group_by}}
+      min:azure.vm.vm_availability_metric${local.query_filter} by {${local.group_by}}
     < 1
 END
 
