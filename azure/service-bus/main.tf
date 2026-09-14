@@ -7,15 +7,30 @@ locals {
   title_prefix = var.title_prefix == null ? "" : "[${var.title_prefix}]"
   title_suffix = var.title_suffix == null ? "" : " (${var.title_suffix})"
 
-  # `entity_name` splits namespace-level metrics down to the individual queue or
-  # topic when the dimension is present.
-  group_by = "name,entity_name,subscription_name,resource_group,region,env,datadog_managed"
+  # `entityname` splits the namespace-level queue/topic metrics down to the
+  # individual queue or topic. That is the tag key Datadog actually emits for the
+  # EntityName dimension (verified against live series 2026-09-14); versions
+  # through v1.9.1 grouped by `entity_name`, which exists on no series and left
+  # every group as N/A.
+  group_by = "name,entityname,subscription_name,resource_group,region,env,datadog_managed"
 }
+
+# METRIC NAMES. Datadog publishes the two namespace-level queue/topic counters
+# with a TRAILING PERIOD in the metric name:
+#   azure.servicebus_namespaces.count_of_dead_lettered_messages_in_a_queue_topic.
+#   azure.servicebus_namespaces.count_of_active_messages_in_a_queue_topic.
+# That is how they appear in Datadog's Azure Service Bus integration docs and in
+# the metric summary of a live org, and the monitor validation API accepts the
+# name with the period. Without it the query matches nothing and the monitor
+# sits in No Data (versions through v1.9.1). The per-entity siblings
+# (`..._in_a_queue`, `..._in_a_topic_subscription`) have no period and carry the
+# entity as `name` rather than `entityname`; the queue_topic pair is used here so
+# one monitor covers queues and topics under their namespace.
 
 resource "datadog_monitor" "dead_lettered_messages" {
   count = var.dead_lettered_messages_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "Service Bus dead-lettered messages - {{name.name}} - {{value}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "Service Bus dead-lettered messages - {{name.name}}/{{entityname.name}} - {{value}}", local.title_suffix])
   include_tags = false
   message      = var.dead_lettered_messages_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -31,7 +46,7 @@ resource "datadog_monitor" "dead_lettered_messages" {
 
   query = <<END
     max(${var.dead_lettered_messages_evaluation_window}):
-      max:azure.servicebus_namespaces.count_of_dead_lettered_messages_in_a_queue_topic${local.query_filter} by {${local.group_by}}
+      max:azure.servicebus_namespaces.count_of_dead_lettered_messages_in_a_queue_topic.${local.query_filter} by {${local.group_by}}
     > ${var.dead_lettered_messages_threshold_critical}
 END
 
@@ -103,7 +118,7 @@ END
 resource "datadog_monitor" "active_messages_backlog" {
   count = var.active_messages_backlog_enabled ? 1 : 0
 
-  name         = join("", [local.title_prefix, "Service Bus message backlog - {{name.name}} - {{value}}", local.title_suffix])
+  name         = join("", [local.title_prefix, "Service Bus message backlog - {{name.name}}/{{entityname.name}} - {{value}}", local.title_suffix])
   include_tags = false
   message      = var.active_messages_backlog_use_message ? local.query_alert_base_message : ""
   tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
@@ -119,7 +134,7 @@ resource "datadog_monitor" "active_messages_backlog" {
 
   query = <<END
     max(${var.active_messages_backlog_evaluation_window}):
-      max:azure.servicebus_namespaces.count_of_active_messages_in_a_queue_topic${local.query_filter} by {${local.group_by}}
+      max:azure.servicebus_namespaces.count_of_active_messages_in_a_queue_topic.${local.query_filter} by {${local.group_by}}
     > ${var.active_messages_backlog_threshold_critical}
 END
 
