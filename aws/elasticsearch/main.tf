@@ -159,3 +159,88 @@ EOQ
     warning  = var.free_storage_threshold_warning
   }
 }
+
+resource "datadog_monitor" "jvm_memory_pressure" {
+  count = var.jvm_memory_pressure_enabled ? 1 : 0
+
+  name         = join("", [local.title_prefix, "ElasticSearch JVM memory pressure - {{name.name}} - {{value}}%", local.title_suffix])
+  include_tags = false
+  message      = var.jvm_memory_pressure_use_message ? local.query_alert_base_message : ""
+  tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
+  type         = "query alert"
+
+  evaluation_delay    = var.evaluation_delay
+  new_group_delay     = var.new_group_delay
+  notify_no_data      = var.notify_no_data
+  no_data_timeframe   = var.jvm_memory_pressure_no_data_window
+  renotify_interval   = var.renotify_interval
+  require_full_window = true
+  timeout_h           = var.timeout_h
+
+  query = <<END
+    max(${var.jvm_memory_pressure_evaluation_window}):
+      max:aws.es.jvmmemory_pressure${local.query_filter} by {name,region,aws_account,env,datadog_managed}
+    > ${var.jvm_memory_pressure_threshold_critical}
+END
+
+  monitor_thresholds {
+    critical = var.jvm_memory_pressure_threshold_critical
+    warning  = var.jvm_memory_pressure_threshold_warning
+  }
+}
+
+resource "datadog_monitor" "cluster_index_writes_blocked" {
+  count = var.cluster_index_writes_blocked_enabled ? 1 : 0
+
+  name         = join("", [local.title_prefix, "ElasticSearch cluster index writes blocked - {{name.name}}", local.title_suffix])
+  include_tags = false
+  message      = var.cluster_index_writes_blocked_use_message ? local.query_alert_base_message : ""
+  tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
+  type         = "query alert"
+
+  evaluation_delay    = var.evaluation_delay
+  new_group_delay     = var.new_group_delay
+  notify_no_data      = var.notify_no_data
+  no_data_timeframe   = var.cluster_index_writes_blocked_no_data_window
+  renotify_interval   = var.renotify_interval
+  require_full_window = true
+  timeout_h           = var.timeout_h
+
+  query = <<END
+    max(${var.cluster_index_writes_blocked_evaluation_window}):
+      max:aws.es.cluster_index_writes_blocked${local.query_filter} by {name,region,aws_account,env,datadog_managed}
+    >= 1
+END
+
+  monitor_thresholds {
+    critical = 1
+  }
+}
+
+resource "datadog_monitor" "automated_snapshot_failure" {
+  count = var.automated_snapshot_failure_enabled ? 1 : 0
+
+  name         = join("", [local.title_prefix, "ElasticSearch automated snapshot failure - {{name.name}}", local.title_suffix])
+  include_tags = false
+  message      = var.automated_snapshot_failure_use_message ? local.query_alert_base_message : ""
+  tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
+  type         = "query alert"
+
+  evaluation_delay    = var.evaluation_delay
+  new_group_delay     = var.new_group_delay
+  notify_no_data      = var.notify_no_data
+  no_data_timeframe   = var.automated_snapshot_failure_no_data_window
+  renotify_interval   = var.renotify_interval
+  require_full_window = true
+  timeout_h           = var.timeout_h
+
+  query = <<END
+    max(${var.automated_snapshot_failure_evaluation_window}):
+      max:aws.es.automated_snapshot_failure${local.query_filter} by {name,region,aws_account,env,datadog_managed}
+    >= 1
+END
+
+  monitor_thresholds {
+    critical = 1
+  }
+}

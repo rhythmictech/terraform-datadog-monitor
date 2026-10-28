@@ -213,3 +213,96 @@ variable "free_storage_use_message" {
   type        = bool
   default     = true
 }
+
+########################################
+# ElasticSearch JVM memory pressure
+########################################
+variable "jvm_memory_pressure_enabled" {
+  default     = true
+  description = "Enable JVM memory pressure monitor"
+  type        = bool
+}
+
+variable "jvm_memory_pressure_evaluation_window" {
+  default     = "last_15m"
+  description = "Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`]"
+  type        = string
+}
+
+variable "jvm_memory_pressure_no_data_window" {
+  default     = 10
+  description = "No data threshold (in minutes, 0 to disable)"
+  type        = number
+}
+
+variable "jvm_memory_pressure_threshold_critical" {
+  default     = 90
+  description = "Critical threshold (percent)"
+  type        = number
+}
+
+variable "jvm_memory_pressure_threshold_warning" {
+  default     = 80
+  description = "Warning threshold (percent)"
+  type        = number
+}
+
+variable "jvm_memory_pressure_use_message" {
+  description = "Whether to use the query alert base message for JVM memory pressure monitor"
+  type        = bool
+  default     = true
+}
+
+########################################
+# ElasticSearch cluster index writes blocked
+########################################
+variable "cluster_index_writes_blocked_enabled" {
+  default     = true
+  description = "Enable cluster index writes blocked monitor"
+  type        = bool
+}
+
+variable "cluster_index_writes_blocked_evaluation_window" {
+  default     = "last_5m"
+  description = "Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`]"
+  type        = string
+}
+
+variable "cluster_index_writes_blocked_no_data_window" {
+  default     = 10
+  description = "No data threshold (in minutes, 0 to disable)"
+  type        = number
+}
+
+variable "cluster_index_writes_blocked_use_message" {
+  description = "Whether to use the query alert base message for cluster index writes blocked monitor"
+  type        = bool
+  default     = true
+}
+
+########################################
+# ElasticSearch automated snapshot failure
+########################################
+variable "automated_snapshot_failure_enabled" {
+  default     = true
+  description = "Enable automated snapshot failure monitor"
+  type        = bool
+}
+
+variable "automated_snapshot_failure_evaluation_window" {
+  default     = "last_1h"
+  description = "Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`]"
+  type        = string
+}
+
+variable "automated_snapshot_failure_no_data_window" {
+  default     = 10
+  description = "No data threshold (in minutes, 0 to disable)"
+  type        = number
+}
+
+variable "automated_snapshot_failure_use_message" {
+  description = "Whether to use the query alert base message for automated snapshot failure monitor"
+  type        = bool
+  default     = true
+}
