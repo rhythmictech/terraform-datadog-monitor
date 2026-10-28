@@ -2,8 +2,11 @@
 
 Configures the following for APIs based on tags matches:
 
-* 5xx rate
-* latency 
+* 5xx rate for REST APIs (`http_5xx_responses_enabled`; queries `aws.apigateway.5xxerror` grouped by `apiname`)
+* 5xx rate for HTTP APIs (API Gateway v2) (`http_api_5xx_responses_enabled`; queries `aws.apigateway.5xx` grouped by `apiid`)
+* latency for REST APIs (`latency_enabled`)
+
+REST (v1) and HTTP (v2) APIs publish different CloudWatch metrics, so enable the monitor that matches the API type. HTTP APIs are not matched by the REST monitors and vice versa.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -29,6 +32,7 @@ No modules.
 | Name | Type |
 |------|------|
 | [datadog_monitor.http_5xx_responses](https://registry.terraform.io/providers/datadog/datadog/latest/docs/resources/monitor) | resource |
+| [datadog_monitor.http_api_5xx_responses](https://registry.terraform.io/providers/datadog/datadog/latest/docs/resources/monitor) | resource |
 | [datadog_monitor.latency](https://registry.terraform.io/providers/datadog/datadog/latest/docs/resources/monitor) | resource |
 
 ## Inputs
@@ -44,12 +48,19 @@ No modules.
 | <a name="input_dashboard_link"></a> [dashboard\_link](#input\_dashboard\_link) | Dashboard link to include in message | `string` | `null` | no |
 | <a name="input_env"></a> [env](#input\_env) | Environment the monitored resource is in (leave blank to omit tag) | `string` | `null` | no |
 | <a name="input_evaluation_delay"></a> [evaluation\_delay](#input\_evaluation\_delay) | Monitor evaluation delay (see [https://docs.datadoghq.com/monitors/configuration/?tab=thresholdalert#set-alert-conditions](Datadog Docs)) | `number` | `900` | no |
+| <a name="input_group_by"></a> [group\_by](#input\_group\_by) | List of tags to group by | `list(string)` | <pre>[<br>  "name",<br>  "aws_account",<br>  "env",<br>  "datadog_managed"<br>]</pre> | no |
 | <a name="input_http_5xx_responses_enabled"></a> [http\_5xx\_responses\_enabled](#input\_http\_5xx\_responses\_enabled) | Enable HTTP 5xx response monitor | `bool` | `false` | no |
 | <a name="input_http_5xx_responses_evaluation_window"></a> [http\_5xx\_responses\_evaluation\_window](#input\_http\_5xx\_responses\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_http_5xx_responses_no_data_window"></a> [http\_5xx\_responses\_no\_data\_window](#input\_http\_5xx\_responses\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
 | <a name="input_http_5xx_responses_threshold_critical"></a> [http\_5xx\_responses\_threshold\_critical](#input\_http\_5xx\_responses\_threshold\_critical) | Critical threshold (percentage, 0-100) | `number` | `0.75` | no |
 | <a name="input_http_5xx_responses_threshold_warning"></a> [http\_5xx\_responses\_threshold\_warning](#input\_http\_5xx\_responses\_threshold\_warning) | Warning threshold (percentage, 0-100) | `number` | `0.25` | no |
 | <a name="input_http_5xx_responses_use_message"></a> [http\_5xx\_responses\_use\_message](#input\_http\_5xx\_responses\_use\_message) | Whether to use the query alert base message for HTTP 5xx responses monitor | `bool` | `false` | no |
+| <a name="input_http_api_5xx_responses_enabled"></a> [http\_api\_5xx\_responses\_enabled](#input\_http\_api\_5xx\_responses\_enabled) | Enable HTTP API (API Gateway v2) 5xx response monitor | `bool` | `false` | no |
+| <a name="input_http_api_5xx_responses_evaluation_window"></a> [http\_api\_5xx\_responses\_evaluation\_window](#input\_http\_api\_5xx\_responses\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
+| <a name="input_http_api_5xx_responses_no_data_window"></a> [http\_api\_5xx\_responses\_no\_data\_window](#input\_http\_api\_5xx\_responses\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
+| <a name="input_http_api_5xx_responses_threshold_critical"></a> [http\_api\_5xx\_responses\_threshold\_critical](#input\_http\_api\_5xx\_responses\_threshold\_critical) | Critical threshold (percentage, 0-100) | `number` | `5` | no |
+| <a name="input_http_api_5xx_responses_threshold_warning"></a> [http\_api\_5xx\_responses\_threshold\_warning](#input\_http\_api\_5xx\_responses\_threshold\_warning) | Warning threshold (percentage, 0-100) | `number` | `1` | no |
+| <a name="input_http_api_5xx_responses_use_message"></a> [http\_api\_5xx\_responses\_use\_message](#input\_http\_api\_5xx\_responses\_use\_message) | Whether to use the query alert base message for HTTP API 5xx responses monitor | `bool` | `false` | no |
 | <a name="input_latency_enabled"></a> [latency\_enabled](#input\_latency\_enabled) | Enable latency monitor | `bool` | `false` | no |
 | <a name="input_latency_evaluation_window"></a> [latency\_evaluation\_window](#input\_latency\_evaluation\_window) | Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`] | `string` | `"last_5m"` | no |
 | <a name="input_latency_no_data_window"></a> [latency\_no\_data\_window](#input\_latency\_no\_data\_window) | No data threshold (in minutes, 0 to disable) | `number` | `10` | no |
