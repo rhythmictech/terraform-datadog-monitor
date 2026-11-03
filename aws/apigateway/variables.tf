@@ -90,3 +90,42 @@ variable "latency_use_message" {
   type        = bool
   default     = false
 }
+
+########################################
+# HTTP API (v2) 5xx Response Codes
+########################################
+variable "http_api_5xx_responses_enabled" {
+  default     = false
+  description = "Enable HTTP API (API Gateway v2) 5xx response monitor"
+  type        = bool
+}
+
+variable "http_api_5xx_responses_evaluation_window" {
+  default     = "last_5m"
+  description = "Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`]"
+  type        = string
+}
+
+variable "http_api_5xx_responses_no_data_window" {
+  default     = 10
+  description = "No data threshold (in minutes, 0 to disable)"
+  type        = number
+}
+
+variable "http_api_5xx_responses_threshold_critical" {
+  default     = 5
+  description = "Critical threshold (percentage, 0-100)"
+  type        = number
+}
+
+variable "http_api_5xx_responses_threshold_warning" {
+  default     = 1
+  description = "Warning threshold (percentage, 0-100)"
+  type        = number
+}
+
+variable "http_api_5xx_responses_use_message" {
+  description = "Whether to use the query alert base message for HTTP API 5xx responses monitor"
+  type        = bool
+  default     = false
+}

@@ -66,3 +66,36 @@ END
     warning  = var.latency_threshold_warning
   }
 }
+
+# API Gateway HTTP APIs (v2) report aws.apigateway.5xx / aws.apigateway.count
+# tagged by apiid rather than the aws.apigateway.5xxerror / apiname pair used
+# by REST APIs, so they need their own monitor.
+resource "datadog_monitor" "http_api_5xx_responses" {
+  count = var.http_api_5xx_responses_enabled ? 1 : 0
+
+  name         = join("", [local.title_prefix, "API Gateway HTTP API 5xx Responses - {{apiid.name}}", local.title_suffix])
+  include_tags = false
+  message      = var.http_api_5xx_responses_use_message ? local.query_alert_base_message : ""
+  tags         = concat(local.common_tags, var.base_tags, var.additional_tags)
+  type         = "query alert"
+
+  evaluation_delay    = var.evaluation_delay
+  new_group_delay     = var.new_group_delay
+  notify_no_data      = var.notify_no_data
+  no_data_timeframe   = var.http_api_5xx_responses_no_data_window
+  renotify_interval   = var.renotify_interval
+  require_full_window = true
+  timeout_h           = var.timeout_h
+
+  query = <<END
+    min(${var.http_api_5xx_responses_evaluation_window}):
+      default(sum:aws.apigateway.5xx${local.query_filter} by {apiid,stage,region,aws_account,env,datadog_managed}.as_count(), 0) / (
+      default(sum:aws.apigateway.count${local.query_filter} by {apiid,stage,region,aws_account,env,datadog_managed}.as_count(), 1)
+    ) * 100 > ${var.http_api_5xx_responses_threshold_critical}
+END
+
+  monitor_thresholds {
+    critical = var.http_api_5xx_responses_threshold_critical
+    warning  = var.http_api_5xx_responses_threshold_warning
+  }
+}
