@@ -177,9 +177,12 @@ resource "datadog_monitor" "jvm_memory_pressure" {
   require_full_window = true
   timeout_h           = var.timeout_h
 
+  # aws.es.jvmmemory_pressure is the heap average across data nodes, which hides
+  # a single hot node. The .maximum statistic is the highest heap on any node,
+  # which is what AWS recommends alarming on (>= 95% sustained).
   query = <<END
-    max(${var.jvm_memory_pressure_evaluation_window}):
-      max:aws.es.jvmmemory_pressure${local.query_filter} by {name,region,aws_account,env,datadog_managed}
+    min(${var.jvm_memory_pressure_evaluation_window}):
+      max:aws.es.jvmmemory_pressure.maximum${local.query_filter} by {name,region,aws_account,env,datadog_managed}
     > ${var.jvm_memory_pressure_threshold_critical}
 END
 

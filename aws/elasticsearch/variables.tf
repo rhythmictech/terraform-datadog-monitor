@@ -224,7 +224,7 @@ variable "jvm_memory_pressure_enabled" {
 }
 
 variable "jvm_memory_pressure_evaluation_window" {
-  default     = "last_15m"
+  default     = "last_5m"
   description = "Evaluation window for monitor (`last_?m` (1, 5, 10, 15, or 30), `last_?h` (1, 2, or 4), or `last_1d`]"
   type        = string
 }
@@ -236,14 +236,14 @@ variable "jvm_memory_pressure_no_data_window" {
 }
 
 variable "jvm_memory_pressure_threshold_critical" {
-  default     = 90
-  description = "Critical threshold (percent)"
+  default     = 95
+  description = "Critical threshold (percent of heap on the busiest data node, sustained for the evaluation window)"
   type        = number
 }
 
 variable "jvm_memory_pressure_threshold_warning" {
-  default     = 80
-  description = "Warning threshold (percent)"
+  default     = 90
+  description = "Warning threshold (percent of heap on the busiest data node, sustained for the evaluation window)"
   type        = number
 }
 
